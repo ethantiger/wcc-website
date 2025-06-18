@@ -8,7 +8,9 @@
     "build:prod": "vite build --mode production",
     "build": "vite build",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy:stage": "npm run build && firebase hosting:channel:deploy stage --expires 1d",
+    "deploy:prod": "npm run build:prod && firebase deploy --only hosting"
   },
   "dependencies": {
     "firebase": "^11.9.1",
