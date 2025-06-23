@@ -24,9 +24,9 @@ function App() {
           <ParallaxLayer speed={0.3} factor={factor} style={{backgroundImage: `url(${bg3})`, backgroundSize: 'cover', backgroundPosition:'center'}} />
           <ParallaxLayer speed={0.4} factor={factor} style={{backgroundImage: `url(${bg4})`, backgroundSize: 'cover', backgroundPosition:'center'}} />
           <ParallaxLayer speed={0.5} factor={factor} style={{backgroundImage: `url(${bg5})`, backgroundSize: 'cover', backgroundPosition:'center'}} />
-          <ParallaxLayer speed={0.7} factor={factor} style={{backgroundImage: `url(${bg6})`, backgroundSize: 'cover', backgroundPosition:'center'}} />
-          <ParallaxLayer speed={1} factor={2} style={{backgroundImage: `url(${bg7})`, backgroundSize: 'cover', backgroundPosition:'center'}} />
-          <ParallaxLayer offset={1} speed={1} factor={1} style={{ backgroundColor: '#00185e'}}>
+          <ParallaxLayer speed={0.7} factor={1.5} style={{backgroundImage: `url(${bg6})`, backgroundSize: 'cover', backgroundPosition:'center'}} />
+          <ParallaxLayer speed={1} factor={factor} style={{backgroundImage: `url(${bg7})`, backgroundSize: 'cover', backgroundPosition:'center'}} />
+          <ParallaxLayer offset={1} speed={0.9} factor={1} style={{ backgroundColor: '#00185e'}}>
             <div className="documents">
               {documents && documents.map(doc => (
                 <div key={doc.id} className="document">
