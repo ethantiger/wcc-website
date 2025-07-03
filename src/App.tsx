@@ -31,7 +31,7 @@ function App() {
               {documents && documents.map(doc => (
                 <div key={doc.id} className="document">
                   <h3>{doc.name} {doc.car} {doc.size}</h3>
-                  {doc.people.length !== 0 && doc.people.map((p) => <p>{p}</p>)}
+                  {doc.people.length !== 0 && doc.people.map((p: string) => <p>{p}</p>)}
                 </div>
               ))}
             </div>
