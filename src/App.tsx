@@ -8,7 +8,7 @@ import bg5 from './assets/bg5.png'
 import bg6 from './assets/bg6.png'
 import bg7 from './assets/bg7.png'
 
-import { useCollection } from './hooks/useCollection'
+import { useCollection } from './hooks/useCollection.ts'
 
 const factor = 2
 function App() {
