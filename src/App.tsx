@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Parallax, ParallaxLayer } from '@react-spring/parallax'
 import bg1 from './assets/bg1.png'
 import bg2 from './assets/bg2.png'
@@ -12,7 +11,6 @@ import { useCollection } from './hooks/useCollection.ts'
 
 const factor = 2
 function App() {
-  const [count, setCount] = useState(0)
   const { documents } = useCollection(`carpools${import.meta.env.VITE_COLLECTION_SUFFIX || '_test'}`)
 
   return (
