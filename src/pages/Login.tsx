@@ -7,6 +7,10 @@ const Login: React.FC = () => {
 
   const handleMicrosoftLogin = async () => {
     const provider = new OAuthProvider('microsoft.com');
+
+    provider.setCustomParameters({
+      prompt: 'select_account' // 👈 This forces the email form
+    });
     try {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
@@ -17,11 +21,24 @@ const Login: React.FC = () => {
     }
   };
 
+  const handleLogout = async () => {
+    try {
+      await auth.signOut();
+      console.log('Successfully logged out.');
+    } catch (err) {
+      console.error('Error during logout:', err);
+      setError('Failed to logout. Please try again.');
+    }
+  }
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '50px' }}>
       <h1>Login</h1>
       <button onClick={handleMicrosoftLogin} style={{ padding: '10px 20px', fontSize: '16px', cursor: 'pointer' }}>
         Login with Microsoft
+      </button>
+      <button onClick={handleLogout} style={{ padding: '10px 20px', fontSize: '16px', cursor: 'pointer' }}>
+        Logout
       </button>
       {error && <p style={{ color: 'red', marginTop: '10px' }}>{error}</p>}
     </div>
