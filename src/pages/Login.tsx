@@ -6,15 +6,30 @@ const Login: React.FC = () => {
   const { logout } = useLogout();
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '50px' }}>
-      <h1>Login</h1>
-      <button onClick={loginWithMicrosoft} style={{ padding: '10px 20px', fontSize: '16px', cursor: 'pointer' }}>
-        Login with Microsoft
-      </button>
-      <button onClick={logout} style={{ padding: '10px 20px', fontSize: '16px', cursor: 'pointer' }}>
-        Logout
-      </button>
-      {error && <p style={{ color: 'red', marginTop: '10px' }}>{error}</p>}
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 px-4">
+      <div className="bg-white shadow-xl rounded-2xl p-8 w-full max-w-sm">
+        <h1 className="text-3xl font-bold text-center mb-6">Login</h1>
+
+        <button
+          onClick={loginWithMicrosoft}
+          className="w-full mb-4 py-2 px-6 text-white bg-black rounded-full border border-black hover:bg-white hover:text-black transition-all duration-300"
+        >
+          Login with Microsoft
+        </button>
+
+        <button
+          onClick={logout}
+          className="w-full py-2 px-6 text-white bg-red-600 rounded-full border border-red-600 hover:bg-white hover:text-red-600 transition-all duration-300"
+        >
+          Logout
+        </button>
+
+        {error && (
+          <p className="text-red-500 text-sm text-center mt-4">
+            {error}
+          </p>
+        )}
+      </div>
     </div>
   );
 };
