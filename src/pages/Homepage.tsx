@@ -1,5 +1,6 @@
 import { Parallax, ParallaxLayer } from '@react-spring/parallax'
 import { motion } from 'framer-motion'
+import { useState, useEffect } from 'react'
 
 import bg1 from '../assets/bg1.png'
 import bg2 from '../assets/bg2.png'
@@ -8,27 +9,50 @@ import bg4 from '../assets/bg4.png'
 import bg5 from '../assets/bg5.png'
 import bg6 from '../assets/bg6.png'
 import bg7 from '../assets/bg7.png'
+import phonebg from '../assets/phonebg.png'
 
 import { useCollection } from '../hooks/useCollection.ts'
 
 export default function Homepage() {
   const { documents } = useCollection(`carpools${import.meta.env.VITE_COLLECTION_SUFFIX || '_test'}`)
+
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const factor = 2;
+  const mobileSpeed = 1;
 
   return (
     <Parallax pages={2} style={{ top: 0, left: 0 }}>
-      {[bg1, bg2, bg3, bg4, bg5, bg6, bg7].map((bg, i) => (
-      <ParallaxLayer
-        key={i}
-        speed={[0.1, 0.2, 0.3, 0.4, 0.5, 0.7, 1][i]}
-        factor={i === 5 ? 1.5 : factor}
-        style={{
-        backgroundImage: `url(${bg})`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        }}
-      />
-      ))}
+      {!isMobile ? (
+        <>{[bg1, bg2, bg3, bg4, bg5, bg6, bg7].map((bg, i) => (
+          <ParallaxLayer
+            key={i}
+            speed={[0.1, 0.2, 0.3, 0.4, 0.5, 0.7, 1][i]}
+            factor={i === 5 ? 1.5 : factor}
+            style={{
+              backgroundImage: `url(${bg})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+            }}
+          />
+        ))}</>
+      ) : (
+        <ParallaxLayer
+          factor={1}
+          style={{
+            backgroundImage: `url(${phonebg})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        />
+      )}
+
       <ParallaxLayer speed={0.1} factor={factor}>
         <h1 className="relative top-2/12 md:top-[50vh] translate-y-[-50%] z-10 mx-auto max-w-4xl text-center font-bold text-slate-700 text-6xl lg:text-7xl dark:text-slate-300 py-4">
           {"Hey Climber!"
@@ -74,7 +98,7 @@ export default function Homepage() {
           </button>
         </motion.div>
       </ParallaxLayer>
-      <ParallaxLayer offset={1} speed={0.9} factor={1} style={{ backgroundColor: '#00185e' }}>
+      <ParallaxLayer offset={1} speed={isMobile ? mobileSpeed : 0.9} factor={1} style={{ backgroundColor: '#00185e' }}>
       <div className="documents">
         {documents?.map(doc => (
         <div key={doc.id} className="document">
