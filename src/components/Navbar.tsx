@@ -40,7 +40,7 @@ const Navbar: React.FC = () => {
         </ul>
         {/* Hamburger button for <md screens */}
         <button
-          className="md:hidden w-full flex flex-col justify-center items-center px-6 py-3 rounded-full bg-transparent text-white focus:outline-none shadow-none transition-colors duration-200 hover:bg-gray-800"
+          className={`md:hidden w-full flex flex-col justify-center items-center px-6 py-3 rounded-full bg-transparent text-white focus:outline-none shadow-none transition-colors duration-200 hover:bg-gray-800 ${open ? 'mt-3': ''}`}
           onClick={() => setOpen((prev) => !prev)}
           aria-label="Toggle navigation"
         >
