@@ -16,18 +16,21 @@ export default function Homepage() {
   const factor = 2;
 
   return (
-    <Parallax pages={2} style={{ top: '0', left: '0' }}>
-      <ParallaxLayer speed={0.1} factor={factor} style={{backgroundImage: `url(${bg1})`, backgroundSize: 'cover', backgroundPosition:'center'}} />
-      <ParallaxLayer speed={0.2} factor={factor} style={{backgroundImage: `url(${bg2})`, backgroundSize: 'cover', backgroundPosition:'center'}} />
-      <ParallaxLayer speed={0.3} factor={factor} style={{backgroundImage: `url(${bg3})`, backgroundSize: 'cover', backgroundPosition:'center'}} />
-      <ParallaxLayer speed={0.4} factor={factor} style={{backgroundImage: `url(${bg4})`, backgroundSize: 'cover', backgroundPosition:'center'}} />
-      <ParallaxLayer speed={0.5} factor={factor} style={{backgroundImage: `url(${bg5})`, backgroundSize: 'cover', backgroundPosition:'center'}} />
-      <ParallaxLayer speed={0.7} factor={1.5} style={{backgroundImage: `url(${bg6})`, backgroundSize: 'cover', backgroundPosition:'center'}} />
-      <ParallaxLayer speed={1} factor={factor} style={{backgroundImage: `url(${bg7})`, backgroundSize: 'cover', backgroundPosition:'center'}} />
+    <Parallax pages={2} style={{ top: 0, left: 0 }}>
+      {[bg1, bg2, bg3, bg4, bg5, bg6, bg7].map((bg, i) => (
+      <ParallaxLayer
+        key={i}
+        speed={[0.1, 0.2, 0.3, 0.4, 0.5, 0.7, 1][i]}
+        factor={i === 5 ? 1.5 : factor}
+        style={{
+        backgroundImage: `url(${bg})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        }}
+      />
+      ))}
       <ParallaxLayer speed={0.1} factor={factor}>
-        <h1
-          className="relative top-2/12 md:top-[50vh] translate-y-[-50%] z-10 mx-auto max-w-4xl text-center font-bold text-slate-700 text-6xl lg:text-7xl dark:text-slate-300 py-4"
-        >
+        <h1 className="relative top-2/12 md:top-[50vh] translate-y-[-50%] z-10 mx-auto max-w-4xl text-center font-bold text-slate-700 text-6xl lg:text-7xl dark:text-slate-300 py-4">
           {"Hey Climber!"
             .split(" ")
             .map((word, index) => (
@@ -47,51 +50,41 @@ export default function Homepage() {
             ))}
         </h1>
         <motion.p
-          initial={{
-            opacity: 0,
-          }}
-          animate={{
-            opacity: 1,
-          }}
-          transition={{
-            duration: 0.3,
-            delay: 0.8,
-          }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3, delay: 0.8 }}
           className="relative top-2/12 md:top-[50vh] translate-y-[-50%] z-10 mx-3 md:mx-auto max-w-xl py-4 text-center text-lg font-normal text-neutral-600 dark:text-neutral-400"
-
         >
           Join a community of climbers who share your passion for bouldering, sport climbing, and adventure.
         </motion.p>
         <motion.div
-          initial={{
-            opacity: 0,
-          }}
-          animate={{
-            opacity: 1,
-          }}
-          transition={{
-            duration: 0.3,
-            delay: 1,
-          }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.3, delay: 1 }}
           className="relative top-2/12 md:top-[50vh] translate-y-[-50%] z-10 mt-8 flex flex-wrap items-center justify-center gap-4"
         >
-          <a href="https://westernusc.store/product/western-climbing-club/" className="text-center w-60 transform rounded-lg bg-black px-6 py-2 font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200">
-            Become a Member!
+          <a
+          href="https://westernusc.store/product/western-climbing-club/"
+          className="text-center w-60 transform rounded-lg bg-black px-6 py-2 font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200"
+          >
+          Become a Member!
           </a>
           <button className="w-60 transform rounded-lg border border-gray-300 bg-white px-6 py-2 font-medium text-black transition-all duration-300 hover:-translate-y-0.5 hover:bg-gray-100 dark:border-gray-700 dark:bg-black dark:text-white dark:hover:bg-gray-900">
-            Learn More
+          Learn More
           </button>
         </motion.div>
       </ParallaxLayer>
-      <ParallaxLayer offset={1} speed={0.9} factor={1} style={{ backgroundColor: '#00185e'}}>
-        <div className="documents">
-          {documents && documents.map(doc => (
-            <div key={doc.id} className="document">
-              <h3>{doc.name} {doc.car} {doc.size}</h3>
-              {doc.people.length !== 0 && doc.people.map((p: string) => <p>{p}</p>)}
-            </div>
-          ))}
+      <ParallaxLayer offset={1} speed={0.9} factor={1} style={{ backgroundColor: '#00185e' }}>
+      <div className="documents">
+        {documents?.map(doc => (
+        <div key={doc.id} className="document">
+          <h3>{doc.name} {doc.car} {doc.size}</h3>
+          {doc.people?.length > 0 &&
+          doc.people.map((p: string, idx: number) => <p key={idx}>{p}</p>)
+          }
         </div>
+        ))}
+      </div>
       </ParallaxLayer>
     </Parallax>
   )
