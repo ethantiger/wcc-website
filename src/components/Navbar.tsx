@@ -17,8 +17,8 @@ const Navbar: React.FC = () => {
       <div
         className={`bg-black shadow-lg rounded-xl transition-all duration-300 flex flex-col items-center md:flex-row md:justify-center ${
           open
-            ? "px-6 py-8 justify-center md:items-center"
-            : "md:rounded-full px-4 py-2"
+            ? "px-6 py-3 justify-center md:items-center"
+            : "md:rounded-full px-6 py-3"
         }`}
       >
         {/* Nav links: always visible on md+, toggled on <md */}
