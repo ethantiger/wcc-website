@@ -54,7 +54,7 @@ export default function Homepage() {
       )}
 
       <ParallaxLayer speed={0.1} factor={factor}>
-        <h1 className="relative top-2/12 md:top-[50vh] translate-y-[-50%] z-10 mx-auto max-w-4xl text-center font-bold text-slate-700 text-6xl lg:text-7xl dark:text-slate-300 py-4">
+        <h1 className="relative top-2/12 md:top-[50vh] translate-y-[-50%] z-10 mx-auto max-w-4xl text-center font-bold text-slate-700 text-6xl md:text-7xl dark:text-slate-300 py-4">
           {"Hey Climber!"
             .split(" ")
             .map((word, index) => (
