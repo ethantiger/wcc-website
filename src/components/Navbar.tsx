@@ -6,7 +6,6 @@ const navLinks = [
   { name: "About Us", href: "/about" },
   { name: "Resources", href: "/resources" },
   { name: "Contact", href: "/contact" },
-  { name: "Login", href: "/login" },
 ];
 
 const Navbar: React.FC = () => {
@@ -37,6 +36,14 @@ const Navbar: React.FC = () => {
               </a>
             </li>
           ))}
+          <li className="w-full md:w-auto">
+            <a
+              href="/login"
+              className="block px-6 py-3 rounded-full text-black bg-amber-50 font-medium hover:bg-gray-400 transition-colors duration-200 text-center"
+            >
+              Login
+            </a>
+          </li>
         </ul>
         {/* Hamburger button for <md screens */}
         <button
