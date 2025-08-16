@@ -1,8 +1,9 @@
 import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 const navLinks = [
   { name: "Home", href: "/", location: 0},
-  { name: "About Us", href: "#about", location: 1},
+  { name: "About", href: "#about", location: 1},
   { name: "Events", href: "#events", location: 1.5},
   { name: "Resources", href: "#resources", location: 3},
   { name: "Contact", href: "#contact", location: 4},
@@ -10,8 +11,15 @@ const navLinks = [
 
 const Navbar: React.FC = () => {
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
 
   const handleClick = (index: number) => {
+    console.log(window.location.pathname);
+    if (window.location.pathname !== "/") {
+      navigate("/");
+      return;
+    }
+
     const container = document.getElementById("scroll-container");
     if (!container) return;
     container.scrollTop = window.innerHeight * index;
@@ -35,7 +43,6 @@ const Navbar: React.FC = () => {
           {navLinks.map((link) => (
             <li key={link.name} className="w-full md:w-auto">
               <a
-                href={link.href}
                 onClick={() => handleClick(link.location)}
                 className="block px-6 py-3 rounded-full text-white font-medium hover:bg-gray-700 transition-colors duration-200 text-center"
               >
@@ -44,12 +51,12 @@ const Navbar: React.FC = () => {
             </li>
           ))}
           <li className="w-full md:w-auto">
-            <a
-              href="/login"
+            <Link
+              to="/login"
               className="block px-6 py-3 rounded-full text-black bg-amber-50 font-medium hover:bg-gray-400 transition-colors duration-200 text-center"
             >
               Login
-            </a>
+            </Link>
           </li>
         </ul>
         {/* Hamburger button for <md screens */}
