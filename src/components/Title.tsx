@@ -10,6 +10,7 @@ import bg5 from '../assets/bg5.png'
 import bg6 from '../assets/bg6.png'
 import bg7 from '../assets/bg7.png'
 import phonebg from '../assets/phonebg.png'
+import wccLogo from '../assets/WCC-logo.png'
 
 export default function Title() {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
@@ -48,7 +49,9 @@ export default function Title() {
           }}
         />
       )}
-
+      <ParallaxLayer>
+        <img src={wccLogo} alt="WCC Logo" className="relative w-30 md:w-50 top-10 md:top-2/12 mx-auto opacity-50" />
+      </ParallaxLayer>
       <ParallaxLayer offset={0} speed={0.1}>
         <h1 className="relative top-4/12 md:top-[50vh] translate-y-[-50%] z-10 mx-auto max-w-4xl text-center font-bold text-slate-700 text-6xl md:text-7xl dark:text-slate-300 py-4">
           {"Hey Climber!"

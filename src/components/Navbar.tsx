@@ -14,7 +14,6 @@ const Navbar: React.FC = () => {
   const navigate = useNavigate();
 
   const handleClick = (index: number) => {
-    console.log(window.location.pathname);
     if (window.location.pathname !== "/") {
       navigate("/");
       return;
