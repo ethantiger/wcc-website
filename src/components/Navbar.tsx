@@ -1,15 +1,21 @@
 import React, { useState } from "react";
 
 const navLinks = [
-  { name: "Home", href: "/" },
-  { name: "Events", href: "/events" },
-  { name: "About Us", href: "/about" },
-  { name: "Resources", href: "/resources" },
-  { name: "Contact", href: "/contact" },
+  { name: "Home", href: "/", location: 0},
+  { name: "About Us", href: "#about", location: 1},
+  { name: "Events", href: "#events", location: 1.5},
+  { name: "Resources", href: "#resources", location: 3},
+  { name: "Contact", href: "#contact", location: 4},
 ];
 
 const Navbar: React.FC = () => {
   const [open, setOpen] = useState(false);
+
+  const handleClick = (index: number) => {
+    const container = document.getElementById("scroll-container");
+    if (!container) return;
+    container.scrollTop = window.innerHeight * index;
+  }
 
   return (
     <nav className="fixed left-4 md:left-1/2 md:top-4 md:transform md:-translate-x-1/2 z-50 w-auto flex justify-center bottom-4 md:bottom-auto">
@@ -30,6 +36,7 @@ const Navbar: React.FC = () => {
             <li key={link.name} className="w-full md:w-auto">
               <a
                 href={link.href}
+                onClick={() => handleClick(link.location)}
                 className="block px-6 py-3 rounded-full text-white font-medium hover:bg-gray-700 transition-colors duration-200 text-center"
               >
                 {link.name}
