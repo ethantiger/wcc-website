@@ -49,7 +49,7 @@ export default function Title() {
           }}
         />
       )}
-      <ParallaxLayer>
+      <ParallaxLayer speed={0.1}>
         <img src={wccLogo} alt="WCC Logo" className="relative w-30 md:w-50 top-10 md:top-2/12 mx-auto opacity-50" />
       </ParallaxLayer>
       <ParallaxLayer offset={0} speed={0.1}>
