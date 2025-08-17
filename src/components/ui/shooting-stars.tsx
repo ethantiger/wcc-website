@@ -54,7 +54,6 @@ export const ShootingStars: React.FC<ShootingStarsProps> = ({
       };
       setStar(newStar);
 
-      const randomDelay = Math.random() * (maxDelay - minDelay) + minDelay;
       setTimeout(createStar, 3000);
     };
 
