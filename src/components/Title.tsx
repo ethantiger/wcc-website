@@ -13,6 +13,7 @@ import bg8 from '../assets/bg8.png'
 import bg9 from '../assets/bg9.png'
 import phonebg from '../assets/phonebg.png'
 import wccLogo from '../assets/WCC-logo.png'
+import { ShootingStars } from './ui/shooting-stars'
 
 export default function Title() {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
@@ -37,19 +38,24 @@ export default function Title() {
   return (
     <>
       {!isMobile ? (
-        <>{[bg1, bg2, bg3, bg4, bg5, bg6, bg7, bg8, bg9].map((bg, i) => (
-          <ParallaxLayer
-            key={i}
-            offset={0}
-            speed={[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 1][i]}
-            factor={factor}
-            style={{
-              backgroundImage: `url(${bg})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-            }}
-          />
-        ))}</>
+        <>
+          {[bg1, bg2, bg3, bg4, bg5, bg6, bg7, bg8, bg9].map((bg, i) => (
+            <>
+            <ParallaxLayer
+              key={i}
+              offset={0}
+              speed={[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 1][i]}
+              factor={factor}
+              style={{
+                backgroundImage: `url(${bg})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+              }}
+            />
+            {i === 0 && <ShootingStars />}
+            </>
+          ))}
+        </>
       ) : (
         <ParallaxLayer
           offset={0}
