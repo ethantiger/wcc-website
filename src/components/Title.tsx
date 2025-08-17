@@ -33,7 +33,7 @@ export default function Title() {
             key={i}
             offset={0}
             speed={[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 1][i]}
-            factor={i === 5 ? 2 : 2}
+            factor={factor}
             style={{
               backgroundImage: `url(${bg})`,
               backgroundSize: 'cover',
@@ -78,7 +78,7 @@ export default function Title() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.3, delay: 0.8 }}
-          className="relative top-4/12 md:top-[50vh] translate-y-[-50%] z-10 mx-3 md:mx-auto max-w-xl py-4 text-center text-lg font-normal text-neutral-600"
+          className="relative top-4/12 md:top-[50vh] translate-y-[-50%] z-10 mx-3 md:mx-auto max-w-xl py-4 text-center text-lg font-normal text-neutral-200 md:text-neutral-600"
         >
           Join a community of climbers who share your passion for bouldering, sport climbing, and adventure.
         </motion.p>
