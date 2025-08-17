@@ -43,7 +43,7 @@ const Navbar: React.FC = () => {
             <li key={link.name} className="w-full md:w-auto">
               <a
                 onClick={() => handleClick(link.location)}
-                className="block px-6 py-3 rounded-full text-white font-medium hover:bg-gray-700 transition-colors duration-200 text-center"
+                className="block px-6 py-3 rounded-full text-white font-medium hover:bg-gray-700 transition-colors duration-200 text-center hover:cursor-pointer"
               >
                 {link.name}
               </a>
