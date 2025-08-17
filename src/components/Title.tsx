@@ -9,6 +9,8 @@ import bg4 from '../assets/bg4.png'
 import bg5 from '../assets/bg5.png'
 import bg6 from '../assets/bg6.png'
 import bg7 from '../assets/bg7.png'
+import bg8 from '../assets/bg8.png'
+import bg9 from '../assets/bg9.png'
 import phonebg from '../assets/phonebg.png'
 import wccLogo from '../assets/WCC-logo.png'
 
@@ -26,12 +28,12 @@ export default function Title() {
   return (
     <>
       {!isMobile ? (
-        <>{[bg1, bg2, bg3, bg4, bg5, bg6, bg7].map((bg, i) => (
+        <>{[bg1, bg2, bg3, bg4, bg5, bg6, bg7, bg8, bg9].map((bg, i) => (
           <ParallaxLayer
             key={i}
             offset={0}
-            speed={[0.1, 0.2, 0.3, 0.4, 0.5, 0.7, 1][i]}
-            factor={i === 5 ? 1.5 : factor}
+            speed={[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 1][i]}
+            factor={i === 5 ? 2 : 2}
             style={{
               backgroundImage: `url(${bg})`,
               backgroundSize: 'cover',
@@ -50,7 +52,7 @@ export default function Title() {
         />
       )}
       <ParallaxLayer speed={0.1}>
-        <img src={wccLogo} alt="WCC Logo" className="relative w-30 md:w-50 top-10 md:top-2/12 mx-auto opacity-50" />
+        <img src={wccLogo} alt="WCC Logo" className="relative w-30 md:w-50 top-10 md:top-2/12 mx-auto opacity-80" />
       </ParallaxLayer>
       <ParallaxLayer offset={0} speed={0.1}>
         <h1 className="relative top-4/12 md:top-[50vh] translate-y-[-50%] z-10 mx-auto max-w-4xl text-center font-bold text-slate-700 text-6xl md:text-7xl dark:text-slate-300 py-4">
@@ -76,7 +78,7 @@ export default function Title() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.3, delay: 0.8 }}
-          className="relative top-4/12 md:top-[50vh] translate-y-[-50%] z-10 mx-3 md:mx-auto max-w-xl py-4 text-center text-lg font-normal text-neutral-600 dark:text-neutral-400"
+          className="relative top-4/12 md:top-[50vh] translate-y-[-50%] z-10 mx-3 md:mx-auto max-w-xl py-4 text-center text-lg font-normal text-neutral-600"
         >
           Join a community of climbers who share your passion for bouldering, sport climbing, and adventure.
         </motion.p>
