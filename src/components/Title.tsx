@@ -1,6 +1,6 @@
 import { ParallaxLayer } from '@react-spring/parallax'
 import { motion } from 'framer-motion'
-import { useState, useEffect } from 'react'
+import { Fragment, useState, useEffect } from 'react'
 
 import bg1 from '../assets/bg1.png'
 import bg2 from '../assets/bg2.png'
@@ -40,20 +40,19 @@ export default function Title() {
       {!isMobile ? (
         <>
           {[bg1, bg2, bg3, bg4, bg5, bg6, bg7, bg8, bg9].map((bg, i) => (
-            <>
-            <ParallaxLayer
-              key={i}
-              offset={0}
-              speed={[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 1][i]}
-              factor={factor}
-              style={{
-                backgroundImage: `url(${bg})`,
-                backgroundSize: 'cover',
-                backgroundPosition: 'center',
-              }}
-            />
-            {i === 0 && <ShootingStars />}
-            </>
+            <Fragment key={i}>
+              <ParallaxLayer
+                offset={0}
+                speed={[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 1][i]}
+                factor={factor}
+                style={{
+                  backgroundImage: `url(${bg})`,
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                }}
+              />
+              {i === 0 && <ShootingStars />}
+            </Fragment>
           ))}
         </>
       ) : (
