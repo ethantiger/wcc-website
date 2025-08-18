@@ -1,4 +1,4 @@
-import { ParallaxLayer } from '@react-spring/parallax'
+import ParallaxLayer from './ui/ParallaxLayer'
 import { motion } from 'framer-motion'
 import { Fragment, useState, useEffect } from 'react'
 
@@ -42,14 +42,9 @@ export default function Title() {
           {[bg1, bg2, bg3, bg4, bg5, bg6, bg7, bg8, bg9].map((bg, i) => (
             <Fragment key={i}>
               <ParallaxLayer
-                offset={0}
                 speed={[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 1][i]}
                 factor={factor}
-                style={{
-                  backgroundImage: `url(${bg})`,
-                  backgroundSize: 'cover',
-                  backgroundPosition: 'center',
-                }}
+                image={`${bg}`}
               />
               {i === 0 && <ShootingStars />}
             </Fragment>
@@ -57,18 +52,14 @@ export default function Title() {
         </>
       ) : (
         <ParallaxLayer
-          offset={0}
-          style={{
-            backgroundImage: `url(${phonebg})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          }}
+          speed={1}
+          image={`${phonebg}`}
         />
       )}
       <ParallaxLayer speed={0.1}>
         <img src={wccLogo} alt="WCC Logo" className="relative w-30 md:w-50 top-10 md:top-2/12 mx-auto opacity-80" />
       </ParallaxLayer>
-      <ParallaxLayer offset={0} speed={0.1}>
+      <ParallaxLayer speed={0.1}>
         <h1 className="relative top-4/12 md:top-[50vh] translate-y-[-50%] z-10 mx-auto max-w-4xl text-center font-bold text-slate-700 text-6xl md:text-7xl dark:text-slate-300 py-4">
           <motion.span
             initial={{ opacity: 0, filter: "blur(4px)", y: 10 }}
@@ -124,6 +115,7 @@ export default function Title() {
           </a>
         </motion.div>
       </ParallaxLayer>
+      <ParallaxLayer factor={0.5} speed={1} pageOffset={2} colour={'#10091e'}/>
     </>
   )
 }
