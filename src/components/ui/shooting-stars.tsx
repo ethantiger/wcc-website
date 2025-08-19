@@ -25,7 +25,11 @@ interface ShootingStarsProps {
 }
 
 const getRandomStartPoint = () => {
+  const location = Math.floor(Math.random() * 2);
   const offset = Math.random() * window.innerWidth;
+  if (location < 1) {
+    return { x: window.innerWidth, y: offset / 2, angle: 135 };
+  }
   return { x: offset, y: 0, angle: 135 };
 };
 export const ShootingStars: React.FC<ShootingStarsProps> = ({

@@ -2,26 +2,20 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const navLinks = [
-  { name: "Home", href: "/", location: 0},
-  { name: "About", href: "#about", location: 1},
-  { name: "Events", href: "#events", location: 1.5},
-  { name: "Resources", href: "#resources", location: 3},
-  { name: "Contact", href: "#contact", location: 4},
+  { name: "About", href: "#about" },
+  { name: "Events", href: "#events" },
+  { name: "Resources", href: "#resources" },
+  { name: "Contact", href: "#contact" },
 ];
 
 const Navbar: React.FC = () => {
-  const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
 
-  const handleClick = (index: number) => {
+  const handleLinkClick = () => {
     if (window.location.pathname !== "/") {
       navigate("/");
-      return;
     }
-
-    const container = document.getElementById("scroll-container");
-    if (!container) return;
-    container.scrollTop = window.innerHeight * index;
   }
 
   return (
@@ -39,10 +33,20 @@ const Navbar: React.FC = () => {
             open ? "flex justify-center items-center h-full" : "hidden"
           } md:flex md:h-auto md:w-auto`}
         >
+          <li className="w-full md:w-auto">
+            <Link
+              to="/"
+              onClick={() => {window.scrollTo({ top: 0 })}}
+              className="block px-6 py-3 rounded-full text-white font-medium hover:bg-gray-700 transition-colors duration-200 text-center hover:cursor-pointer"
+            >
+              Home
+            </Link>
+          </li>
           {navLinks.map((link) => (
             <li key={link.name} className="w-full md:w-auto">
               <a
-                onClick={() => handleClick(link.location)}
+                href={link.href}
+                onClick={handleLinkClick}
                 className="block px-6 py-3 rounded-full text-white font-medium hover:bg-gray-700 transition-colors duration-200 text-center hover:cursor-pointer"
               >
                 {link.name}
