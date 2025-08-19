@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const navLinks = [
   { name: "About", href: "#about" },
@@ -9,7 +9,14 @@ const navLinks = [
 ];
 
 const Navbar: React.FC = () => {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
+
+  const handleLinkClick = () => {
+    if (window.location.pathname !== "/") {
+      navigate("/");
+    }
+  }
 
   return (
     <nav className="fixed left-4 md:left-1/2 md:top-4 md:transform md:-translate-x-1/2 z-50 w-auto flex justify-center bottom-4 md:bottom-auto">
@@ -39,6 +46,7 @@ const Navbar: React.FC = () => {
             <li key={link.name} className="w-full md:w-auto">
               <a
                 href={link.href}
+                onClick={handleLinkClick}
                 className="block px-6 py-3 rounded-full text-white font-medium hover:bg-gray-700 transition-colors duration-200 text-center hover:cursor-pointer"
               >
                 {link.name}
