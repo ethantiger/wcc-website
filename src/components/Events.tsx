@@ -6,7 +6,7 @@ export default function Events() {
   ));
 
   return (
-    <section>
+    <section id="events">
       <div className="min-h-screen flex flex-col items-center justify-center bg-[#10091e] text-gray-800 dark:text-gray-200 p-6">
         <h1 className="text-4xl font-bold mb-6">Events</h1>
         <Carousel items={cards} />
