@@ -27,9 +27,10 @@ const ParallaxLayer = ({
 
   return (
     <motion.div
-      className={`absolute bg-cover w-full h-[${factor * 100}vh] bg-center bg-[${colour}] ${className}`}
+      className={`absolute bg-cover bg-no-repeat will-change-transform w-full bg-center bg-[${colour}] ${className}`}
       style={{
         y,
+        height: `${factor * 100}vh`,
         backgroundImage: image ? `url(${image})` : undefined,
         ...style,
       }}
