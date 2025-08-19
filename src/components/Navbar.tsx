@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const navLinks = [
   { name: "About", href: "#about" },
@@ -10,11 +10,6 @@ const navLinks = [
 
 const Navbar: React.FC = () => {
   const [open, setOpen] = useState(false);
-  const navigate = useNavigate();
-
-  const handleClick = () => {
-    
-  }
 
   return (
     <nav className="fixed left-4 md:left-1/2 md:top-4 md:transform md:-translate-x-1/2 z-50 w-auto flex justify-center bottom-4 md:bottom-auto">
