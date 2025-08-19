@@ -21,7 +21,7 @@ const ParallaxLayer = ({
 }) => {
   const { scrollY } = useScroll();
   const y = useTransform(
-    useSpring(scrollY, { bounce: 0, visualDuration: 0.5 }),
+    useSpring(scrollY, { bounce: 0, visualDuration: 0.3 }),
     (latest) => latest * -1 * speed + pageOffset * window.innerHeight
   );
 

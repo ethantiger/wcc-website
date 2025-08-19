@@ -44,7 +44,7 @@ export default function Title() {
             {[bg1, bg2, bg3, bg4, bg5, bg6, bg7, bg8, bg9].map((bg, i) => (
               <Fragment key={i}>
                 <ParallaxLayer
-                  speed={[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 1][i]}
+                  speed={[0.1, 0.12, 0.25, 0.3, 0.35, 0.45, 0.7, 0.85, 1][i]}
                   factor={factor}
                   image={`${bg}`}
                 />
@@ -54,14 +54,14 @@ export default function Title() {
           </>
         ) : (
           <ParallaxLayer
-            speed={0.5}
+            speed={0.8}
             image={`${phonebg}`}
           />
         )}
-        <ParallaxLayer speed={0.1}>
+        <ParallaxLayer speed={isMobile ? 1 : 0.1}>
           <img src={wccLogo} alt="WCC Logo" className="relative w-30 md:w-50 top-10 md:top-2/12 mx-auto opacity-80" />
         </ParallaxLayer>
-        <ParallaxLayer speed={0.1}>
+        <ParallaxLayer speed={isMobile ? 1 : 0.1}>
           <h1 className="relative top-4/12 md:top-[50vh] translate-y-[-50%] z-10 mx-auto max-w-4xl text-center font-bold text-slate-700 text-6xl md:text-7xl dark:text-slate-300 py-4">
             <motion.span
               initial={{ opacity: 0, filter: "blur(4px)", y: 10 }}
