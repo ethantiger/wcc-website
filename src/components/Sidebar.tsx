@@ -13,6 +13,7 @@ import { motion } from "motion/react";
 import { useLogout } from "../hooks/useLogout";
 
 export default function Sidebar() {
+  const navigate = useNavigate();
   const { logout } = useLogout();
 
 
@@ -24,8 +25,8 @@ export default function Sidebar() {
         <div className="flex flex-1 flex-col overflow-x-hidden overflow-y-auto">
           {open ? <Logo /> : <LogoIcon />}
           <div className="mt-8 flex flex-col gap-2">
-            <SidebarButton link={{ label: "Carpools", icon: <IconCarFilled className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" /> }} />
-            <SidebarButton link={{ label: "Profile", icon: <IconUserCircle className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" /> }} />
+            <SidebarButton link={{ label: "Carpools", icon: <IconCarFilled className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" /> }} onClick={() => navigate('/dashboard/carpool')} />
+            <SidebarButton link={{ label: "Profile", icon: <IconUserCircle className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" /> }} onClick={() => navigate("/dashboard/profile")} />
           </div>
         </div>
         <div>
