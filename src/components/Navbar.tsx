@@ -58,7 +58,7 @@ const Navbar: React.FC = () => {
           <li className="w-full md:w-auto">
             {user ? (
               <Link
-                to="/dashboard"
+                to="/dashboard/carpool"
                 className="block px-6 py-3 rounded-full text-black bg-amber-50 font-medium hover:bg-gray-400 transition-colors duration-200 text-center"
               >
                 Dashboard

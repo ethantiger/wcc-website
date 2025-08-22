@@ -26,12 +26,12 @@ function AppRoutes({ user }: { user: any }) {
 
   return (
     <>
-      {/* Only show Navbar if not on /dashboard */}
-      {location.pathname !== "/dashboard" && <Navbar />}
+      {/* Only show Navbar if not on a /dashboard route */}
+      {!location.pathname.includes("/dashboard") && <Navbar />}
       <Routes>
         <Route path="/*" element={<Homepage />} />
-        <Route path="/login" element={user ? <Navigate to="/dashboard" /> : <Login />} />
-        <Route path="/dashboard" element={user ? <Dashboard /> : <Navigate to="/login" />} />
+        <Route path="/login" element={user ? <Navigate to="/dashboard/carpool" /> : <Login />} />
+        <Route path="/dashboard/*" element={user ? <Dashboard /> : <Navigate to="/login" />} />
       </Routes>
     </>
   );
