@@ -12,17 +12,17 @@ const Login: React.FC = () => {
 
         <button
           onClick={loginWithMicrosoft}
-          className="w-full mb-4 py-2 px-6 text-white bg-black rounded-full border border-black hover:bg-white hover:text-black transition-all duration-300"
+          className="w-full mb-4 py-2 px-6 text-white bg-indigo-600 rounded-full border border-indigo-600 hover:bg-white hover:text-indigo-600 transition-all duration-300 hover:cursor-pointer"
         >
           Login with Microsoft
         </button>
 
-        <button
+        {/* <button
           onClick={logout}
           className="w-full py-2 px-6 text-white bg-red-600 rounded-full border border-red-600 hover:bg-white hover:text-red-600 transition-all duration-300"
         >
           Logout
-        </button>
+        </button> */}
 
         {error && (
           <p className="text-red-500 text-sm text-center mt-4">

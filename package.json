@@ -13,6 +13,7 @@
     "deploy:prod": "npm run build:prod && firebase deploy --only hosting"
   },
   "dependencies": {
+    "@tabler/icons-react": "^3.34.1",
     "@tailwindcss/vite": "^4.1.11",
     "clsx": "^2.1.1",
     "firebase": "^11.9.1",

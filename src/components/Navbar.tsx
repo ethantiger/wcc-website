@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const navLinks = [
   { name: "About", href: "#about" },
@@ -9,6 +10,7 @@ const navLinks = [
 ];
 
 const Navbar: React.FC = () => {
+  const { user } = useAuthContext();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
 
@@ -54,12 +56,21 @@ const Navbar: React.FC = () => {
             </li>
           ))}
           <li className="w-full md:w-auto">
-            <Link
-              to="/login"
-              className="block px-6 py-3 rounded-full text-black bg-amber-50 font-medium hover:bg-gray-400 transition-colors duration-200 text-center"
-            >
-              Login
-            </Link>
+            {user ? (
+              <Link
+                to="/dashboard"
+                className="block px-6 py-3 rounded-full text-black bg-amber-50 font-medium hover:bg-gray-400 transition-colors duration-200 text-center"
+              >
+                Dashboard
+              </Link>
+            ) : (
+              <Link
+                to="/login"
+                className="block px-6 py-3 rounded-full text-black bg-amber-50 font-medium hover:bg-gray-400 transition-colors duration-200 text-center"
+              >
+                Login
+              </Link>
+            )}
           </li>
         </ul>
         {/* Hamburger button for <md screens */}
