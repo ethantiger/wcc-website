@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { SidebarContainer, SidebarBody, SidebarButton } from "../components/ui/sidebar";
+import { SidebarContainer, SidebarBody, SidebarButton } from "@/features/dashboard/components/ui/sidebar";
 import {
   IconLogout2,
   IconUserCircle,
@@ -10,7 +10,7 @@ import {
 import { motion } from "motion/react";
 
 
-import { useLogout } from "../hooks/useLogout";
+import { useLogout } from "@/hooks/useLogout";
 
 export default function Sidebar() {
   const navigate = useNavigate();

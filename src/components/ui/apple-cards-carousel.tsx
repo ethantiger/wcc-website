@@ -5,10 +5,10 @@ import React, {
   useState,
 } from "react";
 
-import { cn } from "../../lib/utils";
+import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "motion/react";
 
-import { useOutsideClick } from "../../hooks/useOutsideClick";
+import { useOutsideClick } from "@/hooks/useOutsideClick";
 
 interface CarouselProps {
   items: JSX.Element[];
