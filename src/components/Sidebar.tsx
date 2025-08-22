@@ -3,10 +3,9 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { SidebarContainer, SidebarBody, SidebarButton } from "../components/ui/sidebar";
 import {
-  IconArrowLeft,
-  IconBrandTabler,
-  IconSettings,
-  IconUserBolt,
+  IconLogout2,
+  IconUserCircle,
+  IconCarFilled
 } from "@tabler/icons-react";
 import { motion } from "motion/react";
 
@@ -25,12 +24,12 @@ export default function Sidebar() {
         <div className="flex flex-1 flex-col overflow-x-hidden overflow-y-auto">
           {open ? <Logo /> : <LogoIcon />}
           <div className="mt-8 flex flex-col gap-2">
-            <SidebarButton link={{ label: "Carpools", icon: <IconBrandTabler /> }} />
-            <SidebarButton link={{ label: "Profile", icon: <IconUserBolt /> }} />
+            <SidebarButton link={{ label: "Carpools", icon: <IconCarFilled className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" /> }} />
+            <SidebarButton link={{ label: "Profile", icon: <IconUserCircle className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" /> }} />
           </div>
         </div>
         <div>
-          <SidebarButton link={{ label: "Logout", icon: <IconArrowLeft /> }} onClick={logout} />
+          <SidebarButton link={{ label: "Logout", icon: <IconLogout2 className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" /> }} onClick={logout} />
         </div>
       </SidebarBody>
     </SidebarContainer>
