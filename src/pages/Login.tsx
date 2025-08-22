@@ -1,9 +1,7 @@
 import { useLogin } from '../hooks/useLogin';
-import { useLogout } from '../hooks/useLogout';
 
 const Login: React.FC = () => {
   const { loginWithMicrosoft, error } = useLogin();
-  const { logout } = useLogout();
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 px-4">
@@ -16,13 +14,6 @@ const Login: React.FC = () => {
         >
           Login with Microsoft
         </button>
-
-        {/* <button
-          onClick={logout}
-          className="w-full py-2 px-6 text-white bg-red-600 rounded-full border border-red-600 hover:bg-white hover:text-red-600 transition-all duration-300"
-        >
-          Logout
-        </button> */}
 
         {error && (
           <p className="text-red-500 text-sm text-center mt-4">

@@ -1,11 +1,11 @@
 "use client";
 import { cn } from "../../lib/utils";
+import { IconMenu2, IconX } from "@tabler/icons-react";
 import React, { useState, createContext, useContext } from "react";
 import { AnimatePresence, motion } from "motion/react";
 
 interface Links {
   label: string;
-  href: string;
   icon: React.JSX.Element | React.ReactNode;
 }
 
@@ -50,7 +50,7 @@ export const SidebarProvider = ({
   );
 };
 
-export const Sidebar = ({
+export const SidebarContainer = ({
   children,
   open,
   setOpen,
@@ -118,10 +118,10 @@ export const MobileSidebar = ({
         {...props}
       >
         <div className="flex justify-end z-20 w-full">
-          {/* <IconMenu2
+          <IconMenu2
             className="text-neutral-800 dark:text-neutral-200"
             onClick={() => setOpen(!open)}
-          /> */}
+          />
         </div>
         <AnimatePresence>
           {open && (
@@ -142,7 +142,7 @@ export const MobileSidebar = ({
                 className="absolute right-10 top-10 z-50 text-neutral-800 dark:text-neutral-200"
                 onClick={() => setOpen(!open)}
               >
-                {/* <IconX /> */}
+                <IconX />
               </div>
               {children}
             </motion.div>
@@ -153,23 +153,22 @@ export const MobileSidebar = ({
   );
 };
 
-export const SidebarLink = ({
+export const SidebarButton = ({
   link,
   className,
-  function: onClick,
+  onClick,
   ...props
 }: {
   link: Links;
   className?: string;
-  function?: () => void;
+  onClick?: () => void;
 }) => {
   const { open, animate } = useSidebar();
   return (
-    <a
-      href={link.href}
+    <button
       onClick={onClick}
       className={cn(
-        "flex items-center justify-start gap-2  group/sidebar py-2",
+        "flex items-center justify-start gap-2  group/sidebar py-2 hover:cursor-pointer",
         className
       )}
       {...props}
@@ -185,6 +184,6 @@ export const SidebarLink = ({
       >
         {link.label}
       </motion.span>
-    </a>
+    </button>
   );
 };

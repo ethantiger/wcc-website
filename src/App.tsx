@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from "react-router-dom";
 import { useAuthContext } from "./hooks/useAuthContext";
 
 import Homepage from "./pages/Homepage"
@@ -11,18 +11,30 @@ function App() {
 
   return (
     <div className="App">
-      { authIsReady &&
+      {authIsReady && (
         <BrowserRouter>
-          <Navbar />
-          <Routes>
-            <Route path="/*" element={<Homepage />} />
-            <Route path="/login" element={user ? <Navigate to="/dashboard" /> : <Login />} />
-            <Route path="/dashboard" element={user ? <Dashboard /> : <Navigate to="/login" />} />
-          </Routes>
+          <AppRoutes user={user} />
         </BrowserRouter>
-      }
+      )}
     </div>
   )
+}
+
+// Separate component to use useLocation inside BrowserRouter
+function AppRoutes({ user }: { user: any }) {
+  const location = useLocation();
+
+  return (
+    <>
+      {/* Only show Navbar if not on /dashboard */}
+      {location.pathname !== "/dashboard" && <Navbar />}
+      <Routes>
+        <Route path="/*" element={<Homepage />} />
+        <Route path="/login" element={user ? <Navigate to="/dashboard" /> : <Login />} />
+        <Route path="/dashboard" element={user ? <Dashboard /> : <Navigate to="/login" />} />
+      </Routes>
+    </>
+  );
 }
 
 export default App
