@@ -1,4 +1,4 @@
-import { CarpoolStatusEnum } from "../components/enums/CarpoolStatusEnum";
+import { CarpoolStatusEnum } from "../enums/CarpoolStatusEnum";
 
 
 export default interface CarpoolPost {
