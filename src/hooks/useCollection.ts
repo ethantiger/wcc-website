@@ -2,20 +2,19 @@ import { useEffect, useState, useRef } from 'react';
 import { db } from '../firebase/config';
 import { collection, onSnapshot, query, where, orderBy, Query, DocumentData, WhereFilterOp } from 'firebase/firestore';
 
-interface UseCollectionResult {
-  documents: DocumentData[] | null;
+interface UseCollectionResult<T> {
+  documents: T[] | null;
   error: string | null;
 }
 
-export const useCollection = (
+export function useCollection<T extends { id: string }>(
   col: string,
   _q?: [string, WhereFilterOp, any] | null,
   _order?: [string, 'asc' | 'desc'] | null
-): UseCollectionResult => {
-  const [documents, setDocuments] = useState<DocumentData[] | null>(null);
+): UseCollectionResult<T> {
+  const [documents, setDocuments] = useState<T[] | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  // Prevent infinite loop in useEffect by using refs
   const q = useRef(_q).current;
   const order = useRef(_order).current;
 
@@ -31,12 +30,11 @@ export const useCollection = (
     const unsub = onSnapshot(
       ref,
       (snapshot) => {
-        const results: DocumentData[] = [];
+        const results: T[] = [];
         snapshot.docs.forEach((doc) => {
-          results.push({ ...doc.data(), id: doc.id });
+          results.push({ ...doc.data(), id: doc.id } as T);
         });
 
-        // Update state
         setDocuments(results);
         setError(null);
       },
@@ -46,9 +44,8 @@ export const useCollection = (
       }
     );
 
-    // Unsubscribe on unmount
     return () => unsub();
   }, [col, q, order]);
 
   return { documents, error };
-};
+}
