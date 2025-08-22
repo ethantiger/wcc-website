@@ -1,9 +1,6 @@
-import { useCollection } from "@/hooks/useCollection"
-import collections from "@/firebase/collections";
 import CarpoolPost from "../interfaces/CarpoolPost";
 
-export default function Carpool() {
-  const { documents } = useCollection<CarpoolPost>(collections.carpoolCollection);
+export default function Carpool({ carpools }: { carpools: CarpoolPost[] | null }) {
 
   return (
     <div className="flex flex-1">
@@ -12,9 +9,9 @@ export default function Carpool() {
           <h1 className="font-bold text-neutral-400 text-4xl">View Carpools</h1>
         </div>
         <div className="flex flex-1 gap-2">
-          {documents ? (
-            documents.length > 0 ? (
-              documents.map((doc) => (
+          {carpools ? (
+            carpools.length > 0 ? (
+              carpools.map((doc) => (
                 <div
                   key={doc.id}
                   className="flex h-40 w-full flex-1 flex-col rounded-xl border border-neutral-200 bg-gradient-to-br from-white via-gray-50 to-blue-100 p-6 shadow-md transition hover:scale-[1.02] hover:shadow-lg dark:border-neutral-700 dark:from-neutral-900 dark:via-neutral-800 dark:to-blue-900"
@@ -51,12 +48,6 @@ export default function Carpool() {
               <div className="h-full w-full animate-pulse rounded-xl bg-gray-100 dark:bg-neutral-800"></div>
             </div>
           )}
-          {/* {[...new Array(2)].map((_, idx) => (
-            <div
-              key={"second-array-demo-1" + idx}
-              className="h-full w-full animate-pulse rounded-lg bg-gray-100 dark:bg-neutral-800"
-            ></div>
-          ))} */}
         </div>
       </div>
     </div>
