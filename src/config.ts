@@ -1,0 +1,1 @@
+export const devTesting = import.meta.env.VITE_DEVELOPMENT === "true";

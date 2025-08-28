@@ -1,10 +1,10 @@
-import Title from '../components/Title'
-import About from '../components/About'
-import Events from '../components/Events'
-import History from '../components/History'
-import Sponsors from '../components/Sponsors'
-import Resources from '../components/Resources'
-import Contact from '../components/Contact'
+import Title from '@/components/Title'
+import About from '@/components/About'
+import Events from '@/components/Events'
+import History from '@/components/History'
+// import Sponsors from '@/components/Sponsors'
+// import Resources from '@/components/Resources'
+import Contact from '@/components/Contact'
 
 export default function Homepage() {
   return (
@@ -13,8 +13,8 @@ export default function Homepage() {
       <About />
       <Events />
       <History />
-      <Sponsors />
-      <Resources />
+      {/* <Sponsors /> */}
+      {/* <Resources /> */}
       <Contact />
     </>
   )
