@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthContext } from "@/hooks/useAuthContext";
+import { devTesting } from "@/config";
 
 const navLinks = [
   { name: "About", href: "#about" },
   { name: "Events", href: "#events" },
-  { name: "Resources", href: "#resources" },
+  { name: "History", href: "#history" },
   { name: "Contact", href: "#contact" },
 ];
 
@@ -55,23 +56,25 @@ const Navbar: React.FC = () => {
               </a>
             </li>
           ))}
-          <li className="w-full md:w-auto">
-            {user ? (
-              <Link
-                to="/dashboard/carpool"
-                className="block px-6 py-3 rounded-full text-black bg-amber-50 font-medium hover:bg-gray-400 transition-colors duration-200 text-center"
-              >
-                Dashboard
-              </Link>
-            ) : (
-              <Link
-                to="/login"
-                className="block px-6 py-3 rounded-full text-black bg-amber-50 font-medium hover:bg-gray-400 transition-colors duration-200 text-center"
-              >
-                Login
-              </Link>
-            )}
-          </li>
+          {devTesting && (
+            <li className="w-full md:w-auto">
+              {user ? (
+                <Link
+                  to="/dashboard/carpool"
+                  className="block px-6 py-3 rounded-full text-black bg-amber-50 font-medium hover:bg-gray-400 transition-colors duration-200 text-center"
+                >
+                  Dashboard
+                </Link>
+              ) : (
+                <Link
+                  to="/login"
+                  className="block px-6 py-3 rounded-full text-black bg-amber-50 font-medium hover:bg-gray-400 transition-colors duration-200 text-center"
+                >
+                  Login
+                </Link>
+              )}
+            </li>
+          )}
         </ul>
         {/* Hamburger button for <md screens */}
         <button
