@@ -1,14 +1,21 @@
+import { useCollection } from "@/hooks/useCollection";
 import {Carousel, Card} from "./ui/apple-cards-carousel";
+import collections from "@/firebase/collections";
+import Event from "@/features/events/interfaces/Event";
+import BouncingText from "./ui/BouncingText";
 
 export default function Events() {
-  const cards = data.map((card) => (
-    <Card key={card.src} card={card} />
+  const { documents: events } = useCollection<Event>(collections.eventsCollection);
+  const cards = (events ?? []).map((event) => (
+    <Card key={event.src} card={event} />
   ));
 
   return (
     <section id="events">
       <div className="min-h-screen flex flex-col items-center justify-center bg-[#10091e] text-gray-800 dark:text-gray-200 p-6">
-        <h1 className="text-4xl font-bold mb-6">Events</h1>
+        <h1 className=" text-4xl md:text-5xl font-bold mb-6 text-purple-300">
+          <BouncingText text="Join us at our Events!" />
+        </h1>
         <Carousel items={cards} />
       </div>
     </section>
@@ -46,21 +53,3 @@ export default function Events() {
 //     </>
 //   );
 // };
- 
-const data = [
-  {
-    category: "Upcoming",
-    title: "Niagara Glen Climbing Trip",
-    src: "https://niagaraglenclimbing.ca/images/gallery/170429-zack_on_sabishii.webp",
-  },
-  {
-    category: "August 17, 2025",
-    title: "Junction Climb Nights",
-    src: "https://images.squarespace-cdn.com/content/v1/61df2c7d4f6f0b3f0cb28707/433f31d8-f715-4a56-acbb-c5caf66a0a42/junctionEvanExportsEZ403930.jpg",
-  },
-  {
-    category: "Upcoming",
-    title: "Guelph Grotto Competition",
-    src: "https://static.wixstatic.com/media/98f2ba_9df96cb1a6ff4ca688c124eeda4b2768~mv2.png/v1/fill/w_970,h_644,al_c,q_90,enc_avif,quality_auto/bouldering%20img.png",
-  }
-];

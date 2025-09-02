@@ -20,6 +20,8 @@ type Card = {
   src: string;
   title: string;
   category: string;
+  date: string;
+  link?: string;
   content?: React.ReactNode;
 };
 
@@ -158,7 +160,7 @@ export const Card = ({
       <motion.button
         layoutId={layout ? `card-${card.title}` : undefined}
         onClick={handleOpen}
-        className="relative z-10 flex h-80 w-56 flex-col items-start justify-start overflow-hidden rounded-3xl bg-gray-100 md:h-[40rem] md:w-96 dark:bg-neutral-900 hover:cursor-pointer"
+        className="relative z-10 flex h-80 w-56 flex-col items-start justify-start overflow-hidden rounded-3xl bg-gray-100 md:h-[40rem] md:w-96 dark:bg-neutral-900"
       >
         <div className="pointer-events-none absolute inset-x-0 top-0 z-30 h-full bg-gradient-to-b from-black/50 via-transparent to-transparent" />
         <div className="relative z-40 p-8">
@@ -170,11 +172,32 @@ export const Card = ({
           </motion.p>
           <motion.p
             layoutId={layout ? `title-${card.title}` : undefined}
-            className="mt-2 max-w-xs text-left font-sans text-xl font-semibold [text-wrap:balance] text-white md:text-3xl"
+            className="mt-4 max-w-xs text-left font-sans text-xl font-semibold [text-wrap:balance] text-white md:text-3xl"
           >
             {card.title}
           </motion.p>
+          <motion.p
+            layoutId={layout ? `date-${card.date}` : undefined}
+            className="mt-1 text-left font-sans text-sm font-medium text-white md:text-lg"
+          >
+            {card.date}
+          </motion.p>
         </div>
+        {card.link && (
+          <div className="absolute bottom-6 left-1/2 z-50 flex w-full -translate-x-1/2 justify-center">
+            <a
+              href={card.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="relative inline-flex h-12 overflow-hidden rounded-lg p-[4px] transition-all duration-300 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50"
+            >
+              <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
+              <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-lg bg-white hover:bg-gray-200 px-3 py-1 text-sm font-medium text-black backdrop-blur-3xl">
+                Learn more
+              </span>
+            </a>
+          </div>
+        )}
         <BlurImage
           src={card.src}
           alt={card.title}

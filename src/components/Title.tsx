@@ -15,23 +15,15 @@ import phonebg from '@/assets/phonebg.png'
 import wccLogo from '@/assets/WCC-logo.png'
 import { ShootingStars } from './ui/shooting-stars'
 import ParallaxContainer from './ui/ParallaxContainer'
+import BouncingText from './ui/BouncingText'
 
 export default function Title() {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-  const [count, setCount] = useState(0);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 768);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCount((prev) => prev + 1);
-    }, 5000);
- 
-    return () => clearInterval(interval);
   }, []);
 
   const factor = 2;
@@ -63,37 +55,7 @@ export default function Title() {
         </ParallaxLayer>
         <ParallaxLayer speed={isMobile ? 1 : 0.1}>
           <h1 className="relative top-4/12 md:top-[50vh] translate-y-[-50%] z-10 mx-auto max-w-4xl text-center font-bold text-slate-700 text-6xl md:text-7xl dark:text-slate-300 py-4">
-            <motion.span
-              initial={{ opacity: 0, filter: "blur(4px)", y: 10 }}
-              animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
-              transition={{
-                duration: 0.3,
-                delay: 0,
-                ease: "easeInOut",
-              }}
-              className="mr-2 inline-block"
-            >
-              {"Hey Climber!".split("").map((char, index) => (
-                <motion.span
-                  key={`${char}-${count}-${index}`}
-                  initial={{
-                    y: 0,
-                  }}
-                  animate={{
-                    y: [0, -8, 0],
-                    scale: [1, 1.01, 1],
-                    opacity: [1, 0.8, 1],
-                  }}
-                  transition={{
-                    duration: 0.5,
-                    delay: index * 0.05,
-                  }}
-                  className="inline-block whitespace-pre font-sans tracking-tight"
-                >
-                  {char}
-                </motion.span>
-              ))}
-            </motion.span>
+            <BouncingText text="Hey Climber!" />
           </h1>
           <motion.p
             initial={{ opacity: 0 }}
