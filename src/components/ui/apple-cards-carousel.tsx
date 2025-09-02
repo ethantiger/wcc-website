@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "motion/react";
 
 import { useOutsideClick } from "@/hooks/useOutsideClick";
+import { devTesting } from "@/config";
 
 interface CarouselProps {
   items: JSX.Element[];
@@ -19,7 +20,7 @@ type Card = {
   src: string;
   title: string;
   category: string;
-  content: React.ReactNode;
+  content?: React.ReactNode;
 };
 
 export const Carousel = ({ items }: CarouselProps) => {
@@ -100,7 +101,9 @@ export const Card = ({
   useOutsideClick(containerRef, () => handleClose());
 
   const handleOpen = () => {
-    setOpen(true);
+    if (devTesting) {
+      setOpen(true);
+    } 
   };
 
   const handleClose = () => {
@@ -145,7 +148,9 @@ export const Card = ({
               >
                 {card.title}
               </motion.p>
-              <div className="py-10">{card.content}</div>
+                <div className="py-10">
+                {card.content ?? <></>}
+                </div>
             </motion.div>
           </div>
         )}
