@@ -5,6 +5,8 @@ import React, {
   useState,
 } from "react";
 
+import { IconArrowNarrowLeft, IconArrowNarrowRight } from "@tabler/icons-react";
+
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "motion/react";
 
@@ -29,10 +31,22 @@ type Card = {
 export const Carousel = ({ items }: CarouselProps) => {
   const carouselRef = React.useRef<HTMLDivElement>(null);
 
+  const scrollLeft = () => {
+    if (carouselRef.current) {
+      carouselRef.current.scrollBy({ left: -300, behavior: "smooth" });
+    }
+  };
+ 
+  const scrollRight = () => {
+    console.log('right')
+    if (carouselRef.current) {
+      carouselRef.current.scrollBy({ left: 300, behavior: "smooth" });
+    }
+  };
   return (
     <div className="relative w-full">
       <div
-        className="flex w-full overflow-x-scroll overscroll-x-auto scroll-smooth py-10 [scrollbar-width:none] md:py-10"
+        className="flex w-full overflow-x-scroll overscroll-x-auto scroll-smooth py-10 [scrollbar-width:none]"
         ref={carouselRef}
       >
         <div
@@ -70,6 +84,20 @@ export const Carousel = ({ items }: CarouselProps) => {
           ))}
         </div>
       </div>
+      <div className="mr-10 flex justify-end gap-2">
+          <button
+            className="relative z-40 flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 disabled:opacity-50"
+            onClick={scrollLeft}
+          >
+            <IconArrowNarrowLeft className="h-6 w-6 text-gray-500" />
+          </button>
+          <button
+            className="relative z-40 flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 disabled:opacity-50"
+            onClick={scrollRight}
+          >
+            <IconArrowNarrowRight className="h-6 w-6 text-gray-500" />
+          </button>
+        </div>
     </div>
   );
 };
