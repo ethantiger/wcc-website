@@ -38,7 +38,6 @@ export const Carousel = ({ items }: CarouselProps) => {
   };
  
   const scrollRight = () => {
-    console.log('right')
     if (carouselRef.current) {
       carouselRef.current.scrollBy({ left: 300, behavior: "smooth" });
     }
