@@ -5,7 +5,7 @@ import Event from "@/features/events/interfaces/Event";
 import BouncingText from "./ui/BouncingText";
 
 export default function Events() {
-  const { documents: events } = useCollection<Event>(collections.eventsCollection);
+  const { documents: events } = useCollection<Event>(collections.eventsCollection,null, ["date", "asc"]);
   const cards = (events ?? []).map((event) => (
     <Card key={event.src} card={event} />
   ));

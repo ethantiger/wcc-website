@@ -10,6 +10,7 @@ import { AnimatePresence, motion } from "motion/react";
 
 import { useOutsideClick } from "@/hooks/useOutsideClick";
 import { devTesting } from "@/config";
+import { Timestamp } from "firebase/firestore";
 
 interface CarouselProps {
   items: JSX.Element[];
@@ -20,7 +21,7 @@ type Card = {
   src: string;
   title: string;
   category: string;
-  date: string;
+  date: Timestamp;
   link?: string;
   content?: React.ReactNode;
 };
@@ -180,7 +181,11 @@ export const Card = ({
             layoutId={layout ? `date-${card.date}` : undefined}
             className="mt-1 text-left font-sans text-sm font-medium text-white md:text-lg"
           >
-            {card.date}
+            {card.date.toDate().toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
+            })}
           </motion.p>
         </div>
         {card.link && card.category !== "Past Event" && (
