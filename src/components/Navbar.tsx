@@ -6,7 +6,7 @@ import { devTesting } from "@/config";
 const navLinks = [
   { name: "About", href: "#about" },
   { name: "Events", href: "#events" },
-  { name: "History", href: "#history" },
+  // { name: "History", href: "#history" },
   { name: "Contact", href: "#contact" },
 ];
 
