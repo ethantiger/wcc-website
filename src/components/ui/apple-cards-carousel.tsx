@@ -31,7 +31,7 @@ export const Carousel = ({ items }: CarouselProps) => {
   return (
     <div className="relative w-full">
       <div
-        className="flex w-full overflow-x-scroll overscroll-x-auto scroll-smooth py-10 [scrollbar-width:none] md:py-20"
+        className="flex w-full overflow-x-scroll overscroll-x-auto scroll-smooth py-10 [scrollbar-width:none] md:py-10"
         ref={carouselRef}
       >
         <div
@@ -183,7 +183,7 @@ export const Card = ({
             {card.date}
           </motion.p>
         </div>
-        {card.link && (
+        {card.link && card.category !== "Past Event" && (
           <div className="absolute bottom-6 left-1/2 z-50 flex w-full -translate-x-1/2 justify-center">
             <a
               href={card.link}
@@ -202,7 +202,7 @@ export const Card = ({
           src={card.src}
           alt={card.title}
           fill="true"
-          className="absolute inset-0 z-10 object-cover"
+          className={`absolute inset-0 z-10 object-cover ${card.category === "Past Event" ? "brightness-50" : ""}`}
         />
       </motion.button>
     </>
