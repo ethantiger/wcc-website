@@ -24,6 +24,7 @@ type Card = {
   title: string;
   category: string;
   date: Timestamp;
+  location: string;
   link?: string;
   content?: React.ReactNode;
 };
@@ -203,6 +204,12 @@ export const Card = ({
             className="mt-4 max-w-xs text-left font-sans text-xl font-semibold [text-wrap:balance] text-white md:text-3xl"
           >
             {card.title}
+          </motion.p>
+          <motion.p
+            layoutId={layout ? `location-${card.location}` : undefined}
+            className="mt-1 text-left font-sans text-sm font-semibold text-white md:text-lg"
+          >
+            {card.location}
           </motion.p>
           <motion.p
             layoutId={layout ? `date-${card.date}` : undefined}

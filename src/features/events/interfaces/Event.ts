@@ -8,4 +8,5 @@ export default interface Event {
   date: Timestamp;
   title: string;
   src: string;
+  location: string;
 }
