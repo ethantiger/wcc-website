@@ -25,6 +25,8 @@ export function useCollection<T extends { id: string }>(
       ref = query(ref, where(...q), orderBy(...order));
     } else if (q) {
       ref = query(ref, where(...q));
+    } else if (order) {
+      ref = query(ref, orderBy(...order));
     }
 
     const unsub = onSnapshot(

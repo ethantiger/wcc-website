@@ -5,10 +5,14 @@ import React, {
   useState,
 } from "react";
 
+import { IconArrowNarrowLeft, IconArrowNarrowRight } from "@tabler/icons-react";
+
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "motion/react";
 
 import { useOutsideClick } from "@/hooks/useOutsideClick";
+import { devTesting } from "@/config";
+import { Timestamp } from "firebase/firestore";
 
 interface CarouselProps {
   items: JSX.Element[];
@@ -19,16 +23,30 @@ type Card = {
   src: string;
   title: string;
   category: string;
-  content: React.ReactNode;
+  date: Timestamp;
+  location: string;
+  link?: string;
+  content?: React.ReactNode;
 };
 
 export const Carousel = ({ items }: CarouselProps) => {
   const carouselRef = React.useRef<HTMLDivElement>(null);
 
+  const scrollLeft = () => {
+    if (carouselRef.current) {
+      carouselRef.current.scrollBy({ left: -300, behavior: "smooth" });
+    }
+  };
+ 
+  const scrollRight = () => {
+    if (carouselRef.current) {
+      carouselRef.current.scrollBy({ left: 300, behavior: "smooth" });
+    }
+  };
   return (
     <div className="relative w-full">
       <div
-        className="flex w-full overflow-x-scroll overscroll-x-auto scroll-smooth py-10 [scrollbar-width:none] md:py-20"
+        className="flex w-full overflow-x-scroll overscroll-x-auto scroll-smooth py-10 [scrollbar-width:none]"
         ref={carouselRef}
       >
         <div
@@ -66,6 +84,20 @@ export const Carousel = ({ items }: CarouselProps) => {
           ))}
         </div>
       </div>
+      <div className="mr-10 flex justify-end gap-2">
+          <button
+            className="relative z-40 flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 disabled:opacity-50"
+            onClick={scrollLeft}
+          >
+            <IconArrowNarrowLeft className="h-6 w-6 text-gray-500" />
+          </button>
+          <button
+            className="relative z-40 flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 disabled:opacity-50"
+            onClick={scrollRight}
+          >
+            <IconArrowNarrowRight className="h-6 w-6 text-gray-500" />
+          </button>
+        </div>
     </div>
   );
 };
@@ -100,7 +132,9 @@ export const Card = ({
   useOutsideClick(containerRef, () => handleClose());
 
   const handleOpen = () => {
-    setOpen(true);
+    if (devTesting) {
+      setOpen(true);
+    } 
   };
 
   const handleClose = () => {
@@ -145,7 +179,9 @@ export const Card = ({
               >
                 {card.title}
               </motion.p>
-              <div className="py-10">{card.content}</div>
+                <div className="py-10">
+                {card.content ?? <></>}
+                </div>
             </motion.div>
           </div>
         )}
@@ -153,7 +189,7 @@ export const Card = ({
       <motion.button
         layoutId={layout ? `card-${card.title}` : undefined}
         onClick={handleOpen}
-        className="relative z-10 flex h-80 w-56 flex-col items-start justify-start overflow-hidden rounded-3xl bg-gray-100 md:h-[40rem] md:w-96 dark:bg-neutral-900 hover:cursor-pointer"
+        className="relative z-10 flex h-80 w-56 flex-col items-start justify-start overflow-hidden rounded-3xl bg-gray-100 md:h-[40rem] md:w-96 dark:bg-neutral-900"
       >
         <div className="pointer-events-none absolute inset-x-0 top-0 z-30 h-full bg-gradient-to-b from-black/50 via-transparent to-transparent" />
         <div className="relative z-40 p-8">
@@ -165,16 +201,47 @@ export const Card = ({
           </motion.p>
           <motion.p
             layoutId={layout ? `title-${card.title}` : undefined}
-            className="mt-2 max-w-xs text-left font-sans text-xl font-semibold [text-wrap:balance] text-white md:text-3xl"
+            className="mt-4 max-w-xs text-left font-sans text-xl font-semibold [text-wrap:balance] text-white md:text-3xl"
           >
             {card.title}
           </motion.p>
+          <motion.p
+            layoutId={layout ? `location-${card.location}` : undefined}
+            className="mt-1 text-left font-sans text-sm font-semibold text-white md:text-lg"
+          >
+            {card.location}
+          </motion.p>
+          <motion.p
+            layoutId={layout ? `date-${card.date}` : undefined}
+            className="mt-1 text-left font-sans text-sm font-medium text-white md:text-lg"
+          >
+            {card.date.toDate().toLocaleDateString('en-US', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric'
+            })}
+          </motion.p>
         </div>
+        {card.link && card.category !== "Past Event" && (
+          <div className="absolute bottom-6 left-1/2 z-50 flex w-full -translate-x-1/2 justify-center">
+            <a
+              href={card.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="relative inline-flex h-12 overflow-hidden rounded-lg p-[4px] transition-all duration-300 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50"
+            >
+              <span className="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
+              <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-lg bg-white hover:bg-gray-200 px-3 py-1 text-sm font-medium text-black backdrop-blur-3xl">
+                Learn more
+              </span>
+            </a>
+          </div>
+        )}
         <BlurImage
           src={card.src}
           alt={card.title}
           fill="true"
-          className="absolute inset-0 z-10 object-cover"
+          className={`absolute inset-0 z-10 object-cover ${card.category === "Past Event" ? "brightness-50" : ""}`}
         />
       </motion.button>
     </>
