@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuthContext } from "@/hooks/useAuthContext";
 import { devTesting } from "@/config";
 
+import wccLogo from "@/assets/WCC-logo-symbol.png";
+
 const navLinks = [
   { name: "About", href: "#about" },
   { name: "Events", href: "#events" },
@@ -42,7 +44,7 @@ const Navbar: React.FC = () => {
               onClick={() => {window.scrollTo({ top: 0 })}}
               className="block px-6 py-3 rounded-full text-white font-medium hover:bg-gray-700 transition-colors duration-200 text-center hover:cursor-pointer"
             >
-              Home
+              <img src={wccLogo} alt="WCC Logo" className="h-6 mx-auto" />
             </Link>
           </li>
           {navLinks.map((link) => (
