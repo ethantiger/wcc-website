@@ -209,37 +209,37 @@ export const Card = ({
                   </p>
                 </div>}
               </div>
-                <div className="flex flex-row gap-4">
-                {card.link && (
-                  <a
-                  href={card.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center rounded-full bg-gradient-to-r from-purple-400 via-purple-600 to-indigo-500 px-6 py-2 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:scale-105 hover:from-purple-500 hover:to-indigo-600 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2"
-                  >
-                  {card.linkLabel}
-                  </a>
-                )}
-                {card.link2 && (
-                  <a
-                    href={card.link2}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center rounded-full bg-indigo-500 px-6 py-2 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:scale-105 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2"
-                  >
-                    {card.linkLabel2}
-                  </a>
-                )}
-                {card.link3 && (
-                  <a
-                    href={card.link3}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center rounded-full bg-purple-500 px-6 py-2 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:scale-105 hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2"
-                  >
-                    {card.linkLabel3}
-                  </a>
-                )}
+                <div className="flex gap-4 flex-wrap md:flex-nowrap md:gap-4 md:flex-row flex-col md:flex-col-0">
+                  {card.link && (
+                    <a
+                      href={card.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center rounded-full bg-gradient-to-r from-purple-400 via-purple-600 to-indigo-500 px-6 py-2 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:scale-105 hover:from-purple-500 hover:to-indigo-600 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 w-full md:w-auto mb-2 md:mb-0"
+                    >
+                      {card.linkLabel}
+                    </a>
+                  )}
+                  {card.link2 && (
+                    <a
+                      href={card.link2}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center rounded-full bg-indigo-500 px-6 py-2 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:scale-105 hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 w-full md:w-auto mb-2 md:mb-0"
+                    >
+                      {card.linkLabel2}
+                    </a>
+                  )}
+                  {card.link3 && (
+                    <a
+                      href={card.link3}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center rounded-full bg-purple-500 px-6 py-2 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:scale-105 hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 w-full md:w-auto"
+                    >
+                      {card.linkLabel3}
+                    </a>
+                  )}
                 </div>
             </motion.div>
           </div>
