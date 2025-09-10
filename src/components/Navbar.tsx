@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthContext } from "@/hooks/useAuthContext";
 import { devTesting } from "@/config";
+import { IconMenu2, IconX } from "@tabler/icons-react";
 
 import wccLogo from "@/assets/WCC-logo-symbol.png";
 
@@ -84,11 +85,7 @@ const Navbar: React.FC = () => {
           onClick={() => setOpen((prev) => !prev)}
           aria-label="Toggle navigation"
         >
-          <div className="flex flex-col gap-1">
-            <div className="w-6 h-0.5 bg-white rounded"></div>
-            <div className="w-6 h-0.5 bg-white rounded"></div>
-            <div className="w-6 h-0.5 bg-white rounded"></div>
-          </div>
+          {open ? <IconX /> : <IconMenu2 />}
         </button>
       </div>
     </nav>
