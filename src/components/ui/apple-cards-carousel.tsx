@@ -5,7 +5,7 @@ import React, {
   useState,
 } from "react";
 
-import { IconArrowNarrowLeft, IconArrowNarrowRight, IconX } from "@tabler/icons-react";
+import { IconArrowNarrowLeft, IconArrowNarrowRight, IconX, IconMapPin } from "@tabler/icons-react";
 
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "motion/react";
@@ -172,7 +172,9 @@ export const Card = ({
                 layoutId={layout ? `location-${card.location}` : undefined}
                 className="mt-2 text-base font-medium text-neutral-600 md:text-xl dark:text-neutral-300"
                 >
-                {card.location}
+                  <a href={card.location.href} target="_blank" rel="noopener noreferrer" className="flex hover:text-blue-500">
+                    <IconMapPin /> {card.location.label}
+                  </a>
                 </motion.p>
                 <motion.p
                 layoutId={layout ? `date-${card.date}` : undefined}
