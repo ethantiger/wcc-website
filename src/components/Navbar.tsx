@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthContext } from "@/hooks/useAuthContext";
 import { devTesting } from "@/config";
+import { IconMenu2, IconX } from "@tabler/icons-react";
+
+import wccLogo from "@/assets/WCC-logo-symbol.png";
 
 const navLinks = [
   { name: "About", href: "#about" },
@@ -36,15 +39,15 @@ const Navbar: React.FC = () => {
             open ? "flex justify-center items-center h-full" : "hidden"
           } md:flex md:h-auto md:w-auto`}
         >
-          <li className="w-full md:w-auto">
+            <li className="w-full md:w-[90px]">
             <Link
               to="/"
               onClick={() => {window.scrollTo({ top: 0 })}}
               className="block px-6 py-3 rounded-full text-white font-medium hover:bg-gray-700 transition-colors duration-200 text-center hover:cursor-pointer"
             >
-              Home
+              <img src={wccLogo} alt="WCC Logo" className="h-6 mx-auto" />
             </Link>
-          </li>
+            </li>
           {navLinks.map((link) => (
             <li key={link.name} className="w-full md:w-auto">
               <a
@@ -82,11 +85,7 @@ const Navbar: React.FC = () => {
           onClick={() => setOpen((prev) => !prev)}
           aria-label="Toggle navigation"
         >
-          <div className="flex flex-col gap-1">
-            <div className="w-6 h-0.5 bg-white rounded"></div>
-            <div className="w-6 h-0.5 bg-white rounded"></div>
-            <div className="w-6 h-0.5 bg-white rounded"></div>
-          </div>
+          {open ? <IconX /> : <IconMenu2 />}
         </button>
       </div>
     </nav>
