@@ -46,7 +46,7 @@ export const Carousel = ({ items }: CarouselProps) => {
   return (
     <div className="relative w-full">
       <div
-        className="flex w-full overflow-x-scroll overscroll-x-auto scroll-smooth py-10 [scrollbar-width:none]"
+        className="flex w-full overflow-x-scroll overscroll-x-auto scroll-smooth py-10 [scrollbar-width:none] scrollbar-hide"
         ref={carouselRef}
       >
         <div
@@ -58,7 +58,7 @@ export const Carousel = ({ items }: CarouselProps) => {
         <div
           className={cn(
             "flex flex-row justify-start gap-4 pl-4",
-            "mx-auto max-w-7xl", // remove max-w-4xl if you want the carousel to span the full width of its container
+            "mx-auto",
           )}
         >
           {items.map((item, index) => (

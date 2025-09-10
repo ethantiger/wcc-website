@@ -13,7 +13,7 @@ export default function Events() {
   return (
     <section id="events">
       <div className="min-h-screen flex flex-col items-start justify-center bg-[#090414] text-gray-800 dark:text-gray-200 p-6 rounded-[70px]">
-        <h1 className="md:ms-12 text-4xl md:text-5xl font-bold mb-6 text-purple-300">
+        <h1 className="md:ms-12 text-3xl md:text-5xl font-bold mb-6 text-purple-300">
           <BouncingText text="Join us at our Events!" />
         </h1>
         <Carousel items={cards} />
