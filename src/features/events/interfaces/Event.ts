@@ -12,7 +12,7 @@ export default interface Event {
   title: string;
   category: EventCategoryEnum;
   date: Timestamp;
-  location: Link;
+  location?: Link;
   description?: string;
   link?: Link;
   additionalLinks?: Link[];

@@ -168,7 +168,7 @@ export const Card = ({
                 >
                 {card.title}
                 </motion.p>
-                <motion.p
+                {card.location && <motion.p
                 layoutId={layout ? `location-${card.location}` : undefined}
                 className="mt-2 text-base font-medium text-neutral-600 md:text-xl dark:text-neutral-300"
                 >
@@ -181,7 +181,7 @@ export const Card = ({
                   >
                     <IconMapPin /> {card.location.label}
                   </a>
-                </motion.p>
+                </motion.p>}
                 <motion.p
                 layoutId={layout ? `date-${card.date}` : undefined}
                 className="mt-1 text-base font-normal text-neutral-500 md:text-lg dark:text-neutral-400"
