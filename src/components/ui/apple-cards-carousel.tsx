@@ -5,14 +5,14 @@ import React, {
   useState,
 } from "react";
 
-import { IconArrowNarrowLeft, IconArrowNarrowRight } from "@tabler/icons-react";
+import { IconArrowNarrowLeft, IconArrowNarrowRight, IconX } from "@tabler/icons-react";
 
 import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "motion/react";
 
 import { useOutsideClick } from "@/hooks/useOutsideClick";
-import { devTesting } from "@/config";
 import { Timestamp } from "firebase/firestore";
+import { EventCategoryEnum } from "@/features/events/enums/EventCategoryEnum";
 
 interface CarouselProps {
   items: JSX.Element[];
@@ -86,13 +86,13 @@ export const Carousel = ({ items }: CarouselProps) => {
       </div>
       <div className="mr-10 flex justify-end gap-2">
           <button
-            className="relative z-40 flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 disabled:opacity-50"
+            className="relative z-40 flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 disabled:opacity-50 hover:cursor-pointer"
             onClick={scrollLeft}
           >
             <IconArrowNarrowLeft className="h-6 w-6 text-gray-500" />
           </button>
           <button
-            className="relative z-40 flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 disabled:opacity-50"
+            className="relative z-40 flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 disabled:opacity-50 hover:cursor-pointer"
             onClick={scrollRight}
           >
             <IconArrowNarrowRight className="h-6 w-6 text-gray-500" />
@@ -131,8 +131,8 @@ export const Card = ({
 
   useOutsideClick(containerRef, () => handleClose());
 
-  const handleOpen = () => {
-    if (devTesting) {
+  const handleOpen = (category: string) => {
+    if (category !== EventCategoryEnum.Past) {
       setOpen(true);
     } 
   };
@@ -145,7 +145,7 @@ export const Card = ({
     <>
       <AnimatePresence>
         {open && (
-          <div className="fixed inset-0 z-50 h-screen overflow-auto">
+          <div className="fixed inset-0 z-50 h-screen overflow-auto hover">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -161,11 +161,10 @@ export const Card = ({
               className="relative z-[60] mx-auto my-10 h-fit max-w-5xl rounded-3xl bg-white p-4 font-sans md:p-10 dark:bg-neutral-900"
             >
               <button
-                className="sticky top-4 right-0 ml-auto flex h-8 w-8 items-center justify-center rounded-full bg-black dark:bg-white"
+                className="sticky top-4 right-0 ml-auto flex h-8 w-8 items-center justify-center rounded-full bg-black dark:bg-white hover:cursor-pointer"
                 onClick={handleClose}
               >
-                X
-                {/* <IconX className="h-6 w-6 text-neutral-100 dark:text-neutral-900" /> */}
+                <IconX className="h-6 w-6 text-neutral-100 dark:text-neutral-900" />
               </button>
               <motion.p
                 layoutId={layout ? `category-${card.title}` : undefined}
@@ -188,8 +187,8 @@ export const Card = ({
       </AnimatePresence>
       <motion.button
         layoutId={layout ? `card-${card.title}` : undefined}
-        onClick={handleOpen}
-        className="relative z-10 flex h-80 w-56 flex-col items-start justify-start overflow-hidden rounded-3xl bg-gray-100 md:h-[40rem] md:w-96 dark:bg-neutral-900"
+        onClick={() => handleOpen(card.category)}
+        className="relative z-10 flex h-80 w-56 flex-col items-start justify-start overflow-hidden rounded-3xl bg-gray-100 md:h-[40rem] md:w-96 dark:bg-neutral-900 hover:cursor-pointer"
       >
         <div className="pointer-events-none absolute inset-x-0 top-0 z-30 h-full bg-gradient-to-b from-black/50 via-transparent to-transparent" />
         <div className="relative z-40 p-8">
