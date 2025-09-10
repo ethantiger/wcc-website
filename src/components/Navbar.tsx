@@ -39,7 +39,7 @@ const Navbar: React.FC = () => {
             open ? "flex justify-center items-center h-full" : "hidden"
           } md:flex md:h-auto md:w-auto`}
         >
-          <li className="w-full md:w-auto">
+            <li className="w-full md:w-[90px]">
             <Link
               to="/"
               onClick={() => {window.scrollTo({ top: 0 })}}
@@ -47,7 +47,7 @@ const Navbar: React.FC = () => {
             >
               <img src={wccLogo} alt="WCC Logo" className="h-6 mx-auto" />
             </Link>
-          </li>
+            </li>
           {navLinks.map((link) => (
             <li key={link.name} className="w-full md:w-auto">
               <a
