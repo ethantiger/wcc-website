@@ -172,7 +172,13 @@ export const Card = ({
                 layoutId={layout ? `location-${card.location}` : undefined}
                 className="mt-2 text-base font-medium text-neutral-600 md:text-xl dark:text-neutral-300"
                 >
-                  <a href={card.location.href} target="_blank" rel="noopener noreferrer" className="flex hover:text-blue-500">
+                  <a
+                    href={card.location.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-neutral-600 hover:text-blue-500 transition-colors"
+                    style={{ background: "none", boxShadow: "none" }}
+                  >
                     <IconMapPin /> {card.location.label}
                   </a>
                 </motion.p>
