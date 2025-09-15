@@ -41,7 +41,7 @@ export default function About() {
       name: "Finance",
       members: [
         { name: "Isa Dahya", role: "", img: "/WCC_Logo_White_-_No_Background.png", bio: "" },
-        { name: "Robert Shen", role: "VP", img: "/WCC_Logo_White_-_No_Background.png", bio: "" },
+        { name: "Robert Shen", role: "VP", img: "/execs/finance/Robert.jpg", bio: "" },
         { name: "Noah Medland", role: "", img: "/execs/finance/Noah.jpg", 
           bio: "I'm a third-year finance student with a passion for adventure. Outside the classroom, I thrive on mountain climbing, skydiving, and bungee jumping - activities that fuel my drive for challenge, focus, and resilience." },
       ]
