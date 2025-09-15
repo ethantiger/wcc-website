@@ -55,7 +55,7 @@ export default function Title() {
         </ParallaxLayer>
         <ParallaxLayer speed={isMobile ? 1 : 0.1}>
           <h1 className="relative top-4/12 md:top-[50vh] translate-y-[-50%] z-10 mx-auto max-w-4xl text-center font-bold text-slate-700 text-6xl md:text-7xl dark:text-slate-300 py-4">
-            <BouncingText text="Hey Climber!" />
+            <BouncingText text="Hey Crusher!" />
           </h1>
           <motion.p
             initial={{ opacity: 0 }}
@@ -63,7 +63,7 @@ export default function Title() {
             transition={{ duration: 0.3, delay: 0.8 }}
             className="relative top-4/12 md:top-[50vh] translate-y-[-50%] z-10 mx-3 md:mx-auto max-w-xl py-4 text-center text-lg font-normal text-neutral-200 md:text-neutral-600"
           >
-            Join a community of climbers who share your passion for bouldering, sport climbing, and adventure.
+            Join a community of students who share your passion for bouldering, sport climbing, and adventure.
           </motion.p>
           <motion.div
             initial={{ opacity: 0 }}
