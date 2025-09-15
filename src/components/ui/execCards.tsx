@@ -1,6 +1,3 @@
-import { hover } from "motion";
-import React from "react";
-
 type ExecCardProps = {
   name: string;
   role: string;

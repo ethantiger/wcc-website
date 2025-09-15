@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import BouncingText from "./ui/BouncingText";
 import ExecCard from "./ui/execCards"; 
 
