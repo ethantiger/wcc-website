@@ -31,7 +31,7 @@ export default function About() {
       members: [
         { name: "Luna Olin", role: "", img: "/execs/events/Luna.jpg", 
           bio: "Hi! My name is Luna Olin. I am currently a second year student studying Geography and Environment. I love spending time outdoors, going to concerts, and hanging out with my friends!" },
-        { name: "Sophie DiCiacca", role: "VP", img: "WCC_Logo_White_-_No_Background.png", 
+        { name: "Sophie DiCiacca", role: "VP", img: "/execs/events/Sophie.jpg", 
           bio: "Hey, my name is Sophie and I'm a second year in accounting. I used to be a competitive climber and coach!" },
         { name: "Amanda Papic", role: "VP", img: "WCC_Logo_White_-_No_Background.png", bio: "" },
         { name: "Charlie Song", role: "", img: "WCC_Logo_White_-_No_Background.png", bio: "" },
