@@ -19,7 +19,7 @@ function ExecCard({ name, role, img, bio }: ExecCardProps) {
       {/* Bio on hover */}
       {bio && (
         <div className="absolute inset-0 bg-[#10091e] bg-opacity-75 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-          <p className="whitespace-normal text-sm text-center">{bio}</p>
+          <p className="whitespace-normal text-xs text-center">{bio}</p>
         </div>
       )}
 
