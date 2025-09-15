@@ -148,7 +148,7 @@ export const Card = ({
               exit={{ opacity: 0 }}
               ref={containerRef}
               layoutId={layout ? `card-${card.title}` : undefined}
-              className="relative z-[60] mx-auto my-10 h-fit max-w-5xl rounded-3xl bg-white p-4 font-sans md:p-10 dark:bg-neutral-900"
+              className="relative z-[60] mx-auto my-10 h-fit max-w-5xl rounded-3xl bg-white p-4 md:p-10 dark:bg-neutral-900"
             >
               <button
                 className="sticky top-4 right-0 ml-auto flex h-8 w-8 items-center justify-center rounded-full bg-black dark:bg-white hover:cursor-pointer"
@@ -196,7 +196,7 @@ export const Card = ({
                 {card.description && <div
                   className="bg-[#F5F5F7] dark:bg-neutral-800 p-8 md:p-14 rounded-3xl mb-4"
                 >
-                  <p className="text-neutral-600 dark:text-neutral-400 text-base md:text-2xl font-sans mx-auto">
+                  <p className="text-neutral-600 dark:text-neutral-400 text-base md:text-2xl mx-auto">
                     {card.description}
                   </p>
                 </div>}
@@ -237,19 +237,19 @@ export const Card = ({
         <div className="relative z-40 p-8">
           <motion.p
             layoutId={layout ? `category-${card.category}` : undefined}
-            className="text-left font-sans text-sm font-medium text-white md:text-base"
+            className="text-left text-sm font-medium text-white md:text-base"
           >
             {card.category}
           </motion.p>
           <motion.p
             layoutId={layout ? `title-${card.title}` : undefined}
-            className="mt-4 max-w-xs text-left font-sans text-xl font-semibold [text-wrap:balance] text-white md:text-3xl"
+            className="mt-4 max-w-xs text-left text-xl font-semibold [text-wrap:balance] text-white md:text-3xl"
           >
             {card.title}
           </motion.p>
           <motion.p
             layoutId={layout ? `date-${card.date}` : undefined}
-            className="mt-1 text-left font-sans text-sm font-medium text-white md:text-lg"
+            className="mt-1 text-left text-sm font-medium text-white md:text-lg"
           >
             {card.date.toDate().toLocaleDateString('en-US', {
               year: 'numeric',
