@@ -34,14 +34,15 @@ export default function About() {
         { name: "Sophie DiCiacca", role: "VP", img: "/execs/events/Sophie.jpg", 
           bio: "Hey, my name is Sophie and I'm a second year in accounting. I used to be a competitive climber and coach!" },
         { name: "Amanda Papic", role: "VP", img: "WCC_Logo_White_-_No_Background.png", bio: "" },
-        { name: "Charlie Song", role: "", img: "WCC_Logo_White_-_No_Background.png", bio: "" },
+        { name: "Charlie Song", role: "", img: "/execs/events/Charlie.jpg", 
+          bio: "Hey! I'm Charlie, I'm a 2nd year student studying finance. I've been bouldering for about 2 years now and I love crimps and dynos. I love spending time with friends, going outside, and snowboarding. I can't wait to meet you all at Junction!" },
       ]
     },
     {
       name: "Finance",
       members: [
         { name: "Isa Dahya", role: "", img: "/WCC_Logo_White_-_No_Background.png", bio: "" },
-        { name: "Robert Shen", role: "VP", img: "/execs/finance/Robert.jpg", bio: "" },
+        { name: "Robert Shen", role: "Ex-VP", img: "/execs/finance/Robert.jpg", bio: "Hey guys, I'm your (ex)VP Finance!! I'm around (sometimes). If you see me at climb nights come say hi :D" },
         { name: "Noah Medland", role: "", img: "/execs/finance/Noah.jpg", 
           bio: "I'm a third-year finance student with a passion for adventure. Outside the classroom, I thrive on mountain climbing, skydiving, and bungee jumping - activities that fuel my drive for challenge, focus, and resilience." },
       ]
