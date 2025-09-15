@@ -93,17 +93,17 @@ export default function About() {
         </p>
 
         {/*Nav */}
-        <div className="mb-6">
-          <div className="flex space-x-4">
+        <div className="mb-6 w-full">
+          <div className="flex flex-wrap justify-center gap-2 md:space-x-4">
             {teams.map((team) => (
               <button
-                key={team.name}
-                className={`px-4 py-2 rounded-md ${
-                  selectedTeam === team.name ? "bg-purple-300 text-white" : "bg-gray-700 text-gray-200"
-                }`}
-                onClick={() => setSelectedTeam(team.name)}
+          key={team.name}
+          className={`px-4 py-2 rounded-md transition-colors duration-200 ${
+            selectedTeam === team.name ? "bg-purple-300 text-white" : "bg-gray-700 text-gray-200"
+          }`}
+          onClick={() => setSelectedTeam(team.name)}
               >
-                {team.name}
+          {team.name}
               </button>
             ))}
           </div>
@@ -115,20 +115,20 @@ export default function About() {
             .filter((team) => team.name === selectedTeam) // show selected team
             .map((team) => (
               <div key={team.name} className="flex justify-center">
-                <div className="text-center">
-                  <h2 className="text-2xl font-semibold text-purple-200 mb-6">{team.name}</h2>
-                  <div className="flex justify-center items-center space-x-6">
-                    {team.members.map((member) => (
-                      <ExecCard
-                        key={member.name}
-                        name={member.name}
-                        role={member.role}
-                        img={member.img}
-                        bio={member.bio}
-                      />
-                    ))}
-                  </div>
-                </div>
+          <div className="text-center w-full">
+            <h2 className="text-2xl font-semibold text-purple-200 mb-6">{team.name}</h2>
+            <div className="flex flex-wrap justify-center items-stretch gap-4 md:gap-6">
+              {team.members.map((member) => (
+                <ExecCard
+            key={member.name}
+            name={member.name}
+            role={member.role}
+            img={member.img}
+            bio={member.bio}
+                />
+              ))}
+            </div>
+          </div>
               </div>
             ))}
         </div>
