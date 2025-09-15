@@ -21,7 +21,7 @@ export default function About() {
         { name: "Caleb Chen", role: "VP", img: "/execs/comms/Caleb.jpg", bio: 
           "Hey everyone! I'm Caleb, I've been climbing for almost 2 years now. I love slopers, but slabs always humble me. Can't wait to see you all on climb nights!"},
         { name: "Jiajun Chen", role: "", img: "/execs/comms/Jiajun.jpg", bio: 
-          "" },
+          "Hi, I’m Jiajun — a third-year Medical Sciences student specializing in Physiology and Pharmacology. I’ve been climbing for a little over a year, mostly bouldering. Outside the gym, I’m into photography. Currently working on making it through a session without getting injured." },
         { name: "Kayleigh Gerritsen", role: "", img: "/execs/comms/Kayleigh.jpg", bio: 
           "Hi WCC! I'm a third year student specializing in biology. I love anything outdoorsy, going on hikes, and of course climbing! Bouldering specifically helps me release stress while also exercising both my body and mind. Aside from that I also love formula one, concerts, and exploring new countires :)" },
       ]
