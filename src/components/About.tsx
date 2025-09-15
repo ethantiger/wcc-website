@@ -18,12 +18,12 @@ export default function About() {
       members: [
         { name: "Carina Chan", role: "", img: "/execs/comms/Carina.jpg", 
           bio: "Hi! I'm Carina and I'm in fourth year studying Psych and MIT. I love being outdoors, whether I'm climbing or sk8ing. I'm all about capturing fun moments and turning them into creativer photos and designs to share the club's best adventures!" },
-        { name: "Caleb Chen", role: "VP", img: "/execs/comms/Caleb.jpg", bio: 
-          "Hey everyone! I'm Caleb, I've been climbing for almost 2 years now. I love slopers, but slabs always humble me. Can't wait to see you all on climb nights!"},
-        { name: "Jiajun Chen", role: "", img: "/execs/comms/Jiajun.jpg", bio: 
-          "Hi, I’m Jiajun — a third-year Medical Sciences student specializing in Physiology and Pharmacology. I’ve been climbing for a little over a year, mostly bouldering. Outside the gym, I’m into photography. Currently working on making it through a session without getting injured." },
-        { name: "Kayleigh Gerritsen", role: "", img: "/execs/comms/Kayleigh.jpg", bio: 
-          "Hi WCC! I'm a third year student specializing in biology. I love anything outdoorsy, going on hikes, and of course climbing! Bouldering specifically helps me release stress while also exercising both my body and mind. Aside from that I also love formula one, concerts, and exploring new countires :)" },
+        { name: "Caleb Chen", role: "VP", img: "/execs/comms/Caleb.jpg", 
+          bio: "Hey everyone! I'm Caleb, I've been climbing for almost 2 years now. I love slopers, but slabs always humble me. Can't wait to see you all on climb nights!"},
+        { name: "Jiajun Chen", role: "", img: "/execs/comms/Jiajun.jpg", 
+          bio: "Hi, I’m Jiajun — a third-year Medical Sciences student specializing in Physiology and Pharmacology. I’ve been climbing for a little over a year, mostly bouldering. Outside the gym, I’m into photography. Currently working on making it through a session without getting injured." },
+        { name: "Kayleigh Gerritsen", role: "", img: "/execs/comms/Kayleigh.jpg", 
+          bio: "Hi WCC! I'm a third year student specializing in biology. I love anything outdoorsy, going on hikes, and of course climbing! Bouldering specifically helps me release stress while also exercising both my body and mind. Aside from that I also love formula one, concerts, and exploring new countires :)" },
       ]
     },
     {
@@ -31,18 +31,18 @@ export default function About() {
       members: [
         { name: "Luna Olin", role: "", img: "/execs/events/Luna.jpg", 
           bio: "Hi! My name is Luna Olin. I am currently a second year student studying Geography and Environment. I love spending time outdoors, going to concerts, and hanging out with my friends!" },
-        { name: "!Sophie DiCiacca", role: "VP", img: "/execs/events/Sophie.jpg", bio: "" },
-        { name: "!Amanda Papic", role: "VP", img: "/execs/events/Amanda.jpg", bio: "" },
-        { name: "!Charlie Song", role: "", img: "/execs/events/Charlie.jpg", bio: "" },
+        { name: "Sophie DiCiacca", role: "VP", img: "WCC_Logo_White_-_No_Background.png", bio: "" },
+        { name: "Amanda Papic", role: "VP", img: "WCC_Logo_White_-_No_Background.png", bio: "" },
+        { name: "Charlie Song", role: "", img: "WCC_Logo_White_-_No_Background.png", bio: "" },
       ]
     },
     {
       name: "Finance",
       members: [
-        { name: "!Isa Dahya", role: "", img: "/execs/finance/Isa.jpg", bio: "" },
-        { name: "!Robert Shen", role: "VP", img: "/execs/finance/Robert.jpg", bio: "" },
-        { name: "Noah Medland", role: "", img: "/execs/finance/Noah.jpg", bio: 
-          "I'm a third-year finance student with a passion for adventure. Outside the classroom, I thrive on mountain climbing, skydiving, and bungee jumping - activities that fuel my drive for challenge, focus, and resilience." },
+        { name: "Isa Dahya", role: "", img: "/WCC_Logo_White_-_No_Background.png", bio: "" },
+        { name: "Robert Shen", role: "VP", img: "/WCC_Logo_White_-_No_Background.png", bio: "" },
+        { name: "Noah Medland", role: "", img: "/execs/finance/Noah.jpg", 
+          bio: "I'm a third-year finance student with a passion for adventure. Outside the classroom, I thrive on mountain climbing, skydiving, and bungee jumping - activities that fuel my drive for challenge, focus, and resilience." },
       ]
     },
     {
@@ -50,18 +50,19 @@ export default function About() {
       members: [
         { name: "Jeremy Dai", role: "", img: "/execs/sponsor/Jeremy.jpg", 
           bio: "Hey! I'm Jeremy, a second year in med sci. I'm relatively new to climbing, having just over a year under my belt, but I'm already hooked. Apart from climbing, I enjoy folding origami and sharing what I make on my Instagram account. Hope to see you on the wall!" },
-        { name: "!Marshall Howard", role: "", img: "/execs/sponsor/Marshall.jpg", bio: "" },
+        { name: "Marshall Howard", role: "", img: "/execs/sponsor/Marshall.jpg", 
+          bio: "Hi! I'm Marshall and I'm a second year psychology major with a minor in ethics! I've been climbing for about 3-ish years now, and it's one of my fav ways to pass the time! Aside from climbing, I also like to train triathalon, read, and binge watch shows!" },
       ]
     },
     {
       name: "Web Devs",
       members: [
-        { name: "Jenni Shi", role: "", img: "/execs/web/Jen.jpg", bio: 
-          "Hey guys! I'm Jen, a 4th-year Software Engineering student. I've been bouldering for around 2 years, but I dabble in top rope occasionally. You’ll probably catch me eating, thrifting, or crimping some wall on campus >:)" },
-        { name: "Ethan Wakefield", role: "VP", img: "/execs/web/Ethan.jpg", bio: 
-          "Hey! I’m Ethan, a 4th year computer science student and the VP of web development. I’ve been climbing consistently for a few months and I’m completely hooked. I also enjoy going to the gym, playing games, watching movies, and sleeping. Looking forward to meeting new faces and climbing with yall!" },
-        { name: "Ryhana Williams", role: "", img: "/execs/web/Ryhana.jpg", bio: 
-          "Hi! My name is Ryhana. I'm in my 2nd year of cs and I love to go thrifting, stay active and try new cafes." },
+        { name: "Jenni Shi", role: "", img: "/execs/web/Jen.jpg", 
+          bio: "Hey guys! I'm Jen, a 4th-year Software Engineering student. I've been bouldering for around 2 years, but I dabble in top rope occasionally. You’ll probably catch me eating, thrifting, or crimping some wall on campus >:)" },
+        { name: "Ethan Wakefield", role: "VP", img: "/execs/web/Ethan.jpg", 
+          bio: "Hey! I’m Ethan, a 4th year computer science student and the VP of web development. I’ve been climbing consistently for a few months and I’m completely hooked. I also enjoy going to the gym, playing games, watching movies, and sleeping. Looking forward to meeting new faces and climbing with yall!" },
+        { name: "Ryhana Williams", role: "", img: "/execs/web/Ryhana.jpg", 
+          bio: "Hi! My name is Ryhana. I'm in my 2nd year of cs and I love to go thrifting, stay active and try new cafes." },
       ]
     },
   ];
