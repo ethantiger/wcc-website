@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 type ExecCardProps = {
   name: string;
   role: string;
@@ -6,8 +8,13 @@ type ExecCardProps = {
 };
 
 function ExecCard({ name, role, img, bio }: ExecCardProps) {
+  const [showBio, setShowBio] = useState(false);
+
   return (
-    <div className="relative group flex flex-col items-center bg-[#1a0f2e] p-4 rounded-2xl shadow-md hover:scale-105 transition-transform duration-200 w-48">
+    <div
+      className="relative flex flex-col items-center bg-[#1a0f2e] p-4 rounded-2xl shadow-md hover:scale-105 transition-transform duration-200 w-48 cursor-pointer"
+      onClick={() => setShowBio(!showBio)}
+    >
       <img
         src={img}
         alt={role}
@@ -16,15 +23,13 @@ function ExecCard({ name, role, img, bio }: ExecCardProps) {
       <h3 className="text-lg font-semibold text-white">{name}</h3>
       {role && <p className="text-sm text-gray-400">{role}</p>}
 
-      {/* Bio on hover */}
-      {bio && (
-        <div className="absolute inset-0 bg-[#10091e] bg-opacity-75 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-          <p className="whitespace-normal text-sm text-center">{bio}</p>
+      {/* Bio on click */}
+      {bio && showBio && (
+        <div className="absolute inset-0 bg-[#10091e] bg-opacity-75 p-4 flex items-center justify-center transition-opacity duration-300">
+          <p className="whitespace-normal text-xs text-center">{bio}</p>
         </div>
       )}
-
-
-      </div>
+    </div>
   );
 }
 

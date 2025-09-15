@@ -10,7 +10,7 @@ export default function About() {
       name: "President",
       members: [
         { name: "Brittney Chong", role: "Prez", img: "/execs/Brittney.jpg", 
-          bio: "My name is Brittney and I love to climb with my cat. I love making new friends let’s climb together (lead, boulder and even toprope!)" },
+          bio: "My name is Brittney and I love to climb with my cat. I love making new friends let’s climb together (lead, boulder and even toprope)!" },
       ]
     },
     {
@@ -31,18 +31,19 @@ export default function About() {
       members: [
         { name: "Luna Olin", role: "", img: "/execs/events/Luna.jpg", 
           bio: "Hi! My name is Luna Olin. I am currently a second year student studying Geography and Environment. I love spending time outdoors, going to concerts, and hanging out with my friends!" },
-        { name: "Sophie DiCiacca", role: "VP", img: "WCC_Logo_White_-_No_Background.png", bio: "" },
-        { name: "Amanda Papic", role: "VP", img: "WCC_Logo_White_-_No_Background.png", bio: "" },
-        { name: "Charlie Song", role: "", img: "WCC_Logo_White_-_No_Background.png", bio: "" },
+        { name: "Sophie DiCiacca", role: "VP", img: "/execs/events/Sophie.jpg", 
+          bio: "Hey, my name is Sophie and I'm a second year in accounting. I used to be a competitive climber and coach!" },
+        { name: "Charlie Song", role: "", img: "/execs/events/Charlie.jpg", 
+          bio: "Hey! I'm Charlie, I'm a 2nd year student studying finance. I've been bouldering for about 2 years now and I love crimps and dynos. I love spending time with friends, going outside, and snowboarding. I can't wait to meet you all at Junction!" },
       ]
     },
     {
       name: "Finance",
       members: [
-        { name: "Isa Dahya", role: "", img: "/WCC_Logo_White_-_No_Background.png", bio: "" },
-        { name: "Robert Shen", role: "VP", img: "/WCC_Logo_White_-_No_Background.png", bio: "" },
+        { name: "Isa Dahya", role: "", img: "/execs/finance/Isa.jpg", bio: "Hi! I'm Isa and I'm in 4th year HSP physharm. Surprisingly I also like climbing especially indoor bouldering. I got 2 pet cats and I also enjoy biking. If you ever need any med sci advice feel free to contact :)" },
+        { name: "Robert Shen", role: "Ex-VP", img: "/execs/finance/Robert.jpg", bio: "Hey guys, I'm your (ex)VP Finance!! I'm around (sometimes). If you see me at climb nights come say hi :D" },
         { name: "Noah Medland", role: "", img: "/execs/finance/Noah.jpg", 
-          bio: "I'm a third-year finance student with a passion for adventure. Outside the classroom, I thrive on mountain climbing, skydiving, and bungee jumping - activities that fuel my drive for challenge, focus, and resilience." },
+          bio: "Hey guys, I'm a third-year finance student with a passion for adventure. Outside the classroom, I thrive on mountain climbing, skydiving, and bungee jumping - activities that fuel my drive for challenge, focus, and resilience." },
       ]
     },
     {
