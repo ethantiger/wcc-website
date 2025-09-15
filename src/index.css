@@ -2,10 +2,25 @@
 
 body {
   background-color: #10091e;
+  font-family: 'Montserrat', serif;
 }
 
 html {
   scroll-behavior: smooth;
+}
+
+@font-face {
+  font-family: 'BodoniFLF Regular';
+  font-style: normal;
+  font-weight: normal;
+  src: local('BodoniFLF Regular'), url('BodoniFLF-Roman.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Montserrat'), url('/fonts/Montserrat-VariableFont_wght.ttf') format('truetype');
 }
 
 .scrollbar-hide::-webkit-scrollbar {

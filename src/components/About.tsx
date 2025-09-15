@@ -68,10 +68,10 @@ export default function About() {
   ];
 
   return (
-    <section id="about" className="pt-60">
+    <section id="about">
       <div className="min-h-screen flex flex-col items-center justify-start bg-[#10091e] text-gray-800 dark:text-gray-200 p-6">
         
-        <h1 className="md:ms-4 text-3xl md:text-5xl font-bold mb-6 text-purple-300 text-center"> <BouncingText text="About Us" /> </h1>
+        <h1 className="md:ms-4 text-3xl md:text-5xl font-bold mb-6 text-purple-300 text-center md:pt-30"> <BouncingText text="About Us" /> </h1>
 
         {/* Mission */}
         <h2 className="text-2xl font-semibold text-purple-200 mb-3">Our Story</h2>
