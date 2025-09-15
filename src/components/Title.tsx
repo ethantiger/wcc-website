@@ -12,7 +12,7 @@ import bg7 from '@/assets/bg7.png'
 import bg8 from '@/assets/bg8.png'
 import bg9 from '@/assets/bg9.png'
 import phonebg from '@/assets/phonebg.png'
-import wccLogo from '@/assets/WCC-logo.png'
+import wccLogo from '@/assets/WCC_Logo_White_-_No_Background.png'
 import { ShootingStars } from './ui/shooting-stars'
 import ParallaxContainer from './ui/ParallaxContainer'
 import BouncingText from './ui/BouncingText'
@@ -51,7 +51,7 @@ export default function Title() {
           />
         )}
         <ParallaxLayer speed={isMobile ? 1 : 0.1}>
-          <img src={wccLogo} alt="WCC Logo" className="relative w-30 md:w-50 top-10 md:top-2/12 mx-auto opacity-80" />
+          <img src={wccLogo} alt="WCC Logo" className="relative w-30 md:w-40 top-10 md:top-2/12 mx-auto opacity-40" />
         </ParallaxLayer>
         <ParallaxLayer speed={isMobile ? 1 : 0.1}>
           <h1 className="relative top-4/12 md:top-[50vh] translate-y-[-50%] z-10 mx-auto max-w-4xl text-center font-bold text-slate-700 text-6xl md:text-7xl dark:text-slate-300 py-4">
