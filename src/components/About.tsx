@@ -71,7 +71,7 @@ export default function About() {
 
   return (
     <section id="about">
-      <div className="min-h-screen flex flex-col items-center justify-start bg-[#10091e] text-gray-800 dark:text-gray-200 p-6">
+      <div className="mb-12 flex flex-col items-center justify-start bg-[#10091e] text-gray-800 dark:text-gray-200 p-6">
         
         <h1 className="md:ms-4 text-3xl md:text-5xl font-bold mb-6 text-purple-300 text-center md:pt-30"> <BouncingText text="About Us" /> </h1>
 
