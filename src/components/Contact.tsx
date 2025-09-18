@@ -100,9 +100,9 @@ export default function Contact() {
               <h2 className="text-2xl font-semibold text-purple-200">Frequently Asked Questions</h2>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 auto-rows-min">
               {faqData.map((item, index) => (
-                <div key={index} className="bg-gray-700/30 rounded-lg border border-purple-300/10">
+                <div key={index} className="bg-gray-700/30 rounded-lg border border-purple-300/10 self-start">
                   <button
                     onClick={() => toggleItem(index)}
                     className="w-full px-4 py-3 text-left flex items-center justify-between hover:bg-gray-600/30 transition-colors duration-200 rounded-lg"
@@ -112,19 +112,25 @@ export default function Contact() {
                     </span>
                     <div className="ml-3 flex-shrink-0">
                       {openItems.includes(index) ? (
-                        <IconMinus className="text-purple-300" size={20} />
+                        <IconMinus className="text-purple-300 transition-transform duration-500 ease-in-out" size={20} />
                       ) : (
-                        <IconPlus className="text-purple-300" size={20} />
+                        <IconPlus className="text-purple-300 transition-transform duration-500 ease-in-out" size={20} />
                       )}
                     </div>
                   </button>
-                  {openItems.includes(index) && (
+                  <div 
+                    className={`overflow-hidden transition-all duration-500 ease-in-out ${
+                      openItems.includes(index) 
+                        ? 'max-h-96 opacity-100' 
+                        : 'max-h-0 opacity-0'
+                    }`}
+                  >
                     <div className="px-4 pb-4 pt-2">
                       <p className="text-gray-300 text-sm md:text-base leading-relaxed">
                         {item.answer}
                       </p>
                     </div>
-                  )}
+                  </div>
                 </div>
               ))}
             </div>
