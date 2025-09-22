@@ -9,6 +9,7 @@ import wccLogo from "@/assets/WCC-logo-symbol.png";
 const navLinks = [
   { name: "About", href: "#about" },
   { name: "Events", href: "#events" },
+  { name: "Pricing", href: "#pricing" },
   // { name: "History", href: "#history" },
   { name: "Contact", href: "#contact" },
 ];
