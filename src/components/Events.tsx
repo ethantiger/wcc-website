@@ -5,7 +5,7 @@ import Event from "@/features/events/interfaces/Event";
 import BouncingText from "./ui/BouncingText";
 
 export default function Events() {
-  const { documents: events } = useCollection<Event>(collections.eventsCollection,null, ["date", "asc"]);
+  const { documents: events, error } = useCollection<Event>(collections.eventsCollection,null, ["date", "asc"]);
   const cards = (events ?? []).map((event) => (
     <Card key={event.id} card={event} />
   ));
@@ -16,7 +16,7 @@ export default function Events() {
         <h1 className="md:ms-12 text-3xl md:text-5xl font-bold mb-6 text-purple-300">
           <BouncingText text="Join us at our Events!" />
         </h1>
-        {!cards.length && (
+        {error && (
           <div className="text-red-500 mb-6 text-lg">
             Something went wrong, please reload.
           </div>
