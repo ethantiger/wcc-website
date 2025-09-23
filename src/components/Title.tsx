@@ -54,7 +54,7 @@ export default function Title() {
           <img src={wccLogo} alt="WCC Logo" className="relative w-30 md:w-40 top-10 md:top-2/12 mx-auto opacity-40" />
         </ParallaxLayer>
         <ParallaxLayer speed={isMobile ? 1 : 0.1}>
-          <h1 className="relative top-4/12 md:top-[50vh] translate-y-[-50%] z-10 mx-auto max-w-4xl text-center font-bold text-slate-700 text-6xl md:text-7xl dark:text-slate-300 py-4">
+          <h1 className="relative top-4/12 md:top-[50vh] translate-y-[-50%] z-10 mx-auto max-w-4xl text-center font-bold text-6xl md:text-7xl text-slate-300 py-4">
             <BouncingText text="Hey Crusher!" />
           </h1>
           <motion.p
