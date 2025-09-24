@@ -3,6 +3,7 @@ import BouncingText from "./ui/BouncingText";
 import { IconCaretUp, IconCaretDown } from "@tabler/icons-react";
 import AnimatedTestimonials from "./ui/Animated-testimonials";
 
+
 export default function About() {
   const [storyOpen, setStoryOpen] = useState(true);
   const [selectedTeam, setSelectedTeam] = useState<string>("President");
