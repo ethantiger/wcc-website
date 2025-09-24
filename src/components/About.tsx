@@ -3,6 +3,7 @@ import BouncingText from "./ui/BouncingText";
 import ExecCard from "./ui/execCards"; 
 
 export default function About() {
+  const [storyOpen, setStoryOpen] = useState(false);
   const [selectedTeam, setSelectedTeam] = useState<string>("President");
 
   const teams = [
@@ -70,31 +71,41 @@ export default function About() {
 
   return (
     <section id="about">
-      <div className="min-h-screen flex flex-col items-center justify-start bg-[#10091e] text-gray-800 dark:text-gray-200 p-6">
+      <div className="mb-12 flex flex-col items-center justify-start bg-[#10091e] text-gray-800 dark:text-gray-200 p-6">
         
         <h1 className="md:ms-4 text-3xl md:text-5xl font-bold mb-6 text-purple-300 text-center md:pt-30"> <BouncingText text="About Us" /> </h1>
 
         {/* Mission */}
-        <h2 className="text-2xl font-semibold text-purple-200 mb-3">Our Story</h2>
-        <p className="max-w-2xl text-center mb-4">
-          Hey Climbers! We’re so excited to welcome you to another incredible year with the Western Climbing Club! 
-          Since our very first meet-up in 2017, this community has grown into something truly special — all because of you. 
-          Your passion, your encouragement, and your adventurous spirit are what make this club feel like home. 
-        </p>
-        <p className="max-w-2xl text-center mb-4">
-          Over the past months, our exec team has been busy behind the scenes making this year the most unforgettable one yet. 
-          From friendly competitions and outdoor trips to skill-building sessions and late-night bouldering hangs, 
-          everything we’ve planned is here to support you — to help you push your limits, grow your skills, and connect with others who share your love for climbing. 
-        </p>
-        <p className="max-w-2xl text-center mb-4">
-          Whether you’ve been with us since our first rope nights or you’re just stepping onto the wall for the first time, 
-          we want this to be a place where you feel encouraged to challenge yourself, try new things, and share in the joy of reaching new heights. 
-          We can’t wait to see the memories we’ll make together this year. 
-          Here’s to another season of climbing, laughter, and adventure.  – Western Climbing Club Team
-        </p>
+        <h2 
+          className="text-2xl font-semibold text-purple-200 mb-3 cursor-pointer"
+          onClick={() => setStoryOpen(!storyOpen)}
+        >
+          Our Story {storyOpen ? "▲" : "▼"}
+        </h2>
+
+        {storyOpen && (
+          <>
+            <p className="max-w-2xl text-center mb-4">
+              Hey Climbers! We’re so excited to welcome you to another incredible year with the Western Climbing Club! 
+              Since our very first meet-up in 2017, this community has grown into something truly special — all because of you. 
+              Your passion, your encouragement, and your adventurous spirit are what make this club feel like home. 
+            </p>
+            <p className="max-w-2xl text-center mb-4">
+              Over the past months, our exec team has been busy behind the scenes making this year the most unforgettable one yet. 
+              From friendly competitions and outdoor trips to skill-building sessions and late-night bouldering hangs, 
+              everything we’ve planned is here to support you — to help you push your limits, grow your skills, and connect with others who share your love for climbing. 
+            </p>
+            <p className="max-w-2xl text-center mb-4">
+              Whether you’ve been with us since our first rope nights or you’re just stepping onto the wall for the first time, 
+              we want this to be a place where you feel encouraged to challenge yourself, try new things, and share in the joy of reaching new heights. 
+              We can’t wait to see the memories we’ll make together this year. 
+              Here’s to another season of climbing, laughter, and adventure.  – Western Climbing Club Team
+            </p>
+          </>
+        )}
 
         {/*Nav */}
-        <div className="mb-6 w-full">
+        <div className="mt-6 mb-6 w-full">
           <div className="flex flex-wrap justify-center gap-2 md:space-x-4">
             {teams.map((team) => (
               <button
