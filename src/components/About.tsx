@@ -1,7 +1,7 @@
 import { useState } from "react";
 import BouncingText from "./ui/BouncingText";
-import ExecCard from "./ui/execCards"; 
 import { IconCaretUp, IconCaretDown } from "@tabler/icons-react";
+import AnimatedTestimonials from "./ui/Animated-testimonials";
 
 export default function About() {
   const [storyOpen, setStoryOpen] = useState(true);
@@ -18,10 +18,10 @@ export default function About() {
     {
       name: "Communications",
       members: [
-        { name: "Carina Chan", role: "", img: "/execs/comms/Carina.jpg", 
-          bio: "Hi! I'm Carina and I'm in fourth year studying Psych and MIT. I love being outdoors, whether I'm climbing or sk8ing. I'm all about capturing fun moments and turning them into creativer photos and designs to share the club's best adventures!" },
         { name: "Caleb Chen", role: "VP", img: "/execs/comms/Caleb.jpg", 
           bio: "Hey everyone! I'm Caleb, I've been climbing for almost 2 years now. I love slopers, but slabs always humble me. Can't wait to see you all on climb nights!"},
+        { name: "Carina Chan", role: "", img: "/execs/comms/Carina.jpg", 
+          bio: "Hi! I'm Carina and I'm in fourth year studying Psych and MIT. I love being outdoors, whether I'm climbing or sk8ing. I'm all about capturing fun moments and turning them into creativer photos and designs to share the club's best adventures!" },
         { name: "Jiajun Chen", role: "", img: "/execs/comms/Jiajun.jpg", 
           bio: "Hi, I’m Jiajun — a third-year Medical Sciences student specializing in Physiology and Pharmacology. I’ve been climbing for a little over a year, mostly bouldering. Outside the gym, I’m into photography. Currently working on making it through a session without getting injured." },
         { name: "Kayleigh Gerritsen", role: "", img: "/execs/comms/Kayleigh.jpg", 
@@ -31,10 +31,10 @@ export default function About() {
     {
       name: "Events",
       members: [
-        { name: "Luna Olin", role: "", img: "/execs/events/Luna.jpg", 
-          bio: "Hi! My name is Luna Olin. I am currently a second year student studying Geography and Environment. I love spending time outdoors, going to concerts, and hanging out with my friends!" },
         { name: "Sophie DiCiacca", role: "VP", img: "/execs/events/Sophie.jpg", 
           bio: "Hey, my name is Sophie and I'm a second year in accounting. I used to be a competitive climber and coach!" },
+        { name: "Luna Olin", role: "", img: "/execs/events/Luna.jpg", 
+          bio: "Hi! My name is Luna Olin. I am currently a second year student studying Geography and Environment. I love spending time outdoors, going to concerts, and hanging out with my friends!" },
         { name: "Charlie Song", role: "", img: "/execs/events/Charlie.jpg", 
           bio: "Hey! I'm Charlie, I'm a 2nd year student studying finance. I've been bouldering for about 2 years now and I love crimps and dynos. I love spending time with friends, going outside, and snowboarding. I can't wait to meet you all at Junction!" },
       ]
@@ -50,19 +50,19 @@ export default function About() {
     {
       name: "Sponsorship",
       members: [
-        { name: "Jeremy Dai", role: "", img: "/execs/sponsor/Jeremy.jpg", 
-          bio: "Hey! I'm Jeremy, a second year in med sci. I'm relatively new to climbing, having just over a year under my belt, but I'm already hooked. Apart from climbing, I enjoy folding origami and sharing what I make on my Instagram account. Hope to see you on the wall!" },
         { name: "Marshall Howard", role: "", img: "/execs/sponsor/Marshall.jpg", 
           bio: "Hi! I'm Marshall and I'm a second year psychology major with a minor in ethics! I've been climbing for about 3-ish years now, and it's one of my fav ways to pass the time! Aside from climbing, I also like to train triathalon, read, and binge watch shows!" },
+        { name: "Jeremy Dai", role: "", img: "/execs/sponsor/Jeremy.jpg", 
+          bio: "Hey! I'm Jeremy, a second year in med sci. I'm relatively new to climbing, having just over a year under my belt, but I'm already hooked. Apart from climbing, I enjoy folding origami and sharing what I make on my Instagram account. Hope to see you on the wall!" },
       ]
     },
     {
       name: "Web Devs",
       members: [
-        { name: "Jenni Shi", role: "", img: "/execs/web/Jen.jpg", 
-          bio: "Hey guys! I'm Jen, a 4th-year Software Engineering student. I've been bouldering for around 2 years, but I dabble in top rope occasionally. You’ll probably catch me eating, thrifting, or crimping some wall on campus >:)" },
         { name: "Ethan Wakefield", role: "VP", img: "/execs/web/Ethan.jpg", 
           bio: "Hey! I’m Ethan, a 4th year computer science student and the VP of web development. I’ve been climbing consistently for a few months and I’m completely hooked. I also enjoy going to the gym, playing games, watching movies, and sleeping. Looking forward to meeting new faces and climbing with yall!" },
+        { name: "Jenni Shi", role: "", img: "/execs/web/Jen.jpg", 
+          bio: "Hey guys! I'm Jen, a 4th-year Software Engineering student. I've been bouldering for around 2 years, but I dabble in top rope occasionally. You’ll probably catch me eating, thrifting, or crimping some wall on campus >:)" },
         { name: "Ryhana Williams", role: "", img: "/execs/web/Ryhana.jpg", 
           bio: "Hi! My name is Ryhana. I'm in my 2nd year of cs and I love to go thrifting, stay active and try new cafes." },
       ]
@@ -71,7 +71,7 @@ export default function About() {
 
   return (
     <section id="about">
-      <div className="mb-12 flex flex-col items-center justify-start bg-[#10091e] text-gray-800 dark:text-gray-200 p-6">
+      <div className="mb-12 flex flex-col items-center justify-start bg-[#10091e] text-gray-200 p-6">
         
         <h1 className="md:ms-4 text-3xl md:text-5xl font-bold mb-6 text-purple-300 text-center md:pt-30"> <BouncingText text="About Us" /> </h1>
 
@@ -104,7 +104,7 @@ export default function About() {
               Whether you’ve been with us since our first rope nights or you’re just stepping onto the wall for the first time, 
               we want this to be a place where you feel encouraged to challenge yourself, try new things, and share in the joy of reaching new heights. 
               We can’t wait to see the memories we’ll make together this year. 
-              Here’s to another season of climbing, laughter, and adventure.  – Western Climbing Club Team
+              Here’s to another season of climbing, laughter, and adventure. – Western Climbing Club Team
             </p>
           </>
         )}
@@ -131,21 +131,16 @@ export default function About() {
           {teams
             .filter((team) => team.name === selectedTeam) // show selected team
             .map((team) => (
-              <div key={team.name} className="flex justify-center">
-          <div className="text-center w-full">
-            <h2 className="text-2xl font-semibold text-purple-200 mb-6">{team.name}</h2>
-            <div className="flex flex-wrap justify-center items-stretch gap-4 md:gap-6">
-              {team.members.map((member) => (
-                <ExecCard
-            key={member.name}
-            name={member.name}
-            role={member.role}
-            img={member.img}
-            bio={member.bio}
+              <div key={team.name} className="flex flex-col items-center">
+
+                <AnimatedTestimonials
+                  testimonials={team.members.map((member) => ({
+                    quote: member.bio,
+                    name: member.name,
+                    designation: member.role,
+                    src: member.img,
+                  }))}
                 />
-              ))}
-            </div>
-          </div>
               </div>
             ))}
         </div>
