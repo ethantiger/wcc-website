@@ -13,7 +13,14 @@ html {
   font-family: 'BodoniFLF Regular';
   font-style: normal;
   font-weight: normal;
-  src: local('BodoniFLF Regular'), url('BodoniFLF-Roman.woff') format('woff');
+  src: local('BodoniFLF Regular'), url('/fonts/BodoniFLF-Roman.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'BodoniFLF Regular';
+  font-style: normal;
+  font-weight: bold;
+  src: local('BodoniFLF Bold'), url('/fonts/BodoniFLF-Bold.ttf') format('truetype');
 }
 
 @font-face {
