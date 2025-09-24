@@ -88,29 +88,44 @@ export default function About() {
           )}
         </h2>
 
-        {storyOpen && (
-          <>
-            <p className="max-w-2xl text-center mb-4">
-              Hey Climbers! We’re so excited to welcome you to another incredible year with the Western Climbing Club! 
-              Since our very first meet-up in 2017, this community has grown into something truly special — all because of you. 
-              Your passion, your encouragement, and your adventurous spirit are what make this club feel like home. 
-            </p>
-            <p className="max-w-2xl text-center mb-4">
-              Over the past months, our exec team has been busy behind the scenes making this year the most unforgettable one yet. 
-              From friendly competitions and outdoor trips to skill-building sessions and late-night bouldering hangs, 
-              everything we’ve planned is here to support you — to help you push your limits, grow your skills, and connect with others who share your love for climbing. 
-            </p>
-            <p className="max-w-2xl text-center mb-4">
-              Whether you’ve been with us since our first rope nights or you’re just stepping onto the wall for the first time, 
-              we want this to be a place where you feel encouraged to challenge yourself, try new things, and share in the joy of reaching new heights. 
-              We can’t wait to see the memories we’ll make together this year. 
-              Here’s to another season of climbing, laughter, and adventure. – Western Climbing Club Team
-            </p>
-          </>
-        )}
+   {storyOpen && (
+    <div className="mt-6 w-full flex flex-col md:flex-row items-center md:items-start md:space-x-8 max-w-5xl mx-auto px-4">
+      {/* Text */}
+      <div className="flex-1">
+        <p className="max-w-2xl mb-4 text-sm">
+          Hey Climbers! We’re so excited to welcome you to another incredible year with the Western Climbing Club! 
+          Since our very first meet-up in 2017, this community has grown into something truly special — all because of you. 
+          Your passion, your encouragement, and your adventurous spirit are what make this club feel like home. 
+        </p>
+        <p className="max-w-2xl mb-4 text-sm">
+          Over the past months, our exec team has been busy behind the scenes making this year the most unforgettable one yet. 
+          From friendly competitions and outdoor trips to skill-building sessions and late-night bouldering hangs, 
+          everything we’ve planned is here to support you — to help you push your limits, grow your skills, and connect with others who share your love for climbing. 
+        </p>
+        <p className="max-w-2xl mb-4 text-sm">
+          Whether you’ve been with us since our first rope nights or you’re just stepping onto the wall for the first time, 
+          we want this to be a place where you feel encouraged to challenge yourself, try new things, and share in the joy of reaching new heights. 
+          We can’t wait to see the memories we’ll make together this year. 
+          Here’s to another season of climbing, laughter, and adventure. 
+        </p>
+        <p className="max-w-2xl mb-4 text-sm">
+          – Western Climbing Club Team
+        </p>
+      </div>
 
-        {/*Nav */}
-        <div className="mt-6 mb-6 w-full">
+      {/* Team Photo */}
+      <div className="flex-1 flex justify-center mt-6 md:mt-0">
+        <img
+          src="/execs/team.jpg"
+          alt="Our Team"
+          className="rounded-2xl shadow-lg max-w-full h-auto"
+        />
+      </div>
+    </div>
+  )}
+
+        {/*Nav*/}
+        <div className="mt-6 w-full">
           <div className="flex flex-wrap justify-center gap-2 md:space-x-4">
             {teams.map((team) => (
               <button
