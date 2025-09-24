@@ -1,9 +1,10 @@
 import { useState } from "react";
 import BouncingText from "./ui/BouncingText";
 import ExecCard from "./ui/execCards"; 
+import { IconCaretUp, IconCaretDown } from "@tabler/icons-react";
 
 export default function About() {
-  const [storyOpen, setStoryOpen] = useState(false);
+  const [storyOpen, setStoryOpen] = useState(true);
   const [selectedTeam, setSelectedTeam] = useState<string>("President");
 
   const teams = [
@@ -42,7 +43,6 @@ export default function About() {
       name: "Finance",
       members: [
         { name: "Isa Dahya", role: "", img: "/execs/finance/Isa.jpg", bio: "Hi! I'm Isa and I'm in 4th year HSP physharm. Surprisingly I also like climbing especially indoor bouldering. I got 2 pet cats and I also enjoy biking. If you ever need any med sci advice feel free to contact :)" },
-        { name: "Robert Shen", role: "Ex-VP", img: "/execs/finance/Robert.jpg", bio: "Hey guys, I'm your (ex)VP Finance!! I'm around (sometimes). If you see me at climb nights come say hi :D" },
         { name: "Noah Medland", role: "", img: "/execs/finance/Noah.jpg", 
           bio: "Hey guys, I'm a third-year finance student with a passion for adventure. Outside the classroom, I thrive on mountain climbing, skydiving, and bungee jumping - activities that fuel my drive for challenge, focus, and resilience." },
       ]
@@ -76,11 +76,16 @@ export default function About() {
         <h1 className="md:ms-4 text-3xl md:text-5xl font-bold mb-6 text-purple-300 text-center md:pt-30"> <BouncingText text="About Us" /> </h1>
 
         {/* Mission */}
-        <h2 
-          className="text-2xl font-semibold text-purple-200 mb-3 cursor-pointer"
+        <h2
+          className="text-2xl font-semibold text-purple-200 mb-3 cursor-pointer flex items-center"
           onClick={() => setStoryOpen(!storyOpen)}
         >
-          Our Story {storyOpen ? "▲" : "▼"}
+          Our Story 
+          {storyOpen ? (
+            <IconCaretUp className="ml-2" size={20} />
+          ) : (
+            <IconCaretDown className="ml-2" size={20} />
+          )}
         </h2>
 
         {storyOpen && (
