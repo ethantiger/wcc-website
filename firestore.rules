@@ -1,9 +1,18 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    match /events_test/{eventId} {
+      allow read;
+      allow create, update, delete: if request.auth != null && request.auth.uid == "YFJw0QC8QRTC0qiiZH6rSiD8Rkg2";
+    }
+
+    match /events_prod/{eventId} {
+      allow read;
+      allow create, update, delete: if request.auth != null && request.auth.uid == "YFJw0QC8QRTC0qiiZH6rSiD8Rkg2";
+    }
+
     match /{document=**} {
       allow read;
-      allow create, delete, update: if request.auth != null;
     }
   }
 }
