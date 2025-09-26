@@ -79,9 +79,13 @@ function TiltCard({
             </li>
           ))}
         </ul>
-        <button className="w-full py-3 rounded-xl bg-gradient-to-r from-purple-500 via-fuchsia-500 to-purple-600 text-white font-semibold shadow-lg hover:shadow-purple-500/30 hover:from-fuchsia-600 hover:to-purple-500 transition-all duration-300 transform hover:scale-105">
+        <a
+          target="_blank"
+          href="https://westernusc.store/product/wcc-climb-night-pass/"
+          className="w-full py-3 rounded-xl bg-gradient-to-r from-purple-500 via-fuchsia-500 to-purple-600 text-white font-semibold shadow-lg hover:shadow-purple-500/30 hover:from-fuchsia-600 hover:to-purple-500 transition-all duration-300 transform hover:scale-105 flex justify-center items-center"
+        >
           {button}
-        </button>
+        </a>
       </div>
     </div>
   );
