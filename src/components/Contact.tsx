@@ -1,4 +1,4 @@
-import { IconBrandDiscord, IconBrandInstagram, IconTree, IconMail, IconMessageCircle, IconHelp, IconPlus, IconMinus } from "@tabler/icons-react";
+import { IconBrandDiscord, IconBrandInstagram, IconMail, IconMessageCircle, IconHelp, IconPlus, IconMinus } from "@tabler/icons-react";
 import BouncingText from "./ui/BouncingText";
 import { useState } from "react";
 
@@ -170,19 +170,6 @@ export default function Contact() {
                   <IconBrandInstagram size={36} color="white" />
                 </div>
                 <span className="text-purple-200 font-medium group-hover:text-white transition-colors duration-300">Instagram</span>
-              </a>
-              
-              <a
-                href="https://linktr.ee/westernclimbingclub?fbclid=PAZXh0bgNhZW0CMTEAAacbBuTURLLWFg-On2lXv-9Mwb1wq2U07HZCGJbf_btCImc_YGRqo3YWz3QKHw_aem_UoJRo2Q0GtdCEqHvgyMwoA"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group flex flex-col items-center p-6 bg-gray-800/30 backdrop-blur-sm hover:bg-gray-700/40 rounded-2xl border border-purple-300/20 hover:border-purple-300/50 transition-all duration-300 hover:scale-110 hover:shadow-2xl hover:shadow-green-500/20"
-                aria-label="Linktree"
-              >
-                <div className="w-18 h-18 flex items-center justify-center bg-gradient-to-br from-green-600 to-green-500 rounded-2xl shadow-lg mb-4 group-hover:shadow-xl group-hover:scale-110 transition-all duration-300">
-                  <IconTree size={36} color="white" />
-                </div>
-                <span className="text-purple-200 font-medium group-hover:text-white transition-colors duration-300">Linktree</span>
               </a>
             </div>
           </div>
