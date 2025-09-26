@@ -5,6 +5,7 @@ import Events from '@/components/Events'
 // import Sponsors from '@/components/Sponsors'
 // import Resources from '@/components/Resources'
 import Contact from '@/components/Contact'
+import Pricing from '@/components/Pricing'
 
 export default function Homepage() {
   return (
@@ -12,6 +13,7 @@ export default function Homepage() {
       <Title />
       <About />
       <Events />
+      <Pricing />
       {/* <History /> */}
       {/* <Sponsors /> */}
       {/* <Resources /> */}

@@ -9,6 +9,7 @@ import wccLogo from "@/assets/WCC-logo-symbol.png";
 const navLinks = [
   { name: "About", href: "#about" },
   { name: "Events", href: "#events" },
+  { name: "Pricing", href: "#pricing" },
   // { name: "History", href: "#history" },
   { name: "Contact", href: "#contact" },
 ];
@@ -27,10 +28,10 @@ const Navbar: React.FC = () => {
   return (
     <nav className="fixed left-4 md:left-1/2 md:top-4 md:transform md:-translate-x-1/2 z-50 w-auto flex justify-center bottom-4 md:bottom-auto">
       <div
-        className={`bg-black shadow-lg rounded-xl transition-all duration-300 flex flex-col items-center md:flex-row md:justify-center ${
+        className={`bg-black/80 backdrop-blur-md shadow-2xl rounded-xl border border-purple-500/20 transition-all duration-300 flex flex-col items-center md:flex-row md:justify-center ${
           open
-            ? "px-6 py-3 justify-center md:items-center"
-            : "md:rounded-full px-6 py-3"
+            ? "px-6 py-3 justify-center md:items-center shadow-purple-500/20"
+            : "md:rounded-full px-6 py-3 hover:border-purple-400/40"
         }`}
       >
         {/* Nav links: always visible on md+, toggled on <md */}
@@ -43,9 +44,9 @@ const Navbar: React.FC = () => {
             <Link
               to="/"
               onClick={() => {window.scrollTo({ top: 0 })}}
-              className="block px-6 py-3 rounded-full text-white font-medium hover:bg-gray-700 transition-colors duration-200 text-center hover:cursor-pointer"
+              className="block px-6 py-3 rounded-full text-white font-medium hover:bg-gradient-to-r hover:from-purple-600/30 hover:to-fuchsia-600/30 transition-all duration-200 text-center hover:cursor-pointer group"
             >
-              <img src={wccLogo} alt="WCC Logo" className="h-6 mx-auto" />
+              <img src={wccLogo} alt="WCC Logo" className="h-6 mx-auto group-hover:scale-110 transition-transform duration-200" />
             </Link>
             </li>
           {navLinks.map((link) => (
@@ -53,7 +54,7 @@ const Navbar: React.FC = () => {
               <a
                 href={link.href}
                 onClick={handleLinkClick}
-                className="block px-6 py-3 rounded-full text-white font-medium hover:bg-gray-700 transition-colors duration-200 text-center hover:cursor-pointer"
+                className="block px-6 py-3 rounded-full text-white font-medium hover:bg-gradient-to-r hover:from-purple-600/30 hover:to-fuchsia-600/30 hover:text-purple-100 transition-all duration-200 text-center hover:cursor-pointer"
               >
                 {link.name}
               </a>
@@ -64,14 +65,14 @@ const Navbar: React.FC = () => {
               {user ? (
                 <Link
                   to="/dashboard/carpool"
-                  className="block px-6 py-3 rounded-full text-black bg-amber-50 font-medium hover:bg-gray-400 transition-colors duration-200 text-center"
+                  className="block px-6 py-3 rounded-full text-black bg-gradient-to-r from-amber-50 to-yellow-100 font-medium hover:from-amber-100 hover:to-yellow-200 hover:shadow-lg transition-all duration-200 text-center"
                 >
                   Dashboard
                 </Link>
               ) : (
                 <Link
                   to="/login"
-                  className="block px-6 py-3 rounded-full text-black bg-amber-50 font-medium hover:bg-gray-400 transition-colors duration-200 text-center"
+                  className="block px-6 py-3 rounded-full text-black bg-gradient-to-r from-amber-50 to-yellow-100 font-medium hover:from-amber-100 hover:to-yellow-200 hover:shadow-lg transition-all duration-200 text-center"
                 >
                   Login
                 </Link>
@@ -81,11 +82,13 @@ const Navbar: React.FC = () => {
         </ul>
         {/* Hamburger button for <md screens */}
         <button
-          className={`md:hidden w-full flex flex-col justify-center items-center px-6 py-3 rounded-full bg-transparent text-white focus:outline-none shadow-none transition-colors duration-200 hover:bg-gray-800 ${open ? 'mt-3': ''}`}
+          className={`md:hidden w-full flex flex-col justify-center items-center px-6 py-3 rounded-full bg-transparent text-white focus:outline-none shadow-none transition-all duration-200 hover:bg-gradient-to-r hover:from-purple-600/20 hover:to-fuchsia-600/20 ${open ? 'mt-3': ''}`}
           onClick={() => setOpen((prev) => !prev)}
           aria-label="Toggle navigation"
         >
-          {open ? <IconX /> : <IconMenu2 />}
+          <div className={`transition-transform duration-300 ${open ? 'rotate-180' : ''}`}>
+            {open ? <IconX /> : <IconMenu2 />}
+          </div>
         </button>
       </div>
     </nav>

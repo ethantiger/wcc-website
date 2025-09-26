@@ -1,4 +1,4 @@
-import { IconBrandDiscord, IconBrandInstagram, IconTree, IconMail, IconMessageCircle, IconHelp, IconPlus, IconMinus } from "@tabler/icons-react";
+import { IconBrandDiscord, IconBrandInstagram, IconMail, IconMessageCircle, IconHelp, IconPlus, IconMinus } from "@tabler/icons-react";
 import BouncingText from "./ui/BouncingText";
 import { useState } from "react";
 
@@ -50,24 +50,26 @@ export default function Contact() {
 
   return (
     <section id="contact">
-      <div className="min-h-screen flex flex-col items-center justify-center bg-[#10091e] text-gray-800 dark:text-gray-200 p-6">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-bl from-[#10091e] via-[#1a0d2e] to-[#0f0820] text-gray-800 dark:text-gray-200 p-6 relative overflow-hidden">
         <h1 className="text-center text-3xl md:text-5xl font-bold mb-6 text-purple-300">
           <BouncingText text="Contact Us" />
         </h1>
         
         {/* Contact Information */}
-        <div className="max-w-4xl w-full space-y-8">
+        <div className="max-w-4xl w-full space-y-8 relative z-10">
           {/* General Questions */}
-          <div className="bg-gray-800/50 rounded-lg p-6 border border-purple-300/20">
+          <div className="bg-gray-800/30 backdrop-blur-sm rounded-2xl p-6 border border-purple-300/20 hover:border-purple-400/40 transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/10 group">
             <div className="flex items-center mb-4">
-              <IconMail className="text-purple-300 mr-3" size={24} />
-              <h2 className="text-xl font-semibold text-purple-200">General Questions</h2>
+              <div className="p-2 rounded-lg bg-purple-500/20 mr-4 group-hover:bg-purple-500/30 transition-colors duration-300">
+                <IconMail className="text-purple-300" size={24} />
+              </div>
+              <h2 className="text-xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-purple-200 to-fuchsia-200">General Questions</h2>
             </div>
-            <p className="text-gray-300">
+            <p className="text-gray-200 leading-relaxed">
               For general questions about the club, events, or membership, reach out to us at{" "}
               <a 
                 href="mailto:climbing.club@westernusc.ca" 
-                className="text-purple-300 hover:text-purple-200 transition-colors font-medium"
+                className="text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-fuchsia-300 hover:from-fuchsia-300 hover:to-purple-300 transition-all duration-300 font-medium underline decoration-purple-400/50 hover:decoration-purple-300"
               >
                 climbing.club@westernusc.ca
               </a>
@@ -75,18 +77,20 @@ export default function Contact() {
           </div>
 
           {/* Instagram Contact */}
-          <div className="bg-gray-800/50 rounded-lg p-6 border border-purple-300/20">
+          <div className="bg-gray-800/30 backdrop-blur-sm rounded-2xl p-6 border border-purple-300/20 hover:border-purple-400/40 transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/10 group">
             <div className="flex items-center mb-4">
-              <IconMessageCircle className="text-purple-300 mr-3" size={24} />
-              <h2 className="text-xl font-semibold text-purple-200">Quick Contact</h2>
+              <div className="p-2 rounded-lg bg-purple-500/20 mr-4 group-hover:bg-purple-500/30 transition-colors duration-300">
+                <IconMessageCircle className="text-purple-300" size={24} />
+              </div>
+              <h2 className="text-xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-purple-200 to-fuchsia-200">Quick Contact</h2>
             </div>
-            <p className="text-gray-300">
+            <p className="text-gray-200 leading-relaxed">
               For quick questions and updates, contact us through our Instagram DMs at{" "}
               <a 
                 href="https://www.instagram.com/westernclimbingclub/" 
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-purple-300 hover:text-purple-200 transition-colors font-medium"
+                className="text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-fuchsia-300 hover:from-fuchsia-300 hover:to-purple-300 transition-all duration-300 font-medium underline decoration-purple-400/50 hover:decoration-purple-300"
               >
                 @westernclimbingclub
               </a>
@@ -94,27 +98,29 @@ export default function Contact() {
           </div>
 
           {/* FAQ Section */}
-          <div className="bg-gray-800/50 rounded-lg p-6 border border-purple-300/20">
+          <div className="bg-gray-800/30 backdrop-blur-sm rounded-2xl p-6 border border-purple-300/20 hover:border-purple-400/40 transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/10">
             <div className="flex items-center mb-6">
-              <IconHelp className="text-purple-300 mr-3" size={24} />
-              <h2 className="text-2xl font-semibold text-purple-200">Frequently Asked Questions</h2>
+              <div className="p-2 rounded-lg bg-purple-500/20 mr-4">
+                <IconHelp className="text-purple-300" size={24} />
+              </div>
+              <h2 className="text-2xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-purple-200 to-fuchsia-200">Frequently Asked Questions</h2>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 auto-rows-min">
               {faqData.map((item, index) => (
-                <div key={index} className="bg-gray-700/30 rounded-lg border border-purple-300/10 self-start">
+                <div key={index} className="bg-gray-700/20 backdrop-blur-sm rounded-xl border border-purple-300/10 hover:border-purple-300/30 self-start transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/10">
                   <button
                     onClick={() => toggleItem(index)}
-                    className="w-full px-4 py-3 text-left flex items-center justify-between hover:bg-gray-600/30 transition-colors duration-200 rounded-lg"
+                    className="w-full px-4 py-3 text-left flex items-center justify-between hover:bg-gray-600/20 transition-colors duration-200 rounded-xl group"
                   >
-                    <span className="text-purple-200 font-medium text-sm md:text-base">
+                    <span className="text-purple-200 font-medium text-sm md:text-base group-hover:text-purple-100 transition-colors duration-200">
                       {item.question}
                     </span>
                     <div className="ml-3 flex-shrink-0">
                       {openItems.includes(index) ? (
-                        <IconMinus className="text-purple-300 transition-transform duration-500 ease-in-out" size={20} />
+                        <IconMinus className="text-purple-300 group-hover:text-purple-200 transition-all duration-300 ease-in-out transform group-hover:scale-110" size={20} />
                       ) : (
-                        <IconPlus className="text-purple-300 transition-transform duration-500 ease-in-out" size={20} />
+                        <IconPlus className="text-purple-300 group-hover:text-purple-200 transition-all duration-300 ease-in-out transform group-hover:scale-110" size={20} />
                       )}
                     </div>
                   </button>
@@ -126,7 +132,7 @@ export default function Contact() {
                     }`}
                   >
                     <div className="px-4 pb-4 pt-2">
-                      <p className="text-gray-300 text-sm md:text-base leading-relaxed">
+                      <p className="text-gray-200 text-sm md:text-base leading-relaxed">
                         {item.answer}
                       </p>
                     </div>
@@ -138,45 +144,32 @@ export default function Contact() {
 
           {/* Social Media Links */}
           <div className="text-center">
-            <h2 className="text-2xl font-semibold text-purple-200 mb-6">Connect With Us</h2>
-            <div className="flex flex-wrap justify-center gap-6">
+            <h2 className="text-2xl font-semibold text-transparent bg-clip-text bg-gradient-to-r from-purple-200 to-fuchsia-200 mb-8">Connect With Us</h2>
+            <div className="flex flex-wrap justify-center gap-8">
               <a
                 href="https://discord.com/invite/8vjZAzeECQ"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex flex-col items-center p-4 bg-gray-800/50 hover:bg-gray-700/50 rounded-lg border border-purple-300/20 hover:border-purple-300/40 transition-all duration-200 hover:scale-105"
+                className="group flex flex-col items-center p-6 bg-gray-800/30 backdrop-blur-sm hover:bg-gray-700/40 rounded-2xl border border-purple-300/20 hover:border-purple-300/50 transition-all duration-300 hover:scale-110 hover:shadow-2xl hover:shadow-blue-500/20"
                 aria-label="Discord"
               >
-                <div className="w-16 h-16 flex items-center justify-center bg-[#5865F2] rounded-lg shadow mb-3 group-hover:shadow-lg transition-shadow">
-                  <IconBrandDiscord size={32} color="white" />
+                <div className="w-18 h-18 flex items-center justify-center bg-gradient-to-br from-[#5865F2] to-[#4752C4] rounded-2xl shadow-lg mb-4 group-hover:shadow-xl group-hover:scale-110 transition-all duration-300">
+                  <IconBrandDiscord size={36} color="white" />
                 </div>
-                <span className="text-purple-200 font-medium">Discord</span>
+                <span className="text-purple-200 font-medium group-hover:text-white transition-colors duration-300">Discord</span>
               </a>
               
               <a
                 href="https://www.instagram.com/westernclimbingclub/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex flex-col items-center p-4 bg-gray-800/50 hover:bg-gray-700/50 rounded-lg border border-purple-300/20 hover:border-purple-300/40 transition-all duration-200 hover:scale-105"
+                className="group flex flex-col items-center p-6 bg-gray-800/30 backdrop-blur-sm hover:bg-gray-700/40 rounded-2xl border border-purple-300/20 hover:border-purple-300/50 transition-all duration-300 hover:scale-110 hover:shadow-2xl hover:shadow-pink-500/20"
                 aria-label="Instagram"
               >
-                <div className="w-16 h-16 flex items-center justify-center bg-gradient-to-tr from-pink-500 via-red-500 to-yellow-500 rounded-lg shadow mb-3 group-hover:shadow-lg transition-shadow">
-                  <IconBrandInstagram size={32} color="white" />
+                <div className="w-18 h-18 flex items-center justify-center bg-gradient-to-br from-pink-500 via-red-500 to-yellow-500 rounded-2xl shadow-lg mb-4 group-hover:shadow-xl group-hover:scale-110 transition-all duration-300">
+                  <IconBrandInstagram size={36} color="white" />
                 </div>
-                <span className="text-purple-200 font-medium">Instagram</span>
-              </a>
-              
-              <a
-                href="https://linktr.ee/westernclimbingclub?fbclid=PAZXh0bgNhZW0CMTEAAacbBuTURLLWFg-On2lXv-9Mwb1wq2U07HZCGJbf_btCImc_YGRqo3YWz3QKHw_aem_UoJRo2Q0GtdCEqHvgyMwoA"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group flex flex-col items-center p-4 bg-gray-800/50 hover:bg-gray-700/50 rounded-lg border border-purple-300/20 hover:border-purple-300/40 transition-all duration-200 hover:scale-105"
-                aria-label="Linktree"
-              >
-                <div className="w-16 h-16 flex items-center justify-center bg-green-600 rounded-lg shadow mb-3 group-hover:shadow-lg transition-shadow">
-                  <IconTree size={32} color="white" />
-                </div>
-                <span className="text-purple-200 font-medium">Linktree</span>
+                <span className="text-purple-200 font-medium group-hover:text-white transition-colors duration-300">Instagram</span>
               </a>
             </div>
           </div>
