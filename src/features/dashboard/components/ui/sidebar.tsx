@@ -87,7 +87,7 @@ export const DesktopSidebar = ({
     <>
       <motion.div
         className={cn(
-          "h-full px-4 py-4 hidden  md:flex md:flex-col bg-neutral-100 dark:bg-neutral-800 w-[300px] shrink-0",
+          "h-full px-4 py-4 hidden  md:flex md:flex-col bg-gradient-to-br from-slate-50/90 via-white/80 to-indigo-50/60 dark:bg-gradient-to-br dark:from-slate-900/90 dark:via-slate-800/80 dark:to-indigo-950/60 dark:border-slate-700/50 w-[300px] shrink-0",
           className
         )}
         animate={{
@@ -113,7 +113,7 @@ export const MobileSidebar = ({
     <>
       <div
         className={cn(
-          "h-10 px-4 py-4 flex flex-row md:hidden  items-center justify-between bg-neutral-100 dark:bg-neutral-800 w-full"
+          "h-10 px-4 py-4 flex flex-row md:hidden  items-center justify-between bg-gradient-to-br from-slate-50/90 via-white/80 to-indigo-50/60 dark:bg-gradient-to-br dark:from-slate-900/90 dark:via-slate-800/80 dark:to-indigo-950/60 dark:border-slate-700/50 w-full"
         )}
         {...props}
       >
@@ -134,7 +134,7 @@ export const MobileSidebar = ({
                 ease: "easeInOut",
               }}
               className={cn(
-                "fixed h-full w-full inset-0 bg-white dark:bg-neutral-900 p-10 z-[100] flex flex-col justify-between",
+                "fixed h-full w-full inset-0 bg-gradient-to-br from-slate-50/90 via-white/80 to-indigo-50/60 dark:bg-gradient-to-br dark:from-slate-900/90 dark:via-slate-800/80 dark:to-indigo-950/60 dark:border-slate-700/50 p-10 z-[100] flex flex-col justify-between",
                 className
               )}
             >
