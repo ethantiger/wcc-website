@@ -3,7 +3,8 @@ import { useDocument } from "@/hooks/useDocument";
 import collections from "@/firebase/collections";
 import CarpoolPost from "../interfaces/CarpoolPost";
 import { CarpoolStatusEnum } from "../enums/CarpoolStatusEnum";
-import { IconArrowLeft, IconCalendar, IconUser, IconUsers, IconMapPin, IconClock } from "@tabler/icons-react";
+import { IconArrowLeft, IconCalendar, IconUser, IconUsers, IconMapPin, IconClock, IconFileText } from "@tabler/icons-react";
+import { convertTimestampToDate } from "@/utils/firebaseDateConvert";
 
 export default function CarpoolDetails() {
   const { id } = useParams<{ id: string }>();
@@ -131,7 +132,7 @@ export default function CarpoolDetails() {
                 
                 <div className="text-center">
                   <p className="text-sm text-slate-500 dark:text-slate-400 mb-1">To</p>
-                  <p className="font-semibold text-slate-800 dark:text-slate-100 text-lg">Junction Climbing</p>
+                  <p className="font-semibold text-slate-800 dark:text-slate-100 text-lg">{carpoolData.destination}</p>
                 </div>
               </div>
             </div>
@@ -151,12 +152,7 @@ export default function CarpoolDetails() {
                   <div>
                     <p className="text-sm text-slate-500 dark:text-slate-400">Date</p>
                     <p className="font-medium text-slate-800 dark:text-slate-100">
-                      {new Date(carpoolData.targetDate).toLocaleDateString('en-US', { 
-                        weekday: 'long',
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
-                      })}
+                      {convertTimestampToDate(carpoolData.targetDate).date}
                     </p>
                   </div>
                 </div>
@@ -166,13 +162,26 @@ export default function CarpoolDetails() {
                   <div>
                     <p className="text-sm text-slate-500 dark:text-slate-400">Time</p>
                     <p className="font-medium text-slate-800 dark:text-slate-100">
-                      {new Date(carpoolData.targetDate).toLocaleTimeString('en-US', { 
-                        hour: '2-digit',
-                        minute: '2-digit'
-                      })}
+                      {convertTimestampToDate(carpoolData.targetDate).time}
                     </p>
                   </div>
                 </div>
+              </div>
+            </div>
+
+            {/* Description */}
+            <div className="bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-200/60 p-6 shadow-lg dark:bg-slate-800/80 dark:border-slate-700/60">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="p-2 rounded-lg bg-teal-500/20">
+                  <IconFileText className="text-teal-600 dark:text-teal-400" size={24} />
+                </div>
+                <h2 className="text-xl font-semibold text-slate-800 dark:text-slate-100">Description</h2>
+              </div>
+              
+              <div className="prose prose-slate dark:prose-invert max-w-none">
+                <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
+                  {carpoolData.description || "No additional details provided for this carpool."}
+                </p>
               </div>
             </div>
 

@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import CarpoolPost from "../interfaces/CarpoolPost";
+import { convertTimestampToDate } from "@/utils/firebaseDateConvert";
 
 export default function Carpool({ carpools }: { carpools: CarpoolPost[] | null }) {
   return (
@@ -35,7 +36,7 @@ export default function Carpool({ carpools }: { carpools: CarpoolPost[] | null }
                           </h2>
                           <p className="text-sm text-slate-500 dark:text-slate-400 flex items-center gap-1">
                             <span>→</span>
-                            <span className="font-medium">Junction Climbing</span>
+                            <span className="font-medium">{doc.destination}</span>
                           </p>
                         </div>
                         <div className="flex flex-col items-end gap-2">
@@ -55,7 +56,7 @@ export default function Carpool({ carpools }: { carpools: CarpoolPost[] | null }
                         <div className="flex items-center gap-2">
                           <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
                           <span className="text-sm text-slate-600 dark:text-slate-300">
-                            <span className="font-medium">Date:</span> {new Date(doc.targetDate).toLocaleDateString()}
+                            <span className="font-medium">Date:</span> {convertTimestampToDate(doc.targetDate).date}
                           </span>
                         </div>
                       </div>
