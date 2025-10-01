@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import CarpoolPost from "../interfaces/CarpoolPost";
 import { convertTimestampToDate } from "@/utils/firebaseDateConvert";
-import { useDocument } from "@/hooks/useDocument";
 import User from "../interfaces/User";
 import collections from "@/firebase/collections";
+import { useCachedDocument } from "@/hooks/useCachedDocument";
 
 export default function Carpool({ carpools }: { carpools: CarpoolPost[] | null }) {
   return (
@@ -23,7 +23,7 @@ export default function Carpool({ carpools }: { carpools: CarpoolPost[] | null }
             {carpools ? (
               carpools.length > 0 ? (
                 carpools.map((doc) => {
-                  const { document: user } = useDocument<User>(collections.usersCollection, doc.userId);
+                  const { document: user } = useCachedDocument<User>(collections.usersCollection, doc.userId);
                   return (
                   <div
                     key={doc.id}
