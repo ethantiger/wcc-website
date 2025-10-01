@@ -13,9 +13,7 @@ export default function CarpoolDetails() {
     carpool,
     user,
     carpoolLoading,
-    userLoading,
     carpoolError,
-    userError
   } = useCarpoolWithUser(id || "");
 
   if (carpoolError) {
