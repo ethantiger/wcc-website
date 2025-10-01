@@ -11,6 +11,11 @@ service cloud.firestore {
       allow create, update, delete: if request.auth != null && request.auth.uid == "YFJw0QC8QRTC0qiiZH6rSiD8Rkg2";
     }
 
+    match /users/{userId} {
+      allow read;
+      allow create: if request.auth != null;
+    }
+
     match /{document=**} {
       allow read;
     }
