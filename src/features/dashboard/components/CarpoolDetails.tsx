@@ -1,7 +1,5 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { useDocument } from "@/hooks/useDocument";
-import collections from "@/firebase/collections";
-import CarpoolPost from "../interfaces/CarpoolPost";
+import { useCarpoolWithUser } from "@/hooks/useCarpoolWithUser";
 import { CarpoolStatusEnum } from "../enums/CarpoolStatusEnum";
 import { IconArrowLeft, IconCalendar, IconUser, IconUsers, IconMapPin, IconClock, IconFileText } from "@tabler/icons-react";
 import { convertTimestampToDate } from "@/utils/firebaseDateConvert";
@@ -9,9 +7,18 @@ import { convertTimestampToDate } from "@/utils/firebaseDateConvert";
 export default function CarpoolDetails() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { document: carpool, error } = useDocument(collections.carpoolCollection, id || "");
+  
+  // Single hook that handles sequential loading
+  const {
+    carpool,
+    user,
+    carpoolLoading,
+    userLoading,
+    carpoolError,
+    userError
+  } = useCarpoolWithUser(id || "");
 
-  if (error) {
+  if (carpoolError) {
     return (
       <div className="w-full">
         <div className="flex w-full flex-col gap-4 rounded-tl-3xl border border-slate-200/50 bg-gradient-to-br from-slate-50 via-white to-red-50/30 p-4 sm:p-6 md:p-8 lg:p-10 dark:border-slate-700/50 dark:bg-gradient-to-br dark:from-slate-900 dark:via-slate-800 dark:to-red-950/30 shadow-xl min-h-screen">
@@ -21,7 +28,7 @@ export default function CarpoolDetails() {
             </div>
             <h3 className="text-xl font-semibold text-red-600 dark:text-red-300 mb-2">Error Loading Carpool</h3>
             <p className="text-red-500 dark:text-red-400 text-center max-w-md mb-6">
-              {error}
+              {carpoolError}
             </p>
             <Link 
               to="/dashboard/carpool"
@@ -36,7 +43,7 @@ export default function CarpoolDetails() {
     );
   }
 
-  if (!carpool) {
+  if (!carpool || carpoolLoading) {
     return (
       <div className="w-full">
         <div className="flex w-full flex-col gap-4 rounded-tl-3xl border border-slate-200/50 bg-gradient-to-br from-slate-50 via-white to-indigo-50/30 p-4 sm:p-6 md:p-8 lg:p-10 dark:border-slate-700/50 dark:bg-gradient-to-br dark:from-slate-900 dark:via-slate-800 dark:to-indigo-950/30 shadow-xl min-h-screen">
@@ -61,8 +68,8 @@ export default function CarpoolDetails() {
     );
   }
 
-  const carpoolData = carpool as CarpoolPost;
-  const availableSeats = carpoolData.maxPeople - carpoolData.people.length;
+  // Now we can safely use carpool since we know it exists
+  const availableSeats = carpool.maxPeople - carpool.people.length;
 
   return (
     <div className="w-full">
@@ -89,16 +96,16 @@ export default function CarpoolDetails() {
           
           <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
             <div className={`w-2 h-2 rounded-full animate-pulse ${
-              carpoolData.status === CarpoolStatusEnum.Open && availableSeats > 0 ? 'bg-green-500' : 
-              carpoolData.status === CarpoolStatusEnum.RequestToJoin ? 'bg-blue-500' :
-              carpoolData.status === CarpoolStatusEnum.Closed ? 'bg-red-500' :
+              carpool.status === CarpoolStatusEnum.Open && availableSeats > 0 ? 'bg-green-500' : 
+              carpool.status === CarpoolStatusEnum.RequestToJoin ? 'bg-blue-500' :
+              carpool.status === CarpoolStatusEnum.Closed ? 'bg-red-500' :
               'bg-red-500'
             }`}></div>
             <span>{
-              carpoolData.status === CarpoolStatusEnum.Open && availableSeats > 0 ? 'Open' :
-              carpoolData.status === CarpoolStatusEnum.RequestToJoin ? 'Request to Join' :
-              carpoolData.status === CarpoolStatusEnum.Closed ? 'Closed' :
-              availableSeats === 0 ? 'Full' : carpoolData.status
+              carpool.status === CarpoolStatusEnum.Open && availableSeats > 0 ? 'Open' :
+              carpool.status === CarpoolStatusEnum.RequestToJoin ? 'Request to Join' :
+              carpool.status === CarpoolStatusEnum.Closed ? 'Closed' :
+              availableSeats === 0 ? 'Full' : carpool.status
             }</span>
           </div>
         </div>
@@ -121,7 +128,7 @@ export default function CarpoolDetails() {
               <div className="flex items-center justify-between p-4 bg-gradient-to-r from-indigo-50 to-purple-50 dark:from-slate-700/50 dark:to-slate-600/50 rounded-xl">
                 <div className="text-center">
                   <p className="text-sm text-slate-500 dark:text-slate-400 mb-1">From</p>
-                  <p className="font-semibold text-slate-800 dark:text-slate-100 text-lg">{carpoolData.location}</p>
+                  <p className="font-semibold text-slate-800 dark:text-slate-100 text-lg">{carpool.location}</p>
                 </div>
                 
                 <div className="flex items-center gap-2 px-4">
@@ -132,7 +139,7 @@ export default function CarpoolDetails() {
                 
                 <div className="text-center">
                   <p className="text-sm text-slate-500 dark:text-slate-400 mb-1">To</p>
-                  <p className="font-semibold text-slate-800 dark:text-slate-100 text-lg">{carpoolData.destination}</p>
+                  <p className="font-semibold text-slate-800 dark:text-slate-100 text-lg">{carpool.destination}</p>
                 </div>
               </div>
             </div>
@@ -152,7 +159,7 @@ export default function CarpoolDetails() {
                   <div>
                     <p className="text-sm text-slate-500 dark:text-slate-400">Date</p>
                     <p className="font-medium text-slate-800 dark:text-slate-100">
-                      {convertTimestampToDate(carpoolData.targetDate).date}
+                      {convertTimestampToDate(carpool.targetDate).date}
                     </p>
                   </div>
                 </div>
@@ -162,7 +169,7 @@ export default function CarpoolDetails() {
                   <div>
                     <p className="text-sm text-slate-500 dark:text-slate-400">Time</p>
                     <p className="font-medium text-slate-800 dark:text-slate-100">
-                      {convertTimestampToDate(carpoolData.targetDate).time}
+                      {convertTimestampToDate(carpool.targetDate).time}
                     </p>
                   </div>
                 </div>
@@ -180,7 +187,7 @@ export default function CarpoolDetails() {
               
               <div className="prose prose-slate dark:prose-invert max-w-none">
                 <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
-                  {carpoolData.description || "No additional details provided for this carpool."}
+                  {carpool.description || "No additional details provided for this carpool."}
                 </p>
               </div>
             </div>
@@ -200,12 +207,14 @@ export default function CarpoolDetails() {
               </div>
               
               <div className="text-center">
-                <div className="w-16 h-16 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full flex items-center justify-center mx-auto mb-3">
+                                <div className="w-16 h-16 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full flex items-center justify-center mx-auto mb-3">
                   <span className="text-white font-bold text-xl">
-                    {carpoolData.userId.charAt(0).toUpperCase()}
+                    {user?.displayName?.[0]?.toUpperCase() || 
+                     user?.email?.[0]?.toUpperCase() || 
+                     carpool.userId[0]?.toUpperCase() || '?'}
                   </span>
                 </div>
-                <p className="font-semibold text-slate-800 dark:text-slate-100">{carpoolData.userId}</p>
+                <p className="font-semibold text-slate-800 dark:text-slate-100">{user?.displayName || user?.email || 'Unknown'}</p>
                 <p className="text-sm text-slate-500 dark:text-slate-400">Driver</p>
               </div>
             </div>
@@ -222,11 +231,11 @@ export default function CarpoolDetails() {
               <div className="space-y-4">
                 <div className="flex justify-between items-center">
                   <span className="text-slate-600 dark:text-slate-300">Total Seats</span>
-                  <span className="font-semibold text-slate-800 dark:text-slate-100">{carpoolData.maxPeople}</span>
+                  <span className="font-semibold text-slate-800 dark:text-slate-100">{carpool.maxPeople}</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-slate-600 dark:text-slate-300">Occupied</span>
-                  <span className="font-semibold text-slate-800 dark:text-slate-100">{carpoolData.people.length}</span>
+                  <span className="font-semibold text-slate-800 dark:text-slate-100">{carpool.people.length}</span>
                 </div>
                 <div className="flex justify-between items-center">
                   <span className="text-slate-600 dark:text-slate-300">Available</span>
@@ -239,7 +248,7 @@ export default function CarpoolDetails() {
                 <div className="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
                   <div 
                     className="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full transition-all duration-300"
-                    style={{ width: `${(carpoolData.people.length / carpoolData.maxPeople) * 100}%` }}
+                    style={{ width: `${(carpool.people.length / carpool.maxPeople) * 100}%` }}
                   ></div>
                 </div>
               </div>
@@ -247,15 +256,15 @@ export default function CarpoolDetails() {
 
             {/* Action Button */}
             <div className="bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-200/60 p-6 shadow-lg dark:bg-slate-800/80 dark:border-slate-700/60">
-              {carpoolData.status === CarpoolStatusEnum.Open && availableSeats > 0 ? (
+              {carpool.status === CarpoolStatusEnum.Open && availableSeats > 0 ? (
                 <button className="w-full rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 px-6 py-4 text-lg font-semibold text-white shadow-lg hover:shadow-xl hover:from-emerald-600 hover:to-teal-700 transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98]">
                   Join Carpool
                 </button>
-              ) : carpoolData.status === CarpoolStatusEnum.RequestToJoin ? (
+              ) : carpool.status === CarpoolStatusEnum.RequestToJoin ? (
                 <button className="w-full rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 px-6 py-4 text-lg font-semibold text-white shadow-lg hover:shadow-xl hover:from-blue-600 hover:to-indigo-700 transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98]">
                   Request to Join
                 </button>
-              ) : carpoolData.status === CarpoolStatusEnum.Closed ? (
+              ) : carpool.status === CarpoolStatusEnum.Closed ? (
                 <button disabled className="w-full rounded-xl bg-gradient-to-r from-red-400 to-red-500 px-6 py-4 text-lg font-semibold text-white shadow-lg cursor-not-allowed opacity-60">
                   Carpool Closed
                 </button>

@@ -1,10 +1,10 @@
 import { CarpoolStatusEnum } from "../enums/CarpoolStatusEnum";
-import { Timestamp, DocumentReference } from "firebase/firestore";
+import { Timestamp } from "firebase/firestore";
 
 
 export default interface CarpoolPost {
   id: string;
-  userId: DocumentReference;
+  userId: string;
   location: string;
   destination: string;
   description: string;

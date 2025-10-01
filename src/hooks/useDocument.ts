@@ -2,15 +2,19 @@ import { useEffect, useState } from "react";
 import { db } from "../firebase/config";
 import { doc, onSnapshot, DocumentData } from "firebase/firestore";
 
-interface UseDocumentResult {
-  document: DocumentData | null;
+interface UseDocumentResult<T> {
+  document: T | null;
   error: string | null;
 }
 
-export const useDocument = (col: string, id: string): UseDocumentResult => {
-  const [document, setDocument] = useState<DocumentData | null>(null);
+export const useDocument = <T = DocumentData>(col: string, id: string | null): UseDocumentResult<T> => {
+  const [document, setDocument] = useState<T | null>(null);
   const [error, setError] = useState<string | null>(null);
 
+  if (!id) {
+    setError("No document ID provided");
+    return { document: null, error };
+  }
   // Realtime data for document
   useEffect(() => {
     const docRef = doc(db, col, id);
@@ -19,7 +23,7 @@ export const useDocument = (col: string, id: string): UseDocumentResult => {
       docRef,
       (snapshot) => {
         if (snapshot.data()) {
-          setDocument({ ...snapshot.data(), id: snapshot.id });
+          setDocument({ ...snapshot.data(), id: snapshot.id } as T);
           setError(null);
         } else {
           setError("No such document exists");

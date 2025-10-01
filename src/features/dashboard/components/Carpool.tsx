@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
 import CarpoolPost from "../interfaces/CarpoolPost";
 import { convertTimestampToDate } from "@/utils/firebaseDateConvert";
+import { useDocument } from "@/hooks/useDocument";
+import User from "../interfaces/User";
+import collections from "@/firebase/collections";
 
 export default function Carpool({ carpools }: { carpools: CarpoolPost[] | null }) {
   return (
@@ -19,7 +22,9 @@ export default function Carpool({ carpools }: { carpools: CarpoolPost[] | null }
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 sm:gap-6">
             {carpools ? (
               carpools.length > 0 ? (
-                carpools.map((doc) => (
+                carpools.map((doc) => {
+                  const { document: user } = useDocument<User>(collections.usersCollection, doc.userId);
+                  return (
                   <div
                     key={doc.id}
                     className="group relative flex w-full flex-col rounded-2xl border border-slate-200/60 bg-white/80 backdrop-blur-sm p-5 sm:p-6 shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1 dark:border-slate-700/60 dark:bg-slate-800/80 overflow-hidden"
@@ -50,7 +55,7 @@ export default function Carpool({ carpools }: { carpools: CarpoolPost[] | null }
                         <div className="flex items-center gap-2">
                           <div className="w-2 h-2 bg-indigo-500 rounded-full"></div>
                           <span className="text-sm text-slate-600 dark:text-slate-300">
-                            <span className="font-medium">Driver:</span> {doc.userId}
+                            <span className="font-medium">Driver:</span> {user ? (user.displayName || user.email || 'Unknown') : doc.userId}
                           </span>
                         </div>
                         <div className="flex items-center gap-2">
@@ -71,7 +76,7 @@ export default function Carpool({ carpools }: { carpools: CarpoolPost[] | null }
                       </div>
                     </div>
                   </div>
-                ))
+                )})
               ) : (
                 <div className="col-span-full flex flex-col items-center justify-center py-16 px-4">
                   <div className="w-24 h-24 bg-gradient-to-br from-slate-200 to-slate-300 dark:from-slate-700 dark:to-slate-600 rounded-full flex items-center justify-center mb-6">
