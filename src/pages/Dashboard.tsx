@@ -1,5 +1,5 @@
-import Sidebar from "@/features/dashboard/components/Sidebar"
-import DashboardContent from "@/features/dashboard/components/DashboardContent";
+import Sidebar from "@/components/Sidebar"
+import DashboardContent from "@/components/DashboardContent";
 import { cn } from "@/lib/utils";
 
 export default function Dashboard() {

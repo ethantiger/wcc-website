@@ -3,7 +3,7 @@ import { doc, getDoc, getDocFromCache } from 'firebase/firestore';
 import { db } from '@/firebase/config';
 import collections from '@/firebase/collections';
 import CarpoolPost from '@/features/dashboard/interfaces/CarpoolPost';
-import User from '@/features/dashboard/interfaces/User';
+import User from '@/features/carpool/interfaces/User';
 
 interface UseCarpoolWithUserResult {
   carpool: CarpoolPost | null;
