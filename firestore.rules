@@ -19,7 +19,12 @@ service cloud.firestore {
     match /carpools_prod/{carpool} {
       allow read;
       allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
-      allow update, delete: if request.auth != null && request.auth.uid == resource.data.userId;
+      allow update: if request.auth != null && (
+      (request.auth.uid == resource.data.userId) ||
+      (request.auth.uid != resource.data.userId && 
+       request.resource.data.diff(resource.data).affectedKeys().hasOnly(['people']))
+      );
+      allow delete: if request.auth != null && request.auth.uid == resource.data.userId;
     }
 
     match /carpools_test/{carpool} {
