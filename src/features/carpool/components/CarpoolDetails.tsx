@@ -3,10 +3,17 @@ import { useCarpoolWithUser } from "@/hooks/useCarpoolWithUser";
 import { CarpoolStatusEnum } from "../enums/CarpoolStatusEnum";
 import { IconArrowLeft, IconCalendar, IconUser, IconUsers, IconMapPin, IconClock, IconFileText } from "@tabler/icons-react";
 import { convertTimestampToDate } from "@/utils/firebaseDateConvert";
+import { useAuthContext } from "@/hooks/useAuthContext";
+import { doc, updateDoc, arrayUnion } from "firebase/firestore";
+import { db } from "@/firebase/config";
+import collections from "@/firebase/collections";
+import { useState } from "react";
 
 export default function CarpoolDetails() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { user: currentUser } = useAuthContext();
+  const [isJoining, setIsJoining] = useState(false);
   
   // Single hook that handles sequential loading
   const {
@@ -15,6 +22,60 @@ export default function CarpoolDetails() {
     carpoolLoading,
     carpoolError,
   } = useCarpoolWithUser(id || "");
+
+  // Function to handle joining carpool
+  const handleJoinCarpool = async () => {
+    if (!currentUser || !carpool || !id) {
+      alert("Unable to join carpool. Please make sure you're logged in.");
+      return;
+    }
+
+    // Check if user is the creator of the carpool
+    if (carpool.userId === currentUser.uid) {
+      alert("You cannot join your own carpool!");
+      return;
+    }
+
+    // Check if user is already in the carpool
+    if (carpool.people.includes(currentUser.uid)) {
+      alert("You're already part of this carpool!");
+      return;
+    }
+
+    // Check if carpool is full
+    if (carpool.people.length >= carpool.maxPeople) {
+      alert("This carpool is already full!");
+      return;
+    }
+
+    // Check if carpool is open
+    if (carpool.status !== CarpoolStatusEnum.Open) {
+      alert("This carpool is not currently accepting new members.");
+      return;
+    }
+
+    try {
+      setIsJoining(true);
+      
+      // Update the carpool document to add the current user
+      const carpoolRef = doc(db, collections.carpoolCollection, id);
+      await updateDoc(carpoolRef, {
+        people: arrayUnion(currentUser.uid)
+      });
+
+      // Show success message
+      alert("Successfully joined the carpool!");
+      
+      // Refresh the page to show updated data
+      window.location.reload();
+      
+    } catch (error) {
+      console.error("Error joining carpool:", error);
+      alert("Failed to join carpool. Please try again.");
+    } finally {
+      setIsJoining(false);
+    }
+  };
 
   if (carpoolError) {
     return (
@@ -249,14 +310,43 @@ export default function CarpoolDetails() {
                     style={{ width: `${(carpool.people.length / carpool.maxPeople) * 100}%` }}
                   ></div>
                 </div>
+                
+                {/* Current User Status */}
+                {currentUser && (
+                  <div className={`text-center p-2 rounded-lg text-sm font-medium ${
+                    carpool.userId === currentUser.uid
+                      ? 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300'
+                      : carpool.people.includes(currentUser.uid) 
+                        ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300'
+                        : 'bg-slate-100 text-slate-600 dark:bg-slate-700/50 dark:text-slate-400'
+                  }`}>
+                    {carpool.userId === currentUser.uid
+                      ? '🚗 You are the driver of this carpool'
+                      : carpool.people.includes(currentUser.uid) 
+                        ? '✅ You are part of this carpool' 
+                        : '👤 You are not part of this carpool'}
+                  </div>
+                )}
               </div>
             </div>
 
             {/* Action Button */}
             <div className="bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-200/60 p-6 shadow-lg dark:bg-slate-800/80 dark:border-slate-700/60">
               {carpool.status === CarpoolStatusEnum.Open && availableSeats > 0 ? (
-                <button className="w-full rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 px-6 py-4 text-lg font-semibold text-white shadow-lg hover:shadow-xl hover:from-emerald-600 hover:to-teal-700 transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98]">
-                  Join Carpool
+                <button 
+                  onClick={handleJoinCarpool}
+                  disabled={isJoining || !currentUser || carpool.people.includes(currentUser?.uid || '') || carpool.userId === currentUser?.uid}
+                  className={`w-full rounded-xl px-6 py-4 text-lg font-semibold text-white shadow-lg transition-all duration-200 transform ${
+                    isJoining || !currentUser || carpool.people.includes(currentUser?.uid || '') || carpool.userId === currentUser?.uid
+                      ? 'bg-gradient-to-r from-slate-400 to-slate-500 cursor-not-allowed opacity-60' 
+                      : 'bg-gradient-to-r from-emerald-500 to-teal-600 hover:shadow-xl hover:from-emerald-600 hover:to-teal-700 hover:scale-[1.02] active:scale-[0.98]'
+                  }`}
+                >
+                  {isJoining ? 'Joining...' : 
+                   !currentUser ? 'Login Required' :
+                   carpool.userId === currentUser.uid ? 'Your Carpool' :
+                   carpool.people.includes(currentUser.uid) ? 'Already Joined' :
+                   'Join Carpool'}
                 </button>
               ) : carpool.status === CarpoolStatusEnum.RequestToJoin ? (
                 <button className="w-full rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 px-6 py-4 text-lg font-semibold text-white shadow-lg hover:shadow-xl hover:from-blue-600 hover:to-indigo-700 transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98]">
