@@ -16,6 +16,18 @@ service cloud.firestore {
       allow create: if request.auth != null;
     }
 
+    match /carpools_prod/{carpool} {
+      allow read;
+      allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
+      allow update, delete: if request.auth != null && request.auth.uid == resource.data.userId;
+    }
+
+    match /carpools_test/{carpool} {
+      allow read;
+      allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
+      allow update, delete: if request.auth != null && request.auth.uid == resource.data.userId;
+    }
+
     match /{document=**} {
       allow read;
     }
