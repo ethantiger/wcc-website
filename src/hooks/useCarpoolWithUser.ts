@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { doc, getDoc, getDocFromCache } from 'firebase/firestore';
 import { db } from '@/firebase/config';
 import collections from '@/firebase/collections';
-import CarpoolPost from '@/features/dashboard/interfaces/CarpoolPost';
+import CarpoolPost from '@/features/carpool/interfaces/CarpoolPost';
 import User from '@/features/carpool/interfaces/User';
 
 interface UseCarpoolWithUserResult {
