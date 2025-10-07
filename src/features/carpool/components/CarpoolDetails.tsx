@@ -417,20 +417,25 @@ export default function CarpoolDetails() {
                 <div className="space-y-2">
                   <div className="flex justify-between items-center">
                     <span className="text-slate-600 dark:text-slate-300">Occupied</span>
-                    <button
-                      onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
-                      className="flex items-center gap-2 font-semibold text-slate-800 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200"
-                    >
-                      <span>{carpool.people.length}</span>
-                      <IconChevronDown 
-                        size={16} 
-                        className={`transition-transform duration-200 ${isUserDropdownOpen ? 'rotate-180' : ''}`}
-                      />
-                    </button>
+                    {/* Only show dropdown if user is owner or part of carpool */}
+                    {currentUser && (carpool.userId === currentUser.uid || carpool.people.includes(currentUser.uid)) ? (
+                      <button
+                        onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
+                        className="flex items-center gap-2 font-semibold text-slate-800 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200"
+                      >
+                        <span>{carpool.people.length}</span>
+                        <IconChevronDown 
+                          size={16} 
+                          className={`transition-transform duration-200 ${isUserDropdownOpen ? 'rotate-180' : ''}`}
+                        />
+                      </button>
+                    ) : (
+                      <span className="font-semibold text-slate-800 dark:text-slate-100">{carpool.people.length}</span>
+                    )}
                   </div>
                   
                   {/* User List Dropdown */}
-                  {isUserDropdownOpen && (
+                  {isUserDropdownOpen && currentUser && (carpool.userId === currentUser.uid || carpool.people.includes(currentUser.uid)) && (
                     <div className="bg-slate-50 dark:bg-slate-700/50 rounded-lg p-2 space-y-1">
                       {carpoolUsers.length > 0 ? (
                         carpoolUsers.map((carpoolUser) => (
