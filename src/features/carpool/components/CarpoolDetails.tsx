@@ -161,9 +161,7 @@ export default function CarpoolDetails() {
       setMessage({ text: "Carpool deleted successfully!", type: 'success' });
       
       // Redirect to carpools list after a short delay
-      setTimeout(() => {
-        navigate('/dashboard/carpool');
-      }, 1500);
+      navigate('/dashboard/carpool');
       
     } catch (error) {
       console.error("Error deleting carpool:", error);
