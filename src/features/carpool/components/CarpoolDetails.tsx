@@ -19,6 +19,7 @@ export default function CarpoolDetails() {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
+  const [activeTooltip, setActiveTooltip] = useState<string | null>(null);
   const [message, setMessage] = useState<{ text: string; type: 'success' | 'error' | 'info' } | null>(null);
   
   // Single hook that handles sequential loading
@@ -441,7 +442,7 @@ export default function CarpoolDetails() {
                         carpoolUsers.map((carpoolUser) => (
                           <div
                             key={carpoolUser.id}
-                            className="group relative flex items-center gap-2 p-2 rounded hover:bg-white dark:hover:bg-slate-600 transition-colors duration-200"
+                            className="relative flex items-center gap-2 p-2 rounded hover:bg-white dark:hover:bg-slate-600 transition-colors duration-200"
                           >
                             {/* User Avatar */}
                             <div className="w-6 h-6 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center flex-shrink-0">
@@ -452,37 +453,44 @@ export default function CarpoolDetails() {
                               </span>
                             </div>
                             
-                            {/* User Name with Tooltip */}
-                            <div className="relative">
-                              <span className="text-sm font-medium text-slate-800 dark:text-slate-100">
-                                {carpoolUser.displayName || carpoolUser.email || 'Unknown User'}
-                              </span>
-                              <span className="text-xs text-slate-500 dark:text-slate-400 ml-1">
-                                ({carpoolUser.id === carpool.userId ? 'Driver' : 'Passenger'})
-                              </span>
+                            {/* User Name with Click Tooltip */}
+                            <div className="relative flex-grow">
+                              <button
+                                onClick={() => setActiveTooltip(activeTooltip === carpoolUser.id ? null : carpoolUser.id)}
+                                className="text-left w-full"
+                              >
+                                <span className="text-sm font-medium text-slate-800 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200">
+                                  {carpoolUser.displayName || carpoolUser.email || 'Unknown User'}
+                                </span>
+                                <span className="text-xs text-slate-500 dark:text-slate-400 ml-1">
+                                  ({carpoolUser.id === carpool.userId ? 'Driver' : 'Passenger'})
+                                </span>
+                              </button>
                               
                               {/* Contact Info Tooltip */}
-                              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 bg-slate-800 dark:bg-slate-700 text-white text-xs rounded-lg p-2 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity duration-200 whitespace-nowrap z-20 shadow-lg">
-                                <div className="space-y-1">
-                                  {carpoolUser.email && (
-                                    <div className="flex items-center gap-2">
-                                      <IconMail size={12} />
-                                      <span>{carpoolUser.email}</span>
-                                    </div>
-                                  )}
-                                  {carpoolUser.phoneNumber && (
-                                    <div className="flex items-center gap-2">
-                                      <IconPhone size={12} />
-                                      <span>{carpoolUser.phoneNumber}</span>
-                                    </div>
-                                  )}
-                                  {!carpoolUser.email && !carpoolUser.phoneNumber && (
-                                    <span className="text-slate-400">No contact info available</span>
-                                  )}
+                              {activeTooltip === carpoolUser.id && (
+                                <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 bg-slate-800 dark:bg-slate-700 text-white text-xs rounded-lg p-2 whitespace-nowrap z-20 shadow-lg">
+                                  <div className="space-y-1">
+                                    {carpoolUser.email && (
+                                      <div className="flex items-center gap-2">
+                                        <IconMail size={12} />
+                                        <span>{carpoolUser.email}</span>
+                                      </div>
+                                    )}
+                                    {carpoolUser.phoneNumber && (
+                                      <div className="flex items-center gap-2">
+                                        <IconPhone size={12} />
+                                        <span>{carpoolUser.phoneNumber}</span>
+                                      </div>
+                                    )}
+                                    {!carpoolUser.email && !carpoolUser.phoneNumber && (
+                                      <span className="text-slate-400">No contact info available</span>
+                                    )}
+                                  </div>
+                                  {/* Tooltip Arrow */}
+                                  <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent border-t-slate-800 dark:border-t-slate-700"></div>
                                 </div>
-                                {/* Tooltip Arrow */}
-                                <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent border-t-slate-800 dark:border-t-slate-700"></div>
-                              </div>
+                              )}
                             </div>
                           </div>
                         ))
