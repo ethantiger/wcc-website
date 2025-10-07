@@ -14,7 +14,7 @@ interface CarpoolModalProps {
   onSuccess?: () => void;
 }
 
-export default function CarpoolModal({ isOpen, onClose, carpool, onSuccess }: CarpoolModalProps) {
+export default function CarpoolModal({ isOpen, onClose, carpool }: CarpoolModalProps) {
   const { user } = useAuthContext();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [message, setMessage] = useState<{ text: string; type: 'success' | 'error' } | null>(null);

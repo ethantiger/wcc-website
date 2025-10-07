@@ -1,13 +1,14 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useCarpoolWithUser } from "@/hooks/useCarpoolWithUser";
 import { CarpoolStatusEnum } from "../enums/CarpoolStatusEnum";
-import { IconArrowLeft, IconCalendar, IconUser, IconUsers, IconMapPin, IconClock, IconFileText } from "@tabler/icons-react";
+import { IconArrowLeft, IconCalendar, IconUser, IconUsers, IconMapPin, IconClock, IconFileText, IconEdit, IconTrash } from "@tabler/icons-react";
 import { convertTimestampToDate } from "@/utils/firebaseDateConvert";
 import { useAuthContext } from "@/hooks/useAuthContext";
-import { doc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
+import { doc, updateDoc, arrayUnion, arrayRemove, deleteDoc } from "firebase/firestore";
 import { db } from "@/firebase/config";
 import collections from "@/firebase/collections";
 import { useState } from "react";
+import CarpoolModal from "./CarpoolModal";
 
 export default function CarpoolDetails() {
   const { id } = useParams<{ id: string }>();
@@ -15,6 +16,8 @@ export default function CarpoolDetails() {
   const { user: currentUser } = useAuthContext();
   const [isJoining, setIsJoining] = useState(false);
   const [isLeaving, setIsLeaving] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [message, setMessage] = useState<{ text: string; type: 'success' | 'error' | 'info' } | null>(null);
   
   // Single hook that handles sequential loading
@@ -129,6 +132,53 @@ export default function CarpoolDetails() {
     }
   };
 
+  // Function to handle deleting carpool
+  const handleDeleteCarpool = async () => {
+    if (!currentUser || !carpool || !id) {
+      setMessage({ text: "Unable to delete carpool. Please make sure you're logged in.", type: 'error' });
+      return;
+    }
+
+    // Check if user is the creator of the carpool
+    if (carpool.userId !== currentUser.uid) {
+      setMessage({ text: "You can only delete your own carpools!", type: 'error' });
+      return;
+    }
+
+    // Confirm deletion
+    if (!window.confirm("Are you sure you want to delete this carpool? This action cannot be undone.")) {
+      return;
+    }
+
+    try {
+      setIsDeleting(true);
+      
+      // Delete the carpool document
+      const carpoolRef = doc(db, collections.carpoolCollection, id);
+      await deleteDoc(carpoolRef);
+
+      // Show success message and redirect
+      setMessage({ text: "Carpool deleted successfully!", type: 'success' });
+      
+      // Redirect to carpools list after a short delay
+      setTimeout(() => {
+        navigate('/dashboard/carpool');
+      }, 1500);
+      
+    } catch (error) {
+      console.error("Error deleting carpool:", error);
+      setMessage({ text: "Failed to delete carpool. Please try again.", type: 'error' });
+    } finally {
+      setIsDeleting(false);
+    }
+  };
+
+  // Function to handle edit success
+  const handleEditSuccess = () => {
+    // Refresh the page to show updated data
+    window.location.reload();
+  };
+
   if (carpoolError) {
     return (
       <div className="w-full">
@@ -205,19 +255,47 @@ export default function CarpoolDetails() {
             </div>
           </div>
           
-          <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
-            <div className={`w-2 h-2 rounded-full animate-pulse ${
-              carpool.status === CarpoolStatusEnum.Open && availableSeats > 0 ? 'bg-green-500' : 
-              carpool.status === CarpoolStatusEnum.RequestToJoin ? 'bg-blue-500' :
-              carpool.status === CarpoolStatusEnum.Closed ? 'bg-red-500' :
-              'bg-red-500'
-            }`}></div>
-            <span>{
-              carpool.status === CarpoolStatusEnum.Open && availableSeats > 0 ? 'Open' :
-              carpool.status === CarpoolStatusEnum.RequestToJoin ? 'Request to Join' :
-              carpool.status === CarpoolStatusEnum.Closed ? 'Closed' :
-              availableSeats === 0 ? 'Full' : carpool.status
-            }</span>
+          <div className="flex items-center gap-4">
+            {/* Owner Actions */}
+            {currentUser && carpool.userId === currentUser.uid && (
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setIsEditModalOpen(true)}
+                  className="inline-flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-lg font-medium hover:from-blue-600 hover:to-indigo-700 transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] text-sm"
+                >
+                  <IconEdit size={16} />
+                  Edit
+                </button>
+                <button
+                  onClick={handleDeleteCarpool}
+                  disabled={isDeleting}
+                  className={`inline-flex items-center gap-2 px-3 py-2 rounded-lg font-medium transition-all duration-200 transform text-sm ${
+                    isDeleting
+                      ? 'bg-slate-400 cursor-not-allowed text-white'
+                      : 'bg-gradient-to-r from-red-500 to-red-600 text-white hover:from-red-600 hover:to-red-700 hover:scale-[1.02] active:scale-[0.98]'
+                  }`}
+                >
+                  <IconTrash size={16} />
+                  {isDeleting ? 'Deleting...' : 'Delete'}
+                </button>
+              </div>
+            )}
+
+            {/* Status */}
+            <div className="flex items-center gap-2 text-sm text-slate-500 dark:text-slate-400">
+              <div className={`w-2 h-2 rounded-full animate-pulse ${
+                carpool.status === CarpoolStatusEnum.Open && availableSeats > 0 ? 'bg-green-500' : 
+                carpool.status === CarpoolStatusEnum.RequestToJoin ? 'bg-blue-500' :
+                carpool.status === CarpoolStatusEnum.Closed ? 'bg-red-500' :
+                'bg-red-500'
+              }`}></div>
+              <span>{
+                carpool.status === CarpoolStatusEnum.Open && availableSeats > 0 ? 'Open' :
+                carpool.status === CarpoolStatusEnum.RequestToJoin ? 'Request to Join' :
+                carpool.status === CarpoolStatusEnum.Closed ? 'Closed' :
+                availableSeats === 0 ? 'Full' : carpool.status
+              }</span>
+            </div>
           </div>
         </div>
 
@@ -469,6 +547,14 @@ export default function CarpoolDetails() {
           </div>
         </div>
       </div>
+
+      {/* Edit Carpool Modal */}
+      <CarpoolModal
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        carpool={carpool}
+        onSuccess={handleEditSuccess}
+      />
     </div>
   );
 }

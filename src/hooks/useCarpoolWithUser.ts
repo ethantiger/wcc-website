@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { doc, getDoc, getDocFromCache } from 'firebase/firestore';
+import { doc, getDoc, getDocFromCache, onSnapshot } from 'firebase/firestore';
 import { db } from '@/firebase/config';
 import collections from '@/firebase/collections';
 import CarpoolPost from '@/features/carpool/interfaces/CarpoolPost';
@@ -48,18 +48,20 @@ export function useCarpoolWithUser(
       return;
     }
 
-    const fetchCarpoolAndUser = async () => {
-      try {
-        // Step 1: Fetch carpool
-        setCarpoolLoading(true);
-        setCarpoolError(null);
-        
-        const carpoolRef = doc(db, collections.carpoolCollection, carpoolId);
-        const carpoolSnap = await getDoc(carpoolRef);
-        
+    setCarpoolLoading(true);
+    setCarpoolError(null);
+    
+    const carpoolRef = doc(db, collections.carpoolCollection, carpoolId);
+    
+    // Set up snapshot listener for real-time carpool updates
+    const unsubscribe = onSnapshot(
+      carpoolRef,
+      (carpoolSnap) => {
         if (!carpoolSnap.exists()) {
           setCarpoolError('Carpool not found');
           setCarpoolLoading(false);
+          setCarpool(null);
+          setUser(null);
           return;
         }
 
@@ -67,89 +69,98 @@ export function useCarpoolWithUser(
         setCarpool(carpoolData);
         setCarpoolLoading(false);
 
-        // Step 2: Fetch user based on carpool's userId
+        // Fetch user data when carpool updates (with caching)
         if (carpoolData.userId) {
-          try {
-            setUserLoading(true);
-            setUserError(null);
-            
-            const userRef = doc(db, collections.usersCollection, carpoolData.userId);
-            const cacheExpired = isUserCacheExpired(carpoolData.userId);
-            const cacheKey = getUserCacheKey(carpoolData.userId);
-            
-            // Try to get from cache first (if not expired)
-            if (!cacheExpired) {
-              try {
-                const cachedUserSnap = await getDocFromCache(userRef);
-                if (cachedUserSnap.exists()) {
-                  console.log(`👤 User ${carpoolData.userId} loaded from: CACHE (valid)`);
-                  setUser({ id: cachedUserSnap.id, ...cachedUserSnap.data() } as User);
-                  setUserLoading(false);
-                  return;
-                }
-              } catch (cacheError) {
-                console.log(`👤 Cache miss for user: ${carpoolData.userId}`);
-              }
-            } else {
-              console.log(`👤 Cache expired for user: ${carpoolData.userId}, fetching from server`);
-            }
-
-            // Fallback to network if cache miss or expired
-            const userSnap = await getDoc(userRef);
-            if (userSnap.exists()) {
-              setUser({ id: userSnap.id, ...userSnap.data() } as User);
-              localStorage.setItem(`${cacheKey}_timestamp`, Date.now().toString());
-              console.log(`👤 User ${carpoolData.userId} loaded from: SERVER`);
-            } else {
-              // Create fallback user object
-              setUser({
-                id: carpoolData.userId,
-                displayName: carpoolData.userId,
-                email: '',
-                photoURL: null,
-                emailVerified: false,
-                phoneNumber: null,
-                createdAt: null as any,
-                lastLogin: null as any,
-                metadata: {
-                  creationTime: '',
-                  lastSignInTime: ''
-                }
-              });
-            }
-          } catch (err) {
-            setUserError(err instanceof Error ? err.message : 'Failed to fetch user');
-            // Fallback user
-            setUser({
-              id: carpoolData.userId,
-              displayName: carpoolData.userId,
-              email: '',
-              photoURL: null,
-              emailVerified: false,
-              phoneNumber: null,
-              createdAt: null as any,
-              lastLogin: null as any,
-              metadata: {
-                creationTime: '',
-                lastSignInTime: ''
-              }
-            });
-          } finally {
-            setUserLoading(false);
-          }
+          fetchUserWithCache(carpoolData.userId);
         } else {
+          setUser(null);
           setUserLoading(false);
         }
-
-      } catch (err) {
-        setCarpoolError(err instanceof Error ? err.message : 'Failed to fetch carpool');
+      },
+      (error) => {
+        setCarpoolError(error.message);
         setCarpoolLoading(false);
-        setUserLoading(false);
+        console.error('Error listening to carpool:', error);
       }
-    };
+    );
 
-    fetchCarpoolAndUser();
+    // Cleanup function to unsubscribe from the listener
+    return () => {
+      unsubscribe();
+    };
   }, [carpoolId, cacheExpiryMinutes]);
+
+  // Separate function to fetch user data with caching
+  const fetchUserWithCache = async (userId: string) => {
+    try {
+      setUserLoading(true);
+      setUserError(null);
+      
+      const userRef = doc(db, collections.usersCollection, userId);
+      const cacheExpired = isUserCacheExpired(userId);
+      const cacheKey = getUserCacheKey(userId);
+      
+      // Try to get from cache first (if not expired)
+      if (!cacheExpired) {
+        try {
+          const cachedUserSnap = await getDocFromCache(userRef);
+          if (cachedUserSnap.exists()) {
+            console.log(`👤 User ${userId} loaded from: CACHE (valid)`);
+            setUser({ id: cachedUserSnap.id, ...cachedUserSnap.data() } as User);
+            setUserLoading(false);
+            return;
+          }
+        } catch (cacheError) {
+          console.log(`👤 Cache miss for user: ${userId}`);
+        }
+      } else {
+        console.log(`👤 Cache expired for user: ${userId}, fetching from server`);
+      }
+
+      // Fallback to network if cache miss or expired
+      const userSnap = await getDoc(userRef);
+      if (userSnap.exists()) {
+        setUser({ id: userSnap.id, ...userSnap.data() } as User);
+        localStorage.setItem(`${cacheKey}_timestamp`, Date.now().toString());
+        console.log(`👤 User ${userId} loaded from: SERVER`);
+      } else {
+        // Create fallback user object
+        setUser({
+          id: userId,
+          displayName: userId,
+          email: '',
+          photoURL: null,
+          emailVerified: false,
+          phoneNumber: null,
+          createdAt: null as any,
+          lastLogin: null as any,
+          metadata: {
+            creationTime: '',
+            lastSignInTime: ''
+          }
+        });
+      }
+    } catch (err) {
+      setUserError(err instanceof Error ? err.message : 'Failed to fetch user');
+      // Fallback user
+      setUser({
+        id: userId,
+        displayName: userId,
+        email: '',
+        photoURL: null,
+        emailVerified: false,
+        phoneNumber: null,
+        createdAt: null as any,
+        lastLogin: null as any,
+        metadata: {
+          creationTime: '',
+          lastSignInTime: ''
+        }
+      });
+    } finally {
+      setUserLoading(false);
+    }
+  };
 
   return {
     carpool,
