@@ -4,12 +4,14 @@ import { convertTimestampToDate } from "@/utils/firebaseDateConvert";
 import User from "../interfaces/User";
 import collections from "@/firebase/collections";
 import { useCachedDocument } from "@/hooks/useCachedDocument";
+import { IconCrown, IconUser } from "@tabler/icons-react";
 
 interface CarpoolCardProps {
   carpool: CarpoolPost;
+  ownershipType?: 'owner' | 'member';
 }
 
-export default function CarpoolCard({ carpool }: CarpoolCardProps) {
+export default function CarpoolCard({ carpool, ownershipType }: CarpoolCardProps) {
   const { document: user } = useCachedDocument<User>(collections.usersCollection, carpool.userId);
 
   return (
@@ -33,6 +35,22 @@ export default function CarpoolCard({ carpool }: CarpoolCardProps) {
             </p>
           </div>
           <div className="flex flex-col items-end gap-2">
+            {/* Ownership Badge */}
+            {ownershipType && (
+              <div className="z-20">
+                {ownershipType === 'owner' ? (
+                  <div className="flex items-center gap-1 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-xs font-semibold px-2 py-1 rounded-full shadow-lg">
+                    <IconCrown size={12} />
+                    <span>Owner</span>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-1 bg-gradient-to-r from-blue-500 to-indigo-500 text-white text-xs font-semibold px-2 py-1 rounded-full shadow-lg">
+                    <IconUser size={12} />
+                    <span>Member</span>
+                  </div>
+                )}
+              </div>
+            )}
             <span className="rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 px-3 py-1 text-xs font-semibold text-white shadow-sm">
               {carpool.maxPeople - carpool.people.length} seats
             </span>
