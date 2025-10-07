@@ -1,7 +1,7 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useCarpoolWithUser } from "@/hooks/useCarpoolWithUser";
 import { CarpoolStatusEnum } from "../enums/CarpoolStatusEnum";
-import { IconArrowLeft, IconCalendar, IconUser, IconUsers, IconMapPin, IconClock, IconFileText, IconEdit, IconTrash } from "@tabler/icons-react";
+import { IconArrowLeft, IconCalendar, IconUser, IconUsers, IconMapPin, IconClock, IconFileText, IconEdit, IconTrash, IconChevronDown, IconPhone, IconMail } from "@tabler/icons-react";
 import { convertTimestampToDate } from "@/utils/firebaseDateConvert";
 import { useAuthContext } from "@/hooks/useAuthContext";
 import { doc, updateDoc, arrayUnion, arrayRemove, deleteDoc } from "firebase/firestore";
@@ -18,12 +18,14 @@ export default function CarpoolDetails() {
   const [isLeaving, setIsLeaving] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
   const [message, setMessage] = useState<{ text: string; type: 'success' | 'error' | 'info' } | null>(null);
   
   // Single hook that handles sequential loading
   const {
     carpool,
     user,
+    carpoolUsers,
     carpoolLoading,
     carpoolError,
   } = useCarpoolWithUser(id || "");
@@ -73,11 +75,6 @@ export default function CarpoolDetails() {
       // Show success message
       setMessage({ text: "Successfully joined the carpool!", type: 'success' });
       
-      // Refresh the page to show updated data after a short delay
-      setTimeout(() => {
-        window.location.reload();
-      }, 1500);
-      
     } catch (error) {
       console.error("Error joining carpool:", error);
       setMessage({ text: "Failed to join carpool. Please try again.", type: 'error' });
@@ -118,11 +115,6 @@ export default function CarpoolDetails() {
 
       // Show success message
       setMessage({ text: "Successfully left the carpool!", type: 'success' });
-      
-      // Refresh the page to show updated data after a short delay
-      setTimeout(() => {
-        window.location.reload();
-      }, 1500);
       
     } catch (error) {
       console.error("Error leaving carpool:", error);
@@ -420,10 +412,84 @@ export default function CarpoolDetails() {
                   <span className="text-slate-600 dark:text-slate-300">Total Seats</span>
                   <span className="font-semibold text-slate-800 dark:text-slate-100">{carpool.maxPeople}</span>
                 </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-slate-600 dark:text-slate-300">Occupied</span>
-                  <span className="font-semibold text-slate-800 dark:text-slate-100">{carpool.people.length}</span>
+                
+                {/* Occupied with User Dropdown */}
+                <div className="space-y-2">
+                  <div className="flex justify-between items-center">
+                    <span className="text-slate-600 dark:text-slate-300">Occupied</span>
+                    <button
+                      onClick={() => setIsUserDropdownOpen(!isUserDropdownOpen)}
+                      className="flex items-center gap-2 font-semibold text-slate-800 dark:text-slate-100 hover:text-blue-600 dark:hover:text-blue-400 transition-colors duration-200"
+                    >
+                      <span>{carpool.people.length}</span>
+                      <IconChevronDown 
+                        size={16} 
+                        className={`transition-transform duration-200 ${isUserDropdownOpen ? 'rotate-180' : ''}`}
+                      />
+                    </button>
+                  </div>
+                  
+                  {/* User List Dropdown */}
+                  {isUserDropdownOpen && (
+                    <div className="bg-slate-50 dark:bg-slate-700/50 rounded-lg p-2 space-y-1">
+                      {carpoolUsers.length > 0 ? (
+                        carpoolUsers.map((carpoolUser) => (
+                          <div
+                            key={carpoolUser.id}
+                            className="group relative flex items-center gap-2 p-2 rounded hover:bg-white dark:hover:bg-slate-600 transition-colors duration-200"
+                          >
+                            {/* User Avatar */}
+                            <div className="w-6 h-6 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center flex-shrink-0">
+                              <span className="text-white font-medium text-xs">
+                                {carpoolUser.displayName?.[0]?.toUpperCase() || 
+                                 carpoolUser.email?.[0]?.toUpperCase() || 
+                                 carpoolUser.id[0]?.toUpperCase() || '?'}
+                              </span>
+                            </div>
+                            
+                            {/* User Name with Tooltip */}
+                            <div className="relative">
+                              <span className="text-sm font-medium text-slate-800 dark:text-slate-100">
+                                {carpoolUser.displayName || carpoolUser.email || 'Unknown User'}
+                              </span>
+                              <span className="text-xs text-slate-500 dark:text-slate-400 ml-1">
+                                ({carpoolUser.id === carpool.userId ? 'Driver' : 'Passenger'})
+                              </span>
+                              
+                              {/* Contact Info Tooltip */}
+                              <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 bg-slate-800 dark:bg-slate-700 text-white text-xs rounded-lg p-2 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity duration-200 whitespace-nowrap z-20 shadow-lg">
+                                <div className="space-y-1">
+                                  {carpoolUser.email && (
+                                    <div className="flex items-center gap-2">
+                                      <IconMail size={12} />
+                                      <span>{carpoolUser.email}</span>
+                                    </div>
+                                  )}
+                                  {carpoolUser.phoneNumber && (
+                                    <div className="flex items-center gap-2">
+                                      <IconPhone size={12} />
+                                      <span>{carpoolUser.phoneNumber}</span>
+                                    </div>
+                                  )}
+                                  {!carpoolUser.email && !carpoolUser.phoneNumber && (
+                                    <span className="text-slate-400">No contact info available</span>
+                                  )}
+                                </div>
+                                {/* Tooltip Arrow */}
+                                <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent border-t-slate-800 dark:border-t-slate-700"></div>
+                              </div>
+                            </div>
+                          </div>
+                        ))
+                      ) : (
+                        <div className="text-center text-slate-500 dark:text-slate-400 py-2">
+                          <p className="text-sm">No Users</p>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
+                
                 <div className="flex justify-between items-center">
                   <span className="text-slate-600 dark:text-slate-300">Available</span>
                   <span className={`font-semibold ${availableSeats > 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
