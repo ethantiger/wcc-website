@@ -7,7 +7,7 @@ import CarpoolModal from "./CarpoolModal";
 import CarpoolCard from "./CarpoolCard";
 
 export default function Carpool() {
-  const { documents: carpools } = useCollection<CarpoolPost>(collections.carpoolCollection, null, null, true);
+  const { documents: carpools } = useCollection<CarpoolPost>(collections.carpoolCollection, null, ['targetDate', 'asc'], true);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
   return (

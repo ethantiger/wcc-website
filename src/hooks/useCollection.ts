@@ -73,8 +73,19 @@ export function useCollection<T extends { id: string }>(
           setLoading(false);
         },
         (error) => {
-          console.error(error);
-          setError('Could not fetch the data');
+          console.error('Firestore error:', error);
+          
+          // Check if it's a permission error
+          if (error.code === 'permission-denied') {
+            console.log('🚫 Access denied - clearing cached data');
+            // Clear any cached documents and timestamps for this collection
+            localStorage.removeItem(`${cacheKey}_timestamp`);
+            setDocuments([]);
+            setError('Access denied: Please log in with a valid @uwo.ca account');
+          } else {
+            setError('Could not fetch the data');
+          }
+          
           setFromCache(false);
           setLoading(false);
         }
@@ -123,9 +134,20 @@ export function useCollection<T extends { id: string }>(
           setDocuments(results);
           setFromCache(isFromCache);
           setError(null);
-        } catch (error) {
-          console.error(error);
-          setError('Could not fetch the data');
+        } catch (error: any) {
+          console.error('Firestore error:', error);
+          
+          // Check if it's a permission error
+          if (error.code === 'permission-denied') {
+            console.log('🚫 Access denied - clearing cached data');
+            // Clear any cached documents and timestamps for this collection
+            localStorage.removeItem(`${cacheKey}_timestamp`);
+            setDocuments([]);
+            setError('Access denied: Please log in with a valid @uwo.ca account');
+          } else {
+            setError('Could not fetch the data');
+          }
+          
           setFromCache(false);
         } finally {
           setLoading(false);

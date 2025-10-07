@@ -1,6 +1,13 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    // Helper function to check if user has valid UWO email
+    function isUWOUser() {
+      return request.auth != null && 
+             request.auth.token.email != null &&
+             request.auth.token.email.matches('.*@uwo\\.ca$');
+    }
+
     match /events_test/{eventId} {
       allow read;
       allow create, update, delete: if request.auth != null && request.auth.uid == "YFJw0QC8QRTC0qiiZH6rSiD8Rkg2";
@@ -12,34 +19,30 @@ service cloud.firestore {
     }
 
     match /users/{userId} {
-      allow read;
-      allow create: if request.auth != null;
+      allow read: if isUWOUser();
+      allow create: if isUWOUser();
     }
 
     match /carpools_prod/{carpool} {
-      allow read;
-      allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
-      allow update: if request.auth != null && (
+      allow read: if isUWOUser();
+      allow create: if isUWOUser() && request.auth.uid == request.resource.data.userId;
+      allow update: if isUWOUser() && (
       (request.auth.uid == resource.data.userId) ||
       (request.auth.uid != resource.data.userId && 
        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['people']))
       );
-      allow delete: if request.auth != null && request.auth.uid == resource.data.userId;
+      allow delete: if isUWOUser() && request.auth.uid == resource.data.userId;
     }
 
     match /carpools_test/{carpool} {
-      allow read;
-      allow create: if request.auth != null && request.auth.uid == request.resource.data.userId;
-      allow update: if request.auth != null && (
+      allow read: if isUWOUser();
+      allow create: if isUWOUser() && request.auth.uid == request.resource.data.userId;
+      allow update: if isUWOUser() && (
       (request.auth.uid == resource.data.userId) ||
       (request.auth.uid != resource.data.userId && 
        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['people']))
       );
-      allow delete: if request.auth != null && request.auth.uid == resource.data.userId;
-    }
-
-    match /{document=**} {
-      allow read;
+      allow delete: if isUWOUser() && request.auth.uid == resource.data.userId;
     }
   }
 }
