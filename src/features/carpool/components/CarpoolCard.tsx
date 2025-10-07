@@ -5,6 +5,7 @@ import User from "../interfaces/User";
 import collections from "@/firebase/collections";
 import { useCachedDocument } from "@/hooks/useCachedDocument";
 import { IconCrown, IconUser } from "@tabler/icons-react";
+import { CarpoolStatusEnum } from "../enums/CarpoolStatusEnum";
 
 interface CarpoolCardProps {
   carpool: CarpoolPost;
@@ -51,8 +52,12 @@ export default function CarpoolCard({ carpool, ownershipType }: CarpoolCardProps
                 )}
               </div>
             )}
-            <span className="rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 px-3 py-1 text-xs font-semibold text-white shadow-sm">
-              {carpool.maxPeople - carpool.people.length} seats
+            <span className={`rounded-full px-3 py-1 text-xs font-semibold text-white shadow-sm ${
+              carpool.status === CarpoolStatusEnum.Closed
+              ? 'bg-gradient-to-r from-red-500 to-red-600' 
+              : 'bg-gradient-to-r from-emerald-500 to-teal-500'
+            }`}>
+              {carpool.status === CarpoolStatusEnum.Closed ? 'Closed' : `${carpool.maxPeople - carpool.people.length} seats`}
             </span>
           </div>
         </div>
