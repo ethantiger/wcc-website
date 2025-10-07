@@ -4,7 +4,7 @@ import { CarpoolStatusEnum } from "../enums/CarpoolStatusEnum";
 import { IconArrowLeft, IconCalendar, IconUser, IconUsers, IconMapPin, IconClock, IconFileText } from "@tabler/icons-react";
 import { convertTimestampToDate } from "@/utils/firebaseDateConvert";
 import { useAuthContext } from "@/hooks/useAuthContext";
-import { doc, updateDoc, arrayUnion } from "firebase/firestore";
+import { doc, updateDoc, arrayUnion, arrayRemove } from "firebase/firestore";
 import { db } from "@/firebase/config";
 import collections from "@/firebase/collections";
 import { useState } from "react";
@@ -14,6 +14,8 @@ export default function CarpoolDetails() {
   const navigate = useNavigate();
   const { user: currentUser } = useAuthContext();
   const [isJoining, setIsJoining] = useState(false);
+  const [isLeaving, setIsLeaving] = useState(false);
+  const [message, setMessage] = useState<{ text: string; type: 'success' | 'error' | 'info' } | null>(null);
   
   // Single hook that handles sequential loading
   const {
@@ -25,32 +27,34 @@ export default function CarpoolDetails() {
 
   // Function to handle joining carpool
   const handleJoinCarpool = async () => {
+    setMessage(null); // Clear any previous messages
+    
     if (!currentUser || !carpool || !id) {
-      alert("Unable to join carpool. Please make sure you're logged in.");
+      setMessage({ text: "Unable to join carpool. Please make sure you're logged in.", type: 'error' });
       return;
     }
 
     // Check if user is the creator of the carpool
     if (carpool.userId === currentUser.uid) {
-      alert("You cannot join your own carpool!");
+      setMessage({ text: "You cannot join your own carpool!", type: 'error' });
       return;
     }
 
     // Check if user is already in the carpool
     if (carpool.people.includes(currentUser.uid)) {
-      alert("You're already part of this carpool!");
+      setMessage({ text: "You're already part of this carpool!", type: 'info' });
       return;
     }
 
     // Check if carpool is full
     if (carpool.people.length >= carpool.maxPeople) {
-      alert("This carpool is already full!");
+      setMessage({ text: "This carpool is already full!", type: 'error' });
       return;
     }
 
     // Check if carpool is open
     if (carpool.status !== CarpoolStatusEnum.Open) {
-      alert("This carpool is not currently accepting new members.");
+      setMessage({ text: "This carpool is not currently accepting new members.", type: 'error' });
       return;
     }
 
@@ -64,16 +68,64 @@ export default function CarpoolDetails() {
       });
 
       // Show success message
-      alert("Successfully joined the carpool!");
+      setMessage({ text: "Successfully joined the carpool!", type: 'success' });
       
-      // Refresh the page to show updated data
-      window.location.reload();
+      // Refresh the page to show updated data after a short delay
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
       
     } catch (error) {
       console.error("Error joining carpool:", error);
-      alert("Failed to join carpool. Please try again.");
+      setMessage({ text: "Failed to join carpool. Please try again.", type: 'error' });
     } finally {
       setIsJoining(false);
+    }
+  };
+
+  // Function to handle leaving carpool
+  const handleLeaveCarpool = async () => {
+    setMessage(null); // Clear any previous messages
+    
+    if (!currentUser || !carpool || !id) {
+      setMessage({ text: "Unable to leave carpool. Please make sure you're logged in.", type: 'error' });
+      return;
+    }
+
+    // Check if user is the creator of the carpool
+    if (carpool.userId === currentUser.uid) {
+      setMessage({ text: "You cannot leave your own carpool! You can delete it instead.", type: 'error' });
+      return;
+    }
+
+    // Check if user is actually in the carpool
+    if (!carpool.people.includes(currentUser.uid)) {
+      setMessage({ text: "You're not part of this carpool.", type: 'info' });
+      return;
+    }
+
+    try {
+      setIsLeaving(true);
+      
+      // Update the carpool document to remove the current user
+      const carpoolRef = doc(db, collections.carpoolCollection, id);
+      await updateDoc(carpoolRef, {
+        people: arrayRemove(currentUser.uid)
+      });
+
+      // Show success message
+      setMessage({ text: "Successfully left the carpool!", type: 'success' });
+      
+      // Refresh the page to show updated data after a short delay
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
+      
+    } catch (error) {
+      console.error("Error leaving carpool:", error);
+      setMessage({ text: "Failed to leave carpool. Please try again.", type: 'error' });
+    } finally {
+      setIsLeaving(false);
     }
   };
 
@@ -333,21 +385,45 @@ export default function CarpoolDetails() {
             {/* Action Button */}
             <div className="bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-200/60 p-6 shadow-lg dark:bg-slate-800/80 dark:border-slate-700/60">
               {carpool.status === CarpoolStatusEnum.Open && availableSeats > 0 ? (
-                <button 
-                  onClick={handleJoinCarpool}
-                  disabled={isJoining || !currentUser || carpool.people.includes(currentUser?.uid || '') || carpool.userId === currentUser?.uid}
-                  className={`w-full rounded-xl px-6 py-4 text-lg font-semibold text-white shadow-lg transition-all duration-200 transform ${
-                    isJoining || !currentUser || carpool.people.includes(currentUser?.uid || '') || carpool.userId === currentUser?.uid
-                      ? 'bg-gradient-to-r from-slate-400 to-slate-500 cursor-not-allowed opacity-60' 
-                      : 'bg-gradient-to-r from-emerald-500 to-teal-600 hover:shadow-xl hover:from-emerald-600 hover:to-teal-700 hover:scale-[1.02] active:scale-[0.98]'
-                  }`}
-                >
-                  {isJoining ? 'Joining...' : 
-                   !currentUser ? 'Login Required' :
-                   carpool.userId === currentUser.uid ? 'Your Carpool' :
-                   carpool.people.includes(currentUser.uid) ? 'Already Joined' :
-                   'Join Carpool'}
-                </button>
+                // User can join if they're not the creator and not already in the carpool
+                !currentUser || carpool.userId === currentUser.uid || carpool.people.includes(currentUser.uid) ? (
+                  // Show appropriate button for users who can't join
+                  carpool.people.includes(currentUser?.uid || '') && carpool.userId !== currentUser?.uid ? (
+                    // Leave button for users already in carpool
+                    <button 
+                      onClick={handleLeaveCarpool}
+                      disabled={isLeaving || !currentUser}
+                      className={`w-full rounded-xl px-6 py-4 text-lg font-semibold text-white shadow-lg transition-all duration-200 transform ${
+                        isLeaving || !currentUser
+                          ? 'bg-gradient-to-r from-slate-400 to-slate-500 cursor-not-allowed opacity-60' 
+                          : 'bg-gradient-to-r from-red-500 to-red-600 hover:shadow-xl hover:from-red-600 hover:to-red-700 hover:scale-[1.02] active:scale-[0.98]'
+                      }`}
+                    >
+                      {isLeaving ? 'Leaving...' : 'Leave Carpool'}
+                    </button>
+                  ) : (
+                    // Disabled button for creator or not logged in
+                    <button 
+                      disabled 
+                      className="w-full rounded-xl bg-gradient-to-r from-slate-400 to-slate-500 cursor-not-allowed opacity-60 px-6 py-4 text-lg font-semibold text-white shadow-lg"
+                    >
+                      {!currentUser ? 'Login Required' : 'Your Carpool'}
+                    </button>
+                  )
+                ) : (
+                  // Join button for users who can join
+                  <button 
+                    onClick={handleJoinCarpool}
+                    disabled={isJoining || !currentUser}
+                    className={`w-full rounded-xl px-6 py-4 text-lg font-semibold text-white shadow-lg transition-all duration-200 transform ${
+                      isJoining || !currentUser
+                        ? 'bg-gradient-to-r from-slate-400 to-slate-500 cursor-not-allowed opacity-60' 
+                        : 'bg-gradient-to-r from-emerald-500 to-teal-600 hover:shadow-xl hover:from-emerald-600 hover:to-teal-700 hover:scale-[1.02] active:scale-[0.98]'
+                    }`}
+                  >
+                    {isJoining ? 'Joining...' : 'Join Carpool'}
+                  </button>
+                )
               ) : carpool.status === CarpoolStatusEnum.RequestToJoin ? (
                 <button className="w-full rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 px-6 py-4 text-lg font-semibold text-white shadow-lg hover:shadow-xl hover:from-blue-600 hover:to-indigo-700 transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98]">
                   Request to Join
@@ -360,6 +436,24 @@ export default function CarpoolDetails() {
                 <button disabled className="w-full rounded-xl bg-gradient-to-r from-slate-400 to-slate-500 px-6 py-4 text-lg font-semibold text-white shadow-lg cursor-not-allowed opacity-60">
                   Carpool Full
                 </button>
+              )}
+              
+              {/* Message Display */}
+              {message && (
+                <div className={`mt-4 p-3 rounded-lg text-sm font-medium transition-all duration-300 ${
+                  message.type === 'success' 
+                    ? 'bg-green-100 text-green-800 border border-green-200 dark:bg-green-900/30 dark:text-green-300 dark:border-green-700/50'
+                    : message.type === 'error'
+                    ? 'bg-red-100 text-red-800 border border-red-200 dark:bg-red-900/30 dark:text-red-300 dark:border-red-700/50'
+                    : 'bg-blue-100 text-blue-800 border border-blue-200 dark:bg-blue-900/30 dark:text-blue-300 dark:border-blue-700/50'
+                }`}>
+                  <div className="flex items-center gap-2">
+                    <span>
+                      {message.type === 'success' ? '✅' : message.type === 'error' ? '❌' : 'ℹ️'}
+                    </span>
+                    <span>{message.text}</span>
+                  </div>
+                </div>
               )}
               
               <div className="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700">
