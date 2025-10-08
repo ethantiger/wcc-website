@@ -32,7 +32,7 @@ export default function Sidebar() {
           </div>
         </div>
         <div>
-          <SidebarButton link={{ label: "Logout", icon: <IconLogout2 className="h-5 w-5 shrink-0 text-neutral-700 dark:text-red-500" /> }} onClick={logout} />
+          <SidebarButton link={{ label: "Logout", icon: <IconLogout2 className="h-5 w-5 shrink-0 text-red-500" /> }} onClick={logout} />
         </div>
       </SidebarBody>
     </SidebarContainer>

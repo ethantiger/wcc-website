@@ -173,7 +173,7 @@ export default function CarpoolDetails() {
   if (carpoolError) {
     return (
       <div className="w-full">
-        <div className="flex w-full flex-col gap-4 rounded-tl-3xl border border-slate-200/50 bg-gradient-to-br from-slate-50 via-white to-red-50/30 p-4 sm:p-6 md:p-8 lg:p-10 dark:border-slate-700/50 dark:bg-gradient-to-br dark:from-slate-900 dark:via-slate-800 dark:to-red-950/30 shadow-xl min-h-screen">
+        <div className="flex w-full flex-col gap-4 rounded-tl-3xl border border-slate-200/50 bg-white p-4 sm:p-6 md:p-8 lg:p-10 dark:border-slate-700/50 dark:bg-gray-900 shadow-xl min-h-screen">
           <div className="flex flex-col items-center justify-center py-16 px-4">
             <div className="w-24 h-24 bg-gradient-to-br from-red-200 to-red-300 dark:from-red-700 dark:to-red-600 rounded-full flex items-center justify-center mb-6">
               <div className="w-12 h-12 bg-red-400 dark:bg-red-500 rounded-full"></div>
@@ -198,7 +198,7 @@ export default function CarpoolDetails() {
   if (!carpool || carpoolLoading) {
     return (
       <div className="w-full">
-        <div className="flex w-full flex-col gap-4 rounded-tl-3xl border border-slate-200/50 bg-gradient-to-br from-slate-50 via-white to-indigo-50/30 p-4 sm:p-6 md:p-8 lg:p-10 dark:border-slate-700/50 dark:bg-gradient-to-br dark:from-slate-900 dark:via-slate-800 dark:to-indigo-950/30 shadow-xl min-h-screen">
+        <div className="flex w-full flex-col gap-4 rounded-tl-3xl border border-slate-200/50 bg-white p-4 sm:p-6 md:p-8 lg:p-10 dark:border-slate-700/50 dark:bg-gray-900 shadow-xl min-h-screen">
           <div className="animate-pulse space-y-6">
             <div className="flex items-center gap-4">
               <div className="w-8 h-8 bg-slate-300 dark:bg-slate-600 rounded"></div>
@@ -225,7 +225,7 @@ export default function CarpoolDetails() {
 
   return (
     <div className="w-full">
-      <div className="flex w-full flex-col gap-6 rounded-tl-3xl border border-slate-200/50 bg-gradient-to-br from-slate-50 via-white to-indigo-50/30 p-4 sm:p-6 md:p-8 lg:p-10 dark:border-slate-700/50 dark:bg-gradient-to-br dark:from-slate-900 dark:via-slate-800 dark:to-indigo-950/30 shadow-xl min-h-screen">
+      <div className="flex w-full flex-col gap-6 rounded-tl-3xl border border-slate-200/50 bg-white p-4 sm:p-6 md:p-8 lg:p-10 dark:border-slate-700/50 dark:bg-gray-900 shadow-xl min-h-screen">
         
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">

@@ -20,8 +20,6 @@ export default function CarpoolCard({ carpool, ownershipType }: CarpoolCardProps
       key={carpool.id}
       className="group relative flex w-full flex-col rounded-2xl border border-slate-200/60 bg-white/80 backdrop-blur-sm p-5 sm:p-6 shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-[1.03] hover:-translate-y-1 dark:border-slate-700/60 dark:bg-slate-800/80 overflow-hidden"
     >
-      {/* Gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 via-purple-500/5 to-pink-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"></div>
       
       {/* Content */}
       <div className="relative z-10">
