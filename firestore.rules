@@ -28,7 +28,7 @@ service cloud.firestore {
       allow create: if isUWOUser() && request.auth.uid == request.resource.data.userId;
       allow update: if isUWOUser() && (
       (request.auth.uid == resource.data.userId) ||
-      (request.auth.uid != resource.data.userId && 
+      (request.auth.uid != resource.data.userId && resource.data.status == "Open" &&
        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['people']))
       );
       allow delete: if isUWOUser() && request.auth.uid == resource.data.userId;
@@ -39,7 +39,7 @@ service cloud.firestore {
       allow create: if isUWOUser() && request.auth.uid == request.resource.data.userId;
       allow update: if isUWOUser() && (
       (request.auth.uid == resource.data.userId) ||
-      (request.auth.uid != resource.data.userId && 
+      (request.auth.uid != resource.data.userId && resource.data.status == "Open" &&
        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['people']))
       );
       allow delete: if isUWOUser() && request.auth.uid == resource.data.userId;

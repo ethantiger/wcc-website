@@ -10,13 +10,17 @@
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "deploy:stage": "npm run build && firebase hosting:channel:deploy stage --expires 1d",
-    "deploy:prod": "npm run build:prod && firebase deploy --only hosting"
+    "deploy:prod": "npm run build:prod && firebase deploy --only hosting",
+    "test:rules": "firebase emulators:exec --only firestore 'npm run jest:rules'",
+    "jest:rules": "jest firestore.rules.test.js",
+    "test:rules:watch": "firebase emulators:exec --only firestore 'npm run jest:rules -- --watch'",
+    "test:rules:coverage": "firebase emulators:exec --only firestore 'npm run jest:rules -- --coverage'"
   },
   "dependencies": {
     "@tabler/icons-react": "^3.34.1",
     "@tailwindcss/vite": "^4.1.11",
     "clsx": "^2.1.1",
-    "firebase": "^11.9.1",
+    "firebase": "^12.3.0",
     "motion": "^12.23.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -25,6 +29,7 @@
     "tailwindcss": "^4.1.11"
   },
   "devDependencies": {
+    "@firebase/rules-unit-testing": "^5.0.0",
     "@types/react": "^18.0.37",
     "@types/react-dom": "^18.0.11",
     "@typescript-eslint/eslint-plugin": "^5.59.0",
@@ -33,6 +38,7 @@
     "eslint": "^8.38.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.3.4",
+    "jest": "^30.2.0",
     "typescript": "^5.0.2",
     "vite": "^7.0.2",
     "vite-tsconfig-paths": "^5.1.4"
