@@ -4,12 +4,12 @@ import { convertTimestampToDate } from "@/utils/firebaseDateConvert";
 import User from "../interfaces/User";
 import collections from "@/firebase/collections";
 import { useCachedDocument } from "@/hooks/useCachedDocument";
-import { IconCrown, IconUser } from "@tabler/icons-react";
+import { IconCrown, IconUser, IconClock } from "@tabler/icons-react";
 import { CarpoolStatusEnum } from "../enums/CarpoolStatusEnum";
 
 interface CarpoolCardProps {
   carpool: CarpoolPost;
-  ownershipType?: 'owner' | 'member';
+  ownershipType?: 'owner' | 'member' | 'requested';
 }
 
 export default function CarpoolCard({ carpool, ownershipType }: CarpoolCardProps) {
@@ -42,12 +42,17 @@ export default function CarpoolCard({ carpool, ownershipType }: CarpoolCardProps
                     <IconCrown size={12} />
                     <span>Owner</span>
                   </div>
-                ) : (
+                ) : ownershipType === 'member' ? (
                   <div className="flex items-center gap-1 bg-gradient-to-r from-blue-500 to-indigo-500 text-white text-xs font-semibold px-2 py-1 rounded-full shadow-lg">
                     <IconUser size={12} />
                     <span>Member</span>
                   </div>
-                )}
+                ) : ownershipType === 'requested' ? (
+                  <div className="flex items-center gap-1 bg-gradient-to-r from-purple-500 to-pink-500 text-white text-xs font-semibold px-2 py-1 rounded-full shadow-lg">
+                    <IconClock size={12} />
+                    <span>Requested</span>
+                  </div>
+                ) : null}
               </div>
             )}
             <span className={`rounded-full px-3 py-1 text-xs font-semibold text-white shadow-sm ${

@@ -103,6 +103,7 @@ export default function CarpoolModal({ isOpen, onClose, carpool }: CarpoolModalP
         ...(isEditMode ? {} : {
           userId: user.uid,
           people: [],
+          requests: [], // Initialize empty requests array
           createdAt: Timestamp.now()
         })
       };
@@ -220,7 +221,7 @@ export default function CarpoolModal({ isOpen, onClose, carpool }: CarpoolModalP
             <div>
               <label className="flex items-center gap-2 text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                 <IconUsers size={16} />
-                Max People (including you)
+                Max People (not including you)
               </label>
               <select
                 name="maxPeople"

@@ -214,6 +214,56 @@ describe('Firestore Rules Test', () => {
       );
     });
 
+    test('Non-owners can request to join carpools with status RequestToJoin', async () => {
+      // Create carpool with security rules disabled
+      await testEnv.withSecurityRulesDisabled(async (context) => {
+        await setDoc(doc(context.firestore(), 'carpools_test', 'requestable-carpool'), {
+          userId: 'owner-id',
+          location: 'London',
+          destination: 'Toronto',
+          status: 'RequestToJoin',
+          people: ['owner-id'],
+          requests: [],
+          maxPeople: 4,
+        });
+      });
+
+      // Different user trying to join
+      const joinerDb = testEnv.authenticatedContext('joiner-id', {
+        email: 'joiner@uwo.ca',
+      }).firestore();
+
+      await assertSucceeds(
+        updateDoc(doc(joinerDb, 'carpools_test', 'requestable-carpool'), {
+          requests: ['joiner-id'],
+        })
+      );
+    });
+
+    test('Non-owners can leave carpool when they are part of the people array', async () => {
+      // Create carpool with security rules disabled
+      await testEnv.withSecurityRulesDisabled(async (context) => {
+        await setDoc(doc(context.firestore(), 'carpools_test', 'leavable-carpool'), {
+          userId: 'owner-id',
+          location: 'London',
+          destination: 'Toronto',
+          status: 'RequestToJoin',
+          people: ['owner-id', 'member-id'],
+          maxPeople: 4,
+        });
+      });
+
+      const joinerDb = testEnv.authenticatedContext('member-id', {
+        email: 'joiner@uwo.ca',
+      }).firestore();
+
+      await assertSucceeds(
+        updateDoc(doc(joinerDb, 'carpools_test', 'leavable-carpool'), {
+          people: ['owner-id'],
+        })
+      );
+    });
+
     test('Only carpool owners can delete their carpools', async () => {
       // Create carpool with security rules disabled
       await testEnv.withSecurityRulesDisabled(async (context) => {

@@ -18,12 +18,14 @@ export default function Carpool() {
       return {
         myCarpools: [],
         joinedCarpools: [],
+        requestedCarpools: [],
         availableCarpools: carpools || []
       };
     }
 
     const myCarpools: CarpoolPost[] = [];
     const joinedCarpools: CarpoolPost[] = [];
+    const requestedCarpools: CarpoolPost[] = [];
     const availableCarpools: CarpoolPost[] = [];
 
     carpools.forEach((carpool) => {
@@ -31,16 +33,18 @@ export default function Carpool() {
         myCarpools.push(carpool);
       } else if (carpool.people.includes(currentUser.uid)) {
         joinedCarpools.push(carpool);
+      } else if (carpool.requests?.includes(currentUser.uid)) {
+        requestedCarpools.push(carpool);
       } else {
         availableCarpools.push(carpool);
       }
     });
 
-    return { myCarpools, joinedCarpools, availableCarpools };
+    return { myCarpools, joinedCarpools, requestedCarpools, availableCarpools };
   }, [carpools, currentUser]);
 
   // Render a section of carpools
-  const renderCarpoolSection = (title: string, carpools: CarpoolPost[], ownershipType?: 'owner' | 'member') => {
+  const renderCarpoolSection = (title: string, carpools: CarpoolPost[], ownershipType?: 'owner' | 'member' | 'requested') => {
     if (carpools.length === 0) return null;
 
     return (
@@ -103,9 +107,16 @@ export default function Carpool() {
                   'member'
                 )}
                 
+                {/* Requested Carpools Section */}
+                {renderCarpoolSection(
+                  "Requested to Join", 
+                  categorizedCarpools.requestedCarpools,
+                  'requested'
+                )}
+                
                 {/* Available Carpools Section */}
                 {renderCarpoolSection(
-                  categorizedCarpools.myCarpools.length > 0 || categorizedCarpools.joinedCarpools.length > 0 
+                  categorizedCarpools.myCarpools.length > 0 || categorizedCarpools.joinedCarpools.length > 0 || categorizedCarpools.requestedCarpools.length > 0
                     ? "Other Available Carpools" 
                     : "Available Carpools", 
                   categorizedCarpools.availableCarpools
@@ -114,6 +125,7 @@ export default function Carpool() {
                 {/* Show empty state if no carpools in any category */}
                 {categorizedCarpools.myCarpools.length === 0 && 
                  categorizedCarpools.joinedCarpools.length === 0 && 
+                 categorizedCarpools.requestedCarpools.length === 0 && 
                  categorizedCarpools.availableCarpools.length === 0 && (
                   <div className="flex flex-col items-center justify-center py-16 px-4">
                     <div className="w-24 h-24 bg-gradient-to-br from-slate-200 to-slate-300 dark:from-slate-700 dark:to-slate-600 rounded-full flex items-center justify-center mb-6">

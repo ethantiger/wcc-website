@@ -4,8 +4,7 @@ service cloud.firestore {
     // Helper function to check if user has valid UWO email
     function isUWOUser() {
       return request.auth != null && 
-             request.auth.token.email != null &&
-             request.auth.token.email.matches('.*@uwo\\.ca$');
+             request.auth.token.email != null;
     }
 
     match /events_test/{eventId} {
@@ -27,9 +26,14 @@ service cloud.firestore {
       allow read: if isUWOUser();
       allow create: if isUWOUser() && request.auth.uid == request.resource.data.userId;
       allow update: if isUWOUser() && (
-      (request.auth.uid == resource.data.userId) ||
-      (request.auth.uid != resource.data.userId && resource.data.status == "Open" &&
-       request.resource.data.diff(resource.data).affectedKeys().hasOnly(['people']))
+        // Owner can update any field
+        (request.auth.uid == resource.data.userId) ||
+        // Non-owners can join directly if status is Open
+        (request.auth.uid != resource.data.userId && resource.data.status == "Open" &&
+         request.resource.data.diff(resource.data).affectedKeys().hasOnly(['people'])) ||
+        // Non-owners can request to join if status is RequestToJoin
+        (request.auth.uid != resource.data.userId && resource.data.status == "RequestToJoin" &&
+         request.resource.data.diff(resource.data).affectedKeys().hasOnly(['requests']))
       );
       allow delete: if isUWOUser() && request.auth.uid == resource.data.userId;
     }
@@ -38,9 +42,17 @@ service cloud.firestore {
       allow read: if isUWOUser();
       allow create: if isUWOUser() && request.auth.uid == request.resource.data.userId;
       allow update: if isUWOUser() && (
-      (request.auth.uid == resource.data.userId) ||
-      (request.auth.uid != resource.data.userId && resource.data.status == "Open" &&
-       request.resource.data.diff(resource.data).affectedKeys().hasOnly(['people']))
+        // Owner can update any field
+        (request.auth.uid == resource.data.userId) ||
+        // Non-owners can join directly if status is Open
+        (request.auth.uid != resource.data.userId && resource.data.status == "Open" &&
+         request.resource.data.diff(resource.data).affectedKeys().hasOnly(['people'])) ||
+        // Non-owners can request to join if status is RequestToJoin
+        (request.auth.uid != resource.data.userId && resource.data.status == "RequestToJoin" &&
+         request.resource.data.diff(resource.data).affectedKeys().hasOnly(['requests'])) ||
+        // Allow updating 'people' if current user is in the carpool
+        (resource.data.people.hasAny([request.auth.uid]) &&
+         request.resource.data.diff(resource.data).affectedKeys().hasOnly(['people']))
       );
       allow delete: if isUWOUser() && request.auth.uid == resource.data.userId;
     }

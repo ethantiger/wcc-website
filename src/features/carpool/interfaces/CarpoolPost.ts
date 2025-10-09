@@ -12,6 +12,7 @@ export default interface CarpoolPost {
   carType: string;
   status: CarpoolStatusEnum;
   people: string[];
+  requests: string[]; // Array of user IDs who have requested to join
   targetDate: Timestamp;
   createdAt: Timestamp;
 }

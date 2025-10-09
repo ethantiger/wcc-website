@@ -16,6 +16,8 @@ export default function CarpoolDetails() {
   const { user: currentUser } = useAuthContext();
   const [isJoining, setIsJoining] = useState(false);
   const [isLeaving, setIsLeaving] = useState(false);
+  const [isRequesting, setIsRequesting] = useState(false);
+  const [isManagingRequest, setIsManagingRequest] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
@@ -164,10 +166,249 @@ export default function CarpoolDetails() {
     }
   };
 
+  // Function to handle requesting to join carpool
+  const handleRequestToJoin = async () => {
+    setMessage(null);
+    
+    if (!currentUser || !carpool || !id) {
+      setMessage({ text: "Unable to request to join. Please make sure you're logged in.", type: 'error' });
+      return;
+    }
+
+    // Check if user is the creator of the carpool
+    if (carpool.userId === currentUser.uid) {
+      setMessage({ text: "You cannot request to join your own carpool!", type: 'error' });
+      return;
+    }
+
+    // Check if user is already in the carpool
+    if (carpool.people.includes(currentUser.uid)) {
+      setMessage({ text: "You're already part of this carpool!", type: 'info' });
+      return;
+    }
+
+    // Check if user has already requested
+    if (carpool.requests?.includes(currentUser.uid)) {
+      setMessage({ text: "You've already requested to join this carpool!", type: 'info' });
+      return;
+    }
+
+    // Check if carpool is accepting requests
+    if (carpool.status !== CarpoolStatusEnum.RequestToJoin) {
+      setMessage({ text: "This carpool is not currently accepting requests.", type: 'error' });
+      return;
+    }
+
+    try {
+      setIsRequesting(true);
+      
+      // Update the carpool document to add the current user to requests
+      const carpoolRef = doc(db, collections.carpoolCollection, id);
+      await updateDoc(carpoolRef, {
+        requests: arrayUnion(currentUser.uid)
+      });
+
+      setMessage({ text: "Request sent successfully! The owner will review your request.", type: 'success' });
+      
+    } catch (error) {
+      console.error("Error requesting to join carpool:", error);
+      setMessage({ text: "Failed to send request. Please try again.", type: 'error' });
+    } finally {
+      setIsRequesting(false);
+    }
+  };
+
+  // Function to handle approving a request
+  const handleApproveRequest = async (userId: string) => {
+    if (!currentUser || !carpool || !id) return;
+
+    // Check if current user is the owner
+    if (carpool.userId !== currentUser.uid) {
+      setMessage({ text: "Only the carpool owner can approve requests.", type: 'error' });
+      return;
+    }
+
+    // Check if carpool is full
+    if (carpool.people.length >= carpool.maxPeople) {
+      setMessage({ text: "This carpool is already full!", type: 'error' });
+      return;
+    }
+
+    try {
+      setIsManagingRequest(true);
+      
+      const carpoolRef = doc(db, collections.carpoolCollection, id);
+      await updateDoc(carpoolRef, {
+        people: arrayUnion(userId),
+        requests: arrayRemove(userId)
+      });
+
+      setMessage({ text: "Request approved successfully!", type: 'success' });
+      
+    } catch (error) {
+      console.error("Error approving request:", error);
+      setMessage({ text: "Failed to approve request. Please try again.", type: 'error' });
+    } finally {
+      setIsManagingRequest(false);
+    }
+  };
+
+  // Function to handle denying a request
+  const handleDenyRequest = async (userId: string) => {
+    if (!currentUser || !carpool || !id) return;
+
+    // Check if current user is the owner
+    if (carpool.userId !== currentUser.uid) {
+      setMessage({ text: "Only the carpool owner can deny requests.", type: 'error' });
+      return;
+    }
+
+    try {
+      setIsManagingRequest(true);
+      
+      const carpoolRef = doc(db, collections.carpoolCollection, id);
+      await updateDoc(carpoolRef, {
+        requests: arrayRemove(userId)
+      });
+
+      setMessage({ text: "Request denied.", type: 'info' });
+      
+    } catch (error) {
+      console.error("Error denying request:", error);
+      setMessage({ text: "Failed to deny request. Please try again.", type: 'error' });
+    } finally {
+      setIsManagingRequest(false);
+    }
+  };
+
   // Function to handle edit success
   const handleEditSuccess = () => {
     // Refresh the page to show updated data
     window.location.reload();
+  };
+
+  // Function to render the appropriate action button based on carpool status and user relationship
+  const renderActionButton = () => {
+    if (!carpool) return null;
+    
+    // Handle Open carpools with available seats
+    if (carpool.status === CarpoolStatusEnum.Open && availableSeats > 0) {
+      // Users who can't join (not logged in, owner, or already in carpool)
+      if (!currentUser || carpool.userId === currentUser.uid || carpool.people.includes(currentUser.uid)) {
+        // Show leave button for current members (not owner)
+        if (carpool.people.includes(currentUser?.uid || '') && carpool.userId !== currentUser?.uid) {
+          return (
+            <button 
+              onClick={handleLeaveCarpool}
+              disabled={isLeaving || !currentUser}
+              className={`w-full rounded-xl px-6 py-4 text-lg font-semibold text-white shadow-lg transition-all duration-200 transform ${
+                isLeaving || !currentUser
+                  ? 'bg-gradient-to-r from-slate-400 to-slate-500 cursor-not-allowed opacity-60' 
+                  : 'bg-gradient-to-r from-red-500 to-red-600 hover:shadow-xl hover:from-red-600 hover:to-red-700 hover:scale-[1.02] active:scale-[0.98]'
+              }`}
+            >
+              {isLeaving ? 'Leaving...' : 'Leave Carpool'}
+            </button>
+          );
+        }
+        
+        // Disabled button for owner or not logged in
+        return (
+          <button 
+            disabled 
+            className="w-full rounded-xl bg-gradient-to-r from-slate-400 to-slate-500 cursor-not-allowed opacity-60 px-6 py-4 text-lg font-semibold text-white shadow-lg"
+          >
+            {!currentUser ? 'Login Required' : 'Your Carpool'}
+          </button>
+        );
+      }
+      
+      // Join button for users who can join
+      return (
+        <button 
+          onClick={handleJoinCarpool}
+          disabled={isJoining || !currentUser}
+          className={`w-full rounded-xl px-6 py-4 text-lg font-semibold text-white shadow-lg transition-all duration-200 transform ${
+            isJoining || !currentUser
+              ? 'bg-gradient-to-r from-slate-400 to-slate-500 cursor-not-allowed opacity-60' 
+              : 'bg-gradient-to-r from-emerald-500 to-teal-600 hover:shadow-xl hover:from-emerald-600 hover:to-teal-700 hover:scale-[1.02] active:scale-[0.98]'
+          }`}
+        >
+          {isJoining ? 'Joining...' : 'Join Carpool'}
+        </button>
+      );
+    }
+    
+    // Handle Request to Join carpools
+    if (carpool.status === CarpoolStatusEnum.RequestToJoin) {
+      if (carpool.userId === currentUser?.uid) {
+        return (
+          <button 
+            disabled 
+            className="w-full rounded-xl bg-gradient-to-r from-slate-400 to-slate-500 cursor-not-allowed opacity-60 px-6 py-4 text-lg font-semibold text-white shadow-lg"
+          >
+            {'Your Carpool'}
+          </button>
+        )
+      }
+
+      if (currentUser && carpool.people.includes(currentUser.uid)) {
+        return (
+          <button 
+            onClick={handleLeaveCarpool}
+            disabled={isLeaving || !currentUser}
+            className={`w-full rounded-xl px-6 py-4 text-lg font-semibold text-white shadow-lg transition-all duration-200 transform ${
+              isLeaving || !currentUser
+                ? 'bg-gradient-to-r from-slate-400 to-slate-500 cursor-not-allowed opacity-60'
+                : 'bg-gradient-to-r from-red-500 to-red-600 hover:shadow-xl hover:from-red-600 hover:to-red-700 hover:scale-[1.02] active:scale-[0.98]'
+            }`}
+          >
+            {isLeaving ? 'Leaving...' : 'Leave Carpool'}
+          </button>
+        )
+      }
+      
+      return (
+        <button 
+          onClick={handleRequestToJoin}
+          disabled={isRequesting || !currentUser || carpool.requests?.includes(currentUser?.uid || '')}
+          className={`w-full rounded-xl px-6 py-4 text-lg font-semibold text-white shadow-lg transition-all duration-200 transform ${
+            isRequesting || !currentUser || carpool.requests?.includes(currentUser?.uid || '')
+              ? 'bg-gradient-to-r from-slate-400 to-slate-500 cursor-not-allowed opacity-60'
+              : 'bg-gradient-to-r from-blue-500 to-indigo-600 hover:shadow-xl hover:from-blue-600 hover:to-indigo-700 hover:scale-[1.02] active:scale-[0.98]'
+          }`}
+        >
+          {isRequesting 
+            ? 'Sending Request...' 
+            : carpool.requests?.includes(currentUser?.uid || '') 
+              ? 'Request Sent' 
+              : 'Request to Join'
+          }
+        </button>
+      );
+    }
+    
+    // Handle Closed carpools
+    if (carpool.status === CarpoolStatusEnum.Closed) {
+      return (
+        <button 
+          disabled 
+          className="w-full rounded-xl bg-gradient-to-r from-red-400 to-red-500 px-6 py-4 text-lg font-semibold text-white shadow-lg cursor-not-allowed opacity-60"
+        >
+          Carpool Closed
+        </button>
+      );
+    }
+    
+    // Handle Full carpools (default case)
+    return (
+      <button 
+        disabled 
+        className="w-full rounded-xl bg-gradient-to-r from-slate-400 to-slate-500 px-6 py-4 text-lg font-semibold text-white shadow-lg cursor-not-allowed opacity-60"
+      >
+        Carpool Full
+      </button>
+    );
   };
 
   if (carpoolError) {
@@ -537,61 +778,85 @@ export default function CarpoolDetails() {
               </div>
             </div>
 
+            {/* Requests Management Section (Only for carpool owners) */}
+            {currentUser && carpool.userId === currentUser.uid && carpool.requests && carpool.requests.length > 0 && (
+              <div className="bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-200/60 p-6 shadow-lg dark:bg-slate-800/80 dark:border-slate-700/60">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="p-2 rounded-lg bg-orange-500/20">
+                    <IconUsers className="text-orange-600 dark:text-orange-400" size={24} />
+                  </div>
+                  <h2 className="text-lg font-semibold text-slate-800 dark:text-slate-100">Join Requests</h2>
+                  <span className="text-sm text-slate-500 dark:text-slate-400 bg-orange-100 dark:bg-orange-900/30 px-2 py-1 rounded-full">
+                    {carpool.requests.length}
+                  </span>
+                </div>
+                
+                <div className="space-y-3">
+                  {carpool.requests.map((requestUserId) => {
+                    const requestUser = carpoolUsers.find(u => u.id === requestUserId);
+                    return (
+                      <div key={requestUserId} className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-700/50 rounded-lg">
+                        <div className="flex items-center gap-3">
+                          <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-purple-500 rounded-full flex items-center justify-center">
+                            <span className="text-white font-medium text-sm">
+                              {requestUser?.displayName?.[0]?.toUpperCase() || 
+                               requestUser?.email?.[0]?.toUpperCase() || 
+                               requestUserId[0]?.toUpperCase() || '?'}
+                            </span>
+                          </div>
+                          <div>
+                            <p className="font-medium text-slate-800 dark:text-slate-100">
+                              {requestUser?.displayName || requestUser?.email || 'Unknown User'}
+                            </p>
+                            <p className="text-sm text-slate-500 dark:text-slate-400">
+                              Requested to join
+                            </p>
+                          </div>
+                        </div>
+                        
+                        <div className="flex items-center gap-2">
+                          <button
+                            onClick={() => handleApproveRequest(requestUserId)}
+                            disabled={isManagingRequest || carpool.people.length >= carpool.maxPeople}
+                            className={`px-3 py-1 text-xs font-medium rounded-lg transition-colors ${
+                              isManagingRequest || carpool.people.length >= carpool.maxPeople
+                                ? 'bg-slate-300 text-slate-500 cursor-not-allowed'
+                                : 'bg-green-100 text-green-700 hover:bg-green-200 dark:bg-green-900/30 dark:text-green-300 dark:hover:bg-green-900/50'
+                            }`}
+                            title={carpool.people.length >= carpool.maxPeople ? 'Carpool is full' : 'Approve request'}
+                          >
+                            ✓ Accept
+                          </button>
+                          <button
+                            onClick={() => handleDenyRequest(requestUserId)}
+                            disabled={isManagingRequest}
+                            className={`px-3 py-1 text-xs font-medium rounded-lg transition-colors ${
+                              isManagingRequest
+                                ? 'bg-slate-300 text-slate-500 cursor-not-allowed'
+                                : 'bg-red-100 text-red-700 hover:bg-red-200 dark:bg-red-900/30 dark:text-red-300 dark:hover:bg-red-900/50'
+                            }`}
+                          >
+                            ✗ Deny
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+                
+                {carpool.people.length >= carpool.maxPeople && (
+                  <div className="mt-3 p-2 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700/50 rounded-lg">
+                    <p className="text-xs text-amber-700 dark:text-amber-300">
+                      ⚠️ Carpool is full. You must remove someone before accepting new requests.
+                    </p>
+                  </div>
+                )}
+              </div>
+            )}
+
             {/* Action Button */}
             <div className="bg-white/80 backdrop-blur-sm rounded-2xl border border-slate-200/60 p-6 shadow-lg dark:bg-slate-800/80 dark:border-slate-700/60">
-              {carpool.status === CarpoolStatusEnum.Open && availableSeats > 0 ? (
-                // User can join if they're not the creator and not already in the carpool
-                !currentUser || carpool.userId === currentUser.uid || carpool.people.includes(currentUser.uid) ? (
-                  // Show appropriate button for users who can't join
-                  carpool.people.includes(currentUser?.uid || '') && carpool.userId !== currentUser?.uid ? (
-                    // Leave button for users already in carpool
-                    <button 
-                      onClick={handleLeaveCarpool}
-                      disabled={isLeaving || !currentUser}
-                      className={`w-full rounded-xl px-6 py-4 text-lg font-semibold text-white shadow-lg transition-all duration-200 transform ${
-                        isLeaving || !currentUser
-                          ? 'bg-gradient-to-r from-slate-400 to-slate-500 cursor-not-allowed opacity-60' 
-                          : 'bg-gradient-to-r from-red-500 to-red-600 hover:shadow-xl hover:from-red-600 hover:to-red-700 hover:scale-[1.02] active:scale-[0.98]'
-                      }`}
-                    >
-                      {isLeaving ? 'Leaving...' : 'Leave Carpool'}
-                    </button>
-                  ) : (
-                    // Disabled button for creator or not logged in
-                    <button 
-                      disabled 
-                      className="w-full rounded-xl bg-gradient-to-r from-slate-400 to-slate-500 cursor-not-allowed opacity-60 px-6 py-4 text-lg font-semibold text-white shadow-lg"
-                    >
-                      {!currentUser ? 'Login Required' : 'Your Carpool'}
-                    </button>
-                  )
-                ) : (
-                  // Join button for users who can join
-                  <button 
-                    onClick={handleJoinCarpool}
-                    disabled={isJoining || !currentUser}
-                    className={`w-full rounded-xl px-6 py-4 text-lg font-semibold text-white shadow-lg transition-all duration-200 transform ${
-                      isJoining || !currentUser
-                        ? 'bg-gradient-to-r from-slate-400 to-slate-500 cursor-not-allowed opacity-60' 
-                        : 'bg-gradient-to-r from-emerald-500 to-teal-600 hover:shadow-xl hover:from-emerald-600 hover:to-teal-700 hover:scale-[1.02] active:scale-[0.98]'
-                    }`}
-                  >
-                    {isJoining ? 'Joining...' : 'Join Carpool'}
-                  </button>
-                )
-              ) : carpool.status === CarpoolStatusEnum.RequestToJoin ? (
-                <button className="w-full rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 px-6 py-4 text-lg font-semibold text-white shadow-lg hover:shadow-xl hover:from-blue-600 hover:to-indigo-700 transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98]">
-                  Request to Join
-                </button>
-              ) : carpool.status === CarpoolStatusEnum.Closed ? (
-                <button disabled className="w-full rounded-xl bg-gradient-to-r from-red-400 to-red-500 px-6 py-4 text-lg font-semibold text-white shadow-lg cursor-not-allowed opacity-60">
-                  Carpool Closed
-                </button>
-              ) : (
-                <button disabled className="w-full rounded-xl bg-gradient-to-r from-slate-400 to-slate-500 px-6 py-4 text-lg font-semibold text-white shadow-lg cursor-not-allowed opacity-60">
-                  Carpool Full
-                </button>
-              )}
+              {renderActionButton()}
               
               {/* Message Display */}
               {message && (
