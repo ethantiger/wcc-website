@@ -1,6 +1,6 @@
-const { initializeTestEnvironment, assertFails, assertSucceeds } = require('@firebase/rules-unit-testing');
-const { doc, getDoc, setDoc, updateDoc, deleteDoc } = require('firebase/firestore');
-const fs = require('fs');
+import { initializeTestEnvironment, assertFails, assertSucceeds } from '@firebase/rules-unit-testing';
+import { doc, getDoc, setDoc, updateDoc, deleteDoc } from 'firebase/firestore';
+import { readFileSync } from 'fs';
 
 describe('Firestore Rules Test', () => {
   let testEnv;
@@ -13,7 +13,7 @@ describe('Firestore Rules Test', () => {
     testEnv = await initializeTestEnvironment({
       projectId: 'test-project',
       firestore: {
-        rules: fs.readFileSync('firestore.rules', 'utf8'),
+        rules: readFileSync('firestore.rules', 'utf8'),
       },
     });
 

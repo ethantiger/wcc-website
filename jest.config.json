@@ -1,6 +1,0 @@
-{
-  "testEnvironment": "node",
-  "testMatch": ["**/firestore.rules.test.js"],
-  "testTimeout": 30000,
-  "verbose": true
-}

@@ -12,7 +12,7 @@
     "deploy:stage": "npm run build && firebase hosting:channel:deploy stage --expires 1d",
     "deploy:prod": "npm run build:prod && firebase deploy --only hosting",
     "test:rules": "firebase emulators:exec --only firestore 'npm run jest:rules'",
-    "jest:rules": "jest firestore.rules.test.js",
+    "jest:rules": "node --experimental-vm-modules node_modules/.bin/jest firestore.rules.test.js",
     "test:rules:watch": "firebase emulators:exec --only firestore 'npm run jest:rules -- --watch'",
     "test:rules:coverage": "firebase emulators:exec --only firestore 'npm run jest:rules -- --coverage'"
   },
