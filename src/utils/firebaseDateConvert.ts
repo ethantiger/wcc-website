@@ -14,7 +14,6 @@ export function convertTimestampToDate(timestamp: Timestamp): DateString {
   const time = timestamp.toDate().toLocaleTimeString('en-US', {
     hour: 'numeric',
     minute: 'numeric',
-    second: 'numeric'
   })
   return { date, time }
 }
