@@ -140,6 +140,30 @@ describe('Firestore Rules Test', () => {
       );
     });
 
+    test('Non-owners cannot update carpools if carpool is not open', async () => {
+      await testEnv.withSecurityRulesDisabled(async (context) => {
+        await setDoc(doc(context.firestore(), 'carpools_test', 'protected-carpool'), {
+          userId: 'owner-id',
+          location: 'London',
+          destination: 'Toronto',
+          status: 'Closed',
+          people: ['owner-id'],
+          maxPeople: 4,
+        });
+      });
+
+      // Different user trying to change destination
+      const otherDb = testEnv.authenticatedContext('other-user-id', {
+        email: 'other@uwo.ca',
+      }).firestore();
+
+      await assertFails(
+        updateDoc(doc(otherDb, 'carpools_test', 'protected-carpool'), {
+          destination: 'Ottawa',
+        })
+      );
+    })
+
     test('Non-owners can join open carpools by updating people array', async () => {
       // Create carpool with security rules disabled
       await testEnv.withSecurityRulesDisabled(async (context) => {
