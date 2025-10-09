@@ -1,7 +1,7 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useCarpoolWithUser } from "@/hooks/useCarpoolWithUser";
 import { CarpoolStatusEnum } from "../enums/CarpoolStatusEnum";
-import { IconArrowLeft, IconCalendar, IconUser, IconUsers, IconMapPin, IconClock, IconFileText, IconEdit, IconTrash, IconChevronDown, IconPhone, IconMail } from "@tabler/icons-react";
+import { IconArrowLeft, IconCalendar, IconUser, IconUsers, IconMapPin, IconClock, IconFileText, IconEdit, IconTrash, IconChevronDown, IconPhone, IconMail, IconX } from "@tabler/icons-react";
 import { convertTimestampToDate } from "@/utils/firebaseDateConvert";
 import { useAuthContext } from "@/hooks/useAuthContext";
 import { doc, updateDoc, arrayUnion, arrayRemove, deleteDoc } from "firebase/firestore";
@@ -18,6 +18,7 @@ export default function CarpoolDetails() {
   const [isLeaving, setIsLeaving] = useState(false);
   const [isRequesting, setIsRequesting] = useState(false);
   const [isManagingRequest, setIsManagingRequest] = useState(false);
+  const [isRemovingUser, setIsRemovingUser] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
@@ -278,6 +279,58 @@ export default function CarpoolDetails() {
       setMessage({ text: "Failed to deny request. Please try again.", type: 'error' });
     } finally {
       setIsManagingRequest(false);
+    }
+  };
+
+  // Function to handle removing a user from carpool
+  const handleRemoveUser = async (userId: string) => {
+    setMessage(null);
+    
+    if (!currentUser || !carpool || !id) {
+      setMessage({ text: "Unable to remove user. Please make sure you're logged in.", type: 'error' });
+      return;
+    }
+
+    // Check if current user is the owner
+    if (carpool.userId !== currentUser.uid) {
+      setMessage({ text: "Only the carpool owner can remove users.", type: 'error' });
+      return;
+    }
+
+    // Check if trying to remove the owner
+    if (userId === carpool.userId) {
+      setMessage({ text: "You cannot remove yourself as the owner!", type: 'error' });
+      return;
+    }
+
+    // Check if user is actually in the carpool
+    if (!carpool.people.includes(userId)) {
+      setMessage({ text: "This user is not part of the carpool.", type: 'info' });
+      return;
+    }
+
+    // Confirm removal
+    const carpoolUser = carpoolUsers.find(u => u.id === userId);
+    const userName = carpoolUser?.displayName || carpoolUser?.email || 'this user';
+    if (!window.confirm(`Are you sure you want to remove ${userName} from this carpool?`)) {
+      return;
+    }
+
+    try {
+      setIsRemovingUser(true);
+      
+      const carpoolRef = doc(db, collections.carpoolCollection, id);
+      await updateDoc(carpoolRef, {
+        people: arrayRemove(userId)
+      });
+
+      setMessage({ text: "User removed successfully!", type: 'success' });
+      
+    } catch (error) {
+      console.error("Error removing user:", error);
+      setMessage({ text: "Failed to remove user. Please try again.", type: 'error' });
+    } finally {
+      setIsRemovingUser(false);
     }
   };
 
@@ -733,6 +786,22 @@ export default function CarpoolDetails() {
                                 </div>
                               )}
                             </div>
+                            
+                            {/* Remove Button (Only for owner and not for the driver) */}
+                            {currentUser && carpool.userId === currentUser.uid && carpoolUser.id !== carpool.userId && (
+                              <button
+                                onClick={() => handleRemoveUser(carpoolUser.id)}
+                                disabled={isRemovingUser}
+                                className={`p-1 rounded-full transition-all duration-200 ${
+                                  isRemovingUser
+                                    ? 'bg-slate-300 text-slate-500 cursor-not-allowed'
+                                    : 'bg-red-100 text-red-600 hover:bg-red-200 dark:bg-red-900/30 dark:text-red-300 dark:hover:bg-red-900/50'
+                                }`}
+                                title="Remove user from carpool"
+                              >
+                                <IconX size={14} />
+                              </button>
+                            )}
                           </div>
                         ))
                       ) : (

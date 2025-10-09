@@ -83,7 +83,7 @@ export function useCarpoolWithUser(
 
         // Fetch all users in the carpool (driver + passengers + requests)
         if ((carpoolData.people && carpoolData.people.length > 0) || (carpoolData.requests && carpoolData.requests.length > 0)) {
-          fetchCarpoolUsers([...carpoolData.people, ...carpoolData.requests]);
+          fetchCarpoolUsers([...(carpoolData.people || []), ...(carpoolData.requests || [])]);
         } else {
           setCarpoolUsers([]);
           setCarpoolUsersLoading(false);
