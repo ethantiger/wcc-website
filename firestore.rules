@@ -4,7 +4,8 @@ service cloud.firestore {
     // Helper function to check if user has valid UWO email
     function isUWOUser() {
       return request.auth != null && 
-             request.auth.token.email != null;
+             request.auth.token.email != null &&
+             request.auth.token.email.matches('.*@uwo\\.ca$');
     }
 
     match /events_test/{eventId} {

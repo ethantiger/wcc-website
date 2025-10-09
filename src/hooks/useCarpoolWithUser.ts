@@ -22,7 +22,7 @@ export function useCarpoolWithUser(
 ): UseCarpoolWithUserResult {
   const [carpool, setCarpool] = useState<CarpoolPost | null>(null);
   const [user, setUser] = useState<User | null>(null);
-  const [carpoolUsers, setCarpoolUsers] = useState<User[]>([]); // All users in carpool
+  const [carpoolUsers, setCarpoolUsers] = useState<User[]>([]);
   const [carpoolLoading, setCarpoolLoading] = useState(true);
   const [userLoading, setUserLoading] = useState(false);
   const [carpoolUsersLoading, setCarpoolUsersLoading] = useState(false);
@@ -81,9 +81,9 @@ export function useCarpoolWithUser(
           setUserLoading(false);
         }
 
-        // Fetch all users in the carpool (driver + passengers)
-        if (carpoolData.people && carpoolData.people.length > 0) {
-          fetchCarpoolUsers(carpoolData.people);
+        // Fetch all users in the carpool (driver + passengers + requests)
+        if ((carpoolData.people && carpoolData.people.length > 0) || (carpoolData.requests && carpoolData.requests.length > 0)) {
+          fetchCarpoolUsers([...carpoolData.people, ...carpoolData.requests]);
         } else {
           setCarpoolUsers([]);
           setCarpoolUsersLoading(false);
