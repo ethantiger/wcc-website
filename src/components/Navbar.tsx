@@ -12,6 +12,7 @@ const navLinks = [
   { name: "Pricing", href: "#pricing" },
   // { name: "History", href: "#history" },
   { name: "Contact", href: "#contact" },
+  { name: "Gallery", href: "/gallery" },
 ];
 
 const Navbar: React.FC = () => {
@@ -51,6 +52,20 @@ const Navbar: React.FC = () => {
             </li>
           {navLinks.map((link) => (
             <li key={link.name} className="w-full md:w-auto">
+              {link.href.startsWith("/") ? (
+                <Link
+                  to={link.href}
+                  onClick={() => setOpen(false)}
+                  className={`block px-6 py-3 rounded-full font-medium text-center transition-all duration-200 hover:cursor-pointer
+                    ${
+                      link.name === "Gallery"
+                        ? "bg-white text-black hover:bg-gray-200"
+                        : "text-white hover:bg-gradient-to-r hover:from-purple-600/30 hover:to-fuchsia-600/30 hover:text-purple-100"
+                    }`}
+                >
+                  {link.name}
+                </Link>
+              ) : (
               <a
                 href={link.href}
                 onClick={handleLinkClick}
@@ -58,6 +73,7 @@ const Navbar: React.FC = () => {
               >
                 {link.name}
               </a>
+            )}
             </li>
           ))}
           {devTesting && (
