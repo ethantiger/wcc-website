@@ -28,7 +28,7 @@ const Noise: React.FC<NoiseProps> = ({
       canvas.width = canvasSize;
       canvas.height = canvasSize;
 
-      canvas.style.width = '200vw';
+      canvas.style.width = '100vw';
       canvas.style.height = '200vh';
     };
 

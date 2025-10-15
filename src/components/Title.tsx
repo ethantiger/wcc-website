@@ -97,7 +97,7 @@ export default function Title() {
         </ParallaxLayer>
         <ParallaxLayer factor={2} speed={1} pageOffset={2} colour='#10091e' />
       </ParallaxContainer>
-      <div className={`${isMobile ? 'h-[100vh]' : 'h-[140vh]'}`}></div>
+      <div className={`${isMobile ? 'h-[100vh]' : 'h-[150vh]'}`}></div>
     </>
   )
 }

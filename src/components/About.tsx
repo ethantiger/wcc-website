@@ -1,5 +1,4 @@
 import { useState } from "react";
-import BouncingText from "./ui/BouncingText";
 import { IconCaretUp, IconCaretDown } from "@tabler/icons-react";
 import AnimatedTestimonials from "./ui/Animated-testimonials";
 
@@ -72,10 +71,18 @@ export default function About() {
 
   return (
     <section id="about">
-      <div className="mb-12 flex flex-col items-center justify-start bg-[#10091e] text-gray-200 p-6">
+      <div className="flex items-center justify-start bg-[#10091e] text-gray-200">
         
-        <h1 className="md:ms-4 text-3xl md:text-5xl font-bold mb-6 text-purple-300 text-center md:pt-30"> <BouncingText text="About Us" /> </h1>
+        <div className="flex justify-center items-center md:h-screen h-[200px] md:w-[250px] w-full md:mr-8">
+          <h1
+            className="transform -rotate-90 text-[4rem] md:text-[8rem] font-extrabold text-purple-300"
+            style={{ whiteSpace: "nowrap", fontFamily: 'BodoniFLF Bold, serif' }}
+          >
+            About Us
+          </h1>
+        </div>
 
+        <div className="flex-1">
         {/* Mission */}
         <h2
           className="text-2xl font-semibold text-purple-200 mb-3 cursor-pointer flex items-center"
@@ -90,7 +97,7 @@ export default function About() {
         </h2>
 
    {storyOpen && (
-    <div className="mt-6 w-full flex flex-col md:flex-row items-center md:items-start md:space-x-8 max-w-5xl mx-auto px-4">
+    <div className="w-full flex flex-col md:flex-row items-center md:items-start md:space-x-8 max-w-5xl mx-auto px-4">
       {/* Text */}
       <div className="flex-1">
         <p className="max-w-2xl mb-4 text-sm">
@@ -159,6 +166,7 @@ export default function About() {
                 />
               </div>
             ))}
+        </div>
         </div>
       </div>
     </section>
