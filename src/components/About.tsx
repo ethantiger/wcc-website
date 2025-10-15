@@ -1,11 +1,10 @@
 import { useState } from "react";
-import { IconCaretUp, IconCaretDown } from "@tabler/icons-react";
 import AnimatedTestimonials from "./ui/Animated-testimonials";
 
 
 export default function About() {
-  const [storyOpen, setStoryOpen] = useState(true);
   const [selectedTeam, setSelectedTeam] = useState<string>("President");
+  const [isFlipped, setIsFlipped] = useState(false);
 
   const teams = [
     {
@@ -83,54 +82,108 @@ export default function About() {
         </div>
 
         <div className="flex-1">
-        {/* Mission */}
-        <h2
-          className="text-2xl font-semibold text-purple-200 mb-3 cursor-pointer flex items-center"
-          onClick={() => setStoryOpen(!storyOpen)}
-        >
-          Our Story 
-          {storyOpen ? (
-            <IconCaretUp className="ml-2" size={20} />
-          ) : (
-            <IconCaretDown className="ml-2" size={20} />
-          )}
-        </h2>
+          <div className="w-full max-w-4xl mx-auto px-4 mb-8">
+            {/* Postcard Container */}
+            <div className="relative w-full max-w-3xl mx-auto" style={{ perspective: '1000px' }}>
+              <div 
+                className="postcard-container relative w-full h-80 transition-transform duration-700 hover:scale-105"
+                style={{ 
+                  transformStyle: 'preserve-3d',
+                  transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)'
+                }}
+                onClick={() => setIsFlipped((prev) => !prev)}
+              >
+                {/* Front of Postcard - Image */}
+                <div 
+                  className="absolute inset-0 w-full h-full rounded-2xl shadow-2xl"
+                  style={{ backfaceVisibility: 'hidden' }}
+                >
+                  {/* ... (rest of front content) ... */}
+                  <div className="relative w-full h-full">
+                    <img
+                      src="/execs/team.jpg"
+                      alt="Our Team"
+                      className="w-full h-full object-cover rounded-2xl"
+                    />
+                    {/* Postcard styling overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent rounded-2xl"></div>
+                    {/* Postcard text overlay */}
+                    <div className="absolute bottom-4 left-4 text-white">
+                      <p className="text-lg font-bold font-serif">Western Climbing Club</p>
+                      <p className="text-sm opacity-90">2025-2026</p>
+                    </div>
+                    {/* Vintage postcard corner */}
+                    <div className="absolute top-4 right-4 text-white opacity-75">
+                      <p className="text-xs font-mono">POST CARD</p>
+                    </div>
+                    {/* Flip indicator */}
+                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white/90 text-center">
+                      <p className="text-sm font-medium bg-black/50 px-3 py-1 rounded-full backdrop-blur-sm">
+                        Click to flip
+                      </p>
+                    </div>
+                  </div>
+                </div>
 
-   {storyOpen && (
-    <div className="w-full flex flex-col md:flex-row items-center md:items-start md:space-x-8 max-w-5xl mx-auto px-4">
-      {/* Text */}
-      <div className="flex-1">
-        <p className="max-w-2xl mb-4 text-sm">
-          Hey Climbers! We’re so excited to welcome you to another incredible year with the Western Climbing Club! 
-          Since our very first meet-up in 2017, this community has grown into something truly special — all because of you. 
-          Your passion, your encouragement, and your adventurous spirit are what make this club feel like home. 
-        </p>
-        <p className="max-w-2xl mb-4 text-sm">
-          Over the past months, our exec team has been busy behind the scenes making this year the most unforgettable one yet. 
-          From friendly competitions and outdoor trips to skill-building sessions and late-night bouldering hangs, 
-          everything we’ve planned is here to support you — to help you push your limits, grow your skills, and connect with others who share your love for climbing. 
-        </p>
-        <p className="max-w-2xl mb-4 text-sm">
-          Whether you’ve been with us since our first rope nights or you’re just stepping onto the wall for the first time, 
-          we want this to be a place where you feel encouraged to challenge yourself, try new things, and share in the joy of reaching new heights. 
-          We can’t wait to see the memories we’ll make together this year. 
-          Here’s to another season of climbing, laughter, and adventure. 
-        </p>
-        <p className="max-w-2xl mb-4 text-sm">
-          – Western Climbing Club Team
-        </p>
-      </div>
+                {/* Back of Postcard - Text */}
+                <div 
+                  className="absolute inset-0 w-full h-full rounded-2xl shadow-2xl bg-gradient-to-br from-amber-50 to-yellow-100 dark:from-amber-900 dark:to-yellow-900"
+                  style={{ 
+                    backfaceVisibility: 'hidden', 
+                    transform: 'rotateY(180deg)' 
+                  }}
+                >
+                  {/* ... (rest of back content) ... */}
+                  <div className="h-full p-6 flex flex-col justify-center relative">
+                    {/* Postcard lines */}
+                    <div className="absolute inset-4 opacity-20">
+                      {[...Array(10)].map((_, i) => (
+                        <div key={i} className="border-b border-amber-400 dark:border-amber-600 mb-3"></div>
+                      ))}
+                    </div>
+                    
+                    {/* Vintage postcard header */}
+                    <div className="text-center mb-4 relative z-10">
+                      <h3 className="text-xl font-bold text-amber-800 dark:text-amber-200 font-serif">
+                        Our Story
+                      </h3>
+                      <div className="w-16 h-0.5 bg-amber-600 mx-auto mt-1"></div>
+                    </div>
 
-      {/* Team Photo */}
-      <div className="flex-1 flex justify-center mt-6 md:mt-0">
-        <img
-          src="/execs/team.jpg"
-          alt="Our Team"
-          className="rounded-2xl shadow-lg max-w-full h-auto"
-        />
-      </div>
-    </div>
-  )}
+                    {/* Text content */}
+                    <div className="space-y-3 text-amber-800 dark:text-amber-100 relative z-10 font-mono text-sm">
+                      <p className="leading-relaxed">
+                        Hey Climbers! We're so excited to welcome you to another incredible year with the Western Climbing Club! 
+                        Since our very first meet-up in 2017, this community has grown into something truly special.
+                      </p>
+                      <p className="leading-relaxed">
+                        Your passion, encouragement, and adventurous spirit make this club feel like home. 
+                        Our exec team has been busy making this year unforgettable!
+                      </p>
+                      <p className="leading-relaxed">
+                        Whether you're a veteran or stepping onto the wall for the first time, 
+                        we want this to be where you challenge yourself and reach new heights.
+                      </p>
+                      
+                      {/* Signature */}
+                      <div className="pt-2 text-right">
+                        <p className="text-sm italic text-amber-700 dark:text-amber-200">
+                          – Western Climbing Club Team
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Vintage stamp */}
+                    <div className="absolute top-4 right-4 w-16 h-12 border-2 border-dashed border-amber-600 dark:border-amber-400 flex items-center justify-center transform rotate-12">
+                      <span className="text-xs text-amber-600 dark:text-amber-400 font-bold">
+                        WCC
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
 
         {/*Nav*/}
         <div className="mt-6 w-full">
