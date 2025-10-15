@@ -1,5 +1,5 @@
 import Title from '@/components/Title'
-import About from '@/components/About'
+import Team from '@/components/Team'
 import Events from '@/components/Events'
 // import History from '@/components/History'
 // import Sponsors from '@/components/Sponsors'
@@ -11,7 +11,7 @@ export default function Homepage() {
   return (
     <>
       <Title />
-      <About />
+      <Team />
       <Events />
       <Pricing />
       {/* <History /> */}

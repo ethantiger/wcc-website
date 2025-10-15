@@ -69,15 +69,15 @@ export default function About() {
   ];
 
   return (
-    <section id="about">
-      <div className="flex items-center justify-start bg-[#10091e] text-gray-200">
+    <section id="team">
+      <div className="flex flex-col md:flex-row items-center justify-start bg-[#10091e] text-gray-200">
         
         <div className="flex justify-center items-center md:h-screen h-[200px] md:w-[250px] w-full md:mr-8">
           <h1
-            className="transform -rotate-90 text-[4rem] md:text-[8rem] font-extrabold text-purple-300"
+            className="transform md:-rotate-90 text-[4rem] md:text-[8rem] font-extrabold text-purple-300"
             style={{ whiteSpace: "nowrap", fontFamily: 'BodoniFLF Bold, serif' }}
           >
-            About Us
+            Our Team
           </h1>
         </div>
 
