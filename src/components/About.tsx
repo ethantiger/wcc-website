@@ -117,7 +117,7 @@ export default function About() {
                       <p className="text-xs font-mono">POST CARD</p>
                     </div>
                     {/* Flip indicator */}
-                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white/90 text-center">
+                    <div className="absolute top-10 left-20 transform -translate-x-1/2 -translate-y-1/2 text-white/90 text-center">
                       <p className="text-sm font-medium bg-black/50 px-3 py-1 rounded-full backdrop-blur-sm">
                         Click to flip
                       </p>
@@ -127,7 +127,7 @@ export default function About() {
 
                 {/* Back of Postcard - Text */}
                 <div 
-                  className="absolute inset-0 w-full h-full rounded-2xl shadow-2xl bg-gradient-to-br from-amber-50 to-yellow-100 dark:from-amber-900 dark:to-yellow-900"
+                  className="absolute inset-0 w-full h-full rounded-2xl shadow-2xl bg-gradient-to-br from-gray-900 to-gray-800"
                   style={{ 
                     backfaceVisibility: 'hidden', 
                     transform: 'rotateY(180deg)' 
@@ -137,21 +137,21 @@ export default function About() {
                   <div className="h-full p-6 flex flex-col justify-center relative">
                     {/* Postcard lines */}
                     <div className="absolute inset-4 opacity-20">
-                      {[...Array(10)].map((_, i) => (
-                        <div key={i} className="border-b border-amber-400 dark:border-amber-600 mb-3"></div>
+                      {[...Array(24)].map((_, i) => (
+                        <div key={i} className="border-b border-amber-400 dark:border-amber-50 mb-3"></div>
                       ))}
                     </div>
                     
                     {/* Vintage postcard header */}
                     <div className="text-center mb-4 relative z-10">
-                      <h3 className="text-xl font-bold text-amber-800 dark:text-amber-200 font-serif">
-                        Our Story
+                      <h3 className="text-xl font-bold text-purple-400 font-serif">
+                        Welcome back!
                       </h3>
-                      <div className="w-16 h-0.5 bg-amber-600 mx-auto mt-1"></div>
+                      <div className="w-16 h-0.5 bg-purple-300 mx-auto mt-1"></div>
                     </div>
 
                     {/* Text content */}
-                    <div className="space-y-3 text-amber-800 dark:text-amber-100 relative z-10 font-mono text-sm">
+                    <div className="space-y-3 text-amber-100 relative z-10 font-mono text-sm">
                       <p className="leading-relaxed">
                         Hey Climbers! We're so excited to welcome you to another incredible year with the Western Climbing Club! 
                         Since our very first meet-up in 2017, this community has grown into something truly special.
@@ -167,15 +167,15 @@ export default function About() {
                       
                       {/* Signature */}
                       <div className="pt-2 text-right">
-                        <p className="text-sm italic text-amber-700 dark:text-amber-200">
+                        <p className="text-sm italic text-purple-400">
                           – Western Climbing Club Team
                         </p>
                       </div>
                     </div>
 
                     {/* Vintage stamp */}
-                    <div className="absolute top-4 right-4 w-16 h-12 border-2 border-dashed border-amber-600 dark:border-amber-400 flex items-center justify-center transform rotate-12">
-                      <span className="text-xs text-amber-600 dark:text-amber-400 font-bold">
+                    <div className="absolute top-4 right-4 w-16 h-12 border-2 border-dashed border-purple-600 dark:border-purple-400 flex items-center justify-center transform rotate-12">
+                      <span className="text-xs text-purple-600 dark:text-purple-400 font-bold">
                         WCC
                       </span>
                     </div>
