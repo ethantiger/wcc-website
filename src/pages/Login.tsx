@@ -13,7 +13,7 @@ const Login: React.FC = () => {
           onClick={loginWithMicrosoft}
           className="w-full mb-4 py-2 px-6 text-white bg-indigo-600 rounded-full border border-indigo-600 hover:bg-white dark:hover:bg-black hover:text-indigo-600 transition-all duration-300 hover:cursor-pointer"
         >
-          Login with Microsoft {<IconBrandWindowsFilled className="inline-block ml-2" size={20} />}
+          Login with UWO {<IconBrandWindowsFilled className="inline-block ml-2" size={20} />}
         </button>
 
         {error && (
