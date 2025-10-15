@@ -86,72 +86,80 @@ export default function About() {
             {/* Postcard Container */}
             <div className="relative w-full max-w-3xl mx-auto" style={{ perspective: '1000px' }}>
               <div 
-                className="postcard-container relative w-full h-80 transition-transform duration-700 hover:scale-105"
+                className="postcard-container relative w-full h-96 transition-transform duration-700 hover:scale-105 transform rotate-3 hover:rotate-1"
                 style={{ 
                   transformStyle: 'preserve-3d',
-                  transform: isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)'
+                  transform: `${isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)'} rotate(3deg)`,
                 }}
                 onClick={() => setIsFlipped((prev) => !prev)}
               >
-                {/* Front of Postcard - Image */}
+                {/* Front of Postcard - Image with Polaroid styling */}
                 <div 
-                  className="absolute inset-0 w-full h-full rounded-2xl shadow-2xl"
-                  style={{ backfaceVisibility: 'hidden' }}
+                  className="absolute inset-0 w-full h-full bg-white p-4 shadow-2xl transform hover:shadow-3xl"
+                  style={{ 
+                    backfaceVisibility: 'hidden',
+                    borderRadius: '8px',
+                    boxShadow: '0 20px 40px rgba(0,0,0,0.3), 0 8px 16px rgba(0,0,0,0.2)'
+                  }}
                 >
-                  {/* ... (rest of front content) ... */}
-                  <div className="relative w-full h-full">
+                  <div className="relative w-full h-4/5 bg-gray-100">
                     <img
                       src="/execs/team.jpg"
                       alt="Our Team"
-                      className="w-full h-full object-cover rounded-2xl"
+                      className="w-full h-full object-cover"
+                      style={{ borderRadius: '4px' }}
                     />
                     {/* Postcard styling overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent rounded-2xl"></div>
-                    {/* Postcard text overlay */}
-                    <div className="absolute bottom-4 left-4 text-white">
-                      <p className="text-lg font-bold font-serif">Western Climbing Club</p>
-                      <p className="text-sm opacity-90">2025-2026</p>
-                    </div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" style={{ borderRadius: '4px' }}></div>
                     {/* Vintage postcard corner */}
-                    <div className="absolute top-4 right-4 text-white opacity-75">
+                    <div className="absolute top-2 right-2 text-white opacity-75">
                       <p className="text-xs font-mono">POST CARD</p>
                     </div>
                     {/* Flip indicator */}
-                    <div className="absolute top-10 left-20 transform -translate-x-1/2 -translate-y-1/2 text-white/90 text-center">
-                      <p className="text-sm font-medium bg-black/50 px-3 py-1 rounded-full backdrop-blur-sm">
+                    <div className="absolute top-4 left-4 text-white/90 text-center">
+                      <p className="text-xs font-medium bg-black/50 px-2 py-1 rounded backdrop-blur-sm">
                         Click to flip
                       </p>
                     </div>
                   </div>
+                  
+                  {/* Polaroid white bottom section */}
+                  <div className="h-1/5 flex items-center justify-center bg-white">
+                    <div className="text-center">
+                      <p className="text-lg font-bold text-gray-800 font-serif">Western Climbing Club</p>
+                      <p className="text-sm text-gray-600">2025-2026</p>
+                    </div>
+                  </div>
                 </div>
 
-                {/* Back of Postcard - Text */}
+                {/* Back of Postcard - Text with Polaroid styling */}
                 <div 
-                  className="absolute inset-0 w-full h-full rounded-2xl shadow-2xl bg-gradient-to-br from-gray-900 to-gray-800"
+                  className="absolute inset-0 w-full h-full bg-white p-4 shadow-2xl"
                   style={{ 
                     backfaceVisibility: 'hidden', 
-                    transform: 'rotateY(180deg)' 
+                    transform: 'rotateY(180deg)',
+                    borderRadius: '8px',
+                    boxShadow: '0 20px 40px rgba(0,0,0,0.3), 0 8px 16px rgba(0,0,0,0.2)'
                   }}
                 >
-                  {/* ... (rest of back content) ... */}
-                  <div className="h-full p-6 flex flex-col justify-center relative">
+                  <div className="h-full bg-gradient-to-br from-gray-50 to-gray-100 p-4" style={{ borderRadius: '4px' }}>
                     {/* Postcard lines */}
-                    <div className="absolute inset-4 opacity-20">
-                      {[...Array(24)].map((_, i) => (
-                        <div key={i} className="border-b border-amber-400 dark:border-amber-50 mb-3"></div>
+                    <div className="absolute inset-8 opacity-20">
+                      {[...Array(20)].map((_, i) => (
+                        <div key={i} className="border-b border-blue-300 mb-4"></div>
                       ))}
                     </div>
                     
                     {/* Vintage postcard header */}
                     <div className="text-center mb-4 relative z-10">
-                      <h3 className="text-xl font-bold text-purple-400 font-serif">
+                      <h3 className="text-xl font-bold text-purple-600 font-serif">
                         Welcome back!
                       </h3>
-                      <div className="w-16 h-0.5 bg-purple-300 mx-auto mt-1"></div>
+                      <div className="w-16 h-0.5 bg-purple-400 mx-auto mt-1"></div>
                     </div>
 
                     {/* Text content */}
-                    <div className="space-y-3 text-amber-100 relative z-10 font-mono text-sm">
+                    <div className="space-y-3 text-gray-700 relative z-10 font-mono text-sm">
                       <p className="leading-relaxed">
                         Hey Climbers! We're so excited to welcome you to another incredible year with the Western Climbing Club! 
                         Since our very first meet-up in 2017, this community has grown into something truly special.
@@ -167,15 +175,15 @@ export default function About() {
                       
                       {/* Signature */}
                       <div className="pt-2 text-right">
-                        <p className="text-sm italic text-purple-400">
+                        <p className="text-sm italic text-purple-600">
                           – Western Climbing Club Team
                         </p>
                       </div>
                     </div>
 
                     {/* Vintage stamp */}
-                    <div className="absolute top-4 right-4 w-16 h-12 border-2 border-dashed border-purple-600 dark:border-purple-400 flex items-center justify-center transform rotate-12">
-                      <span className="text-xs text-purple-600 dark:text-purple-400 font-bold">
+                    <div className="absolute top-6 right-6 w-16 h-12 border-2 border-dashed border-purple-500 flex items-center justify-center transform rotate-12 bg-white">
+                      <span className="text-xs text-purple-600 font-bold">
                         WCC
                       </span>
                     </div>
