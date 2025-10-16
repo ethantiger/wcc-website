@@ -71,6 +71,72 @@ describe('Firestore Rules Test', () => {
         })
       );
     });
+
+    test('UWO users can update their own user document', async () => {
+      // First create the user document
+      await testEnv.withSecurityRulesDisabled(async (context) => {
+        await setDoc(doc(context.firestore(), 'users', 'uwo-user-id'), {
+          displayName: 'Test User',
+          email: 'student@uwo.ca',
+        });
+      });
+
+      await assertSucceeds(
+        updateDoc(doc(uwoUserDb, 'users', 'uwo-user-id'), {
+          displayName: 'Updated User',
+        })
+      );
+    });
+
+    test('UWO users cannot update other user documents', async () => {
+      // First create another user document with a different ID
+      await testEnv.withSecurityRulesDisabled(async (context) => {
+        await setDoc(doc(context.firestore(), 'users', 'other-user-id'), {
+          displayName: 'Other User',
+          email: 'other@uwo.ca',
+        });
+      });
+
+      // UWO user trying to update a different user's document should fail
+      await assertFails(
+        updateDoc(doc(uwoUserDb, 'users', 'other-user-id'), {
+          displayName: 'Malicious Update',
+        })
+      );
+    });
+
+    test('Non-UWO users cannot update any user documents', async () => {
+      // First create a user document
+      await testEnv.withSecurityRulesDisabled(async (context) => {
+        await setDoc(doc(context.firestore(), 'users', 'non-uwo-user-id'), {
+          displayName: 'Non UWO User',
+          email: 'user@gmail.com',
+        });
+      });
+
+      // Non-UWO user trying to update their own document should fail
+      await assertFails(
+        updateDoc(doc(nonUwoUserDb, 'users', 'non-uwo-user-id'), {
+          displayName: 'Updated User',
+        })
+      );
+    });
+
+    test('Unauthenticated users cannot update user documents', async () => {
+      // First create a user document
+      await testEnv.withSecurityRulesDisabled(async (context) => {
+        await setDoc(doc(context.firestore(), 'users', 'some-user-id'), {
+          displayName: 'Some User',
+          email: 'user@uwo.ca',
+        });
+      });
+
+      await assertFails(
+        updateDoc(doc(unauthenticatedDb, 'users', 'some-user-id'), {
+          displayName: 'Malicious Update',
+        })
+      );
+    });
   });
 
   describe('Carpools Collection Rules', () => {

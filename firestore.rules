@@ -21,6 +21,7 @@ service cloud.firestore {
     match /users/{userId} {
       allow read: if isUWOUser();
       allow create: if isUWOUser();
+      allow update: if isUWOUser() && request.auth.uid == userId;
     }
 
     match /carpools_prod/{carpool} {

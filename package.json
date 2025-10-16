@@ -14,7 +14,8 @@
     "test:rules": "firebase emulators:exec --only firestore 'npm run jest:rules'",
     "jest:rules": "node --experimental-vm-modules node_modules/.bin/jest firestore.rules.test.js",
     "test:rules:watch": "firebase emulators:exec --only firestore 'npm run jest:rules -- --watch'",
-    "test:rules:coverage": "firebase emulators:exec --only firestore 'npm run jest:rules -- --coverage'"
+    "test:rules:coverage": "firebase emulators:exec --only firestore 'npm run jest:rules -- --coverage'",
+    "update:rules": "firebase deploy --only firestore"
   },
   "dependencies": {
     "@tabler/icons-react": "^3.34.1",
