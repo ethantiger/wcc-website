@@ -1,7 +1,7 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useCarpoolWithUser } from "@/hooks/useCarpoolWithUser";
 import { CarpoolStatusEnum } from "../enums/CarpoolStatusEnum";
-import { IconArrowLeft, IconCalendar, IconUser, IconUsers, IconMapPin, IconClock, IconFileText, IconEdit, IconTrash, IconChevronDown, IconPhone, IconMail, IconX } from "@tabler/icons-react";
+import { IconArrowLeft, IconCalendar, IconUser, IconUsers, IconMapPin, IconClock, IconFileText, IconEdit, IconTrash, IconChevronDown, IconPhone, IconMail, IconX, IconAlertTriangle } from "@tabler/icons-react";
 import { convertTimestampToDate } from "@/utils/firebaseDateConvert";
 import { useAuthContext } from "@/hooks/useAuthContext";
 import { doc, updateDoc, arrayUnion, arrayRemove, deleteDoc } from "firebase/firestore";
@@ -744,8 +744,31 @@ export default function CarpoolDetails() {
                      carpool.userId[0]?.toUpperCase() || '?'}
                   </span>
                 </div>
-                <p className="font-semibold text-slate-800 dark:text-slate-100">{user?.displayName || user?.email || 'Unknown'}</p>
-                <p className="text-sm text-slate-500 dark:text-slate-400">Driver</p>
+                <p className="font-semibold text-slate-800 dark:text-slate-100 text-lg mb-1">{user?.displayName || user?.email || 'Unknown'}</p>
+                <div className="space-y-2 mb-3">
+                  {user?.email && (
+                    <div className="flex items-center justify-center gap-2 px-3 py-2 bg-slate-50 dark:bg-slate-700/50 rounded-lg">
+                      <IconMail size={16} className="text-slate-500 dark:text-slate-400 flex-shrink-0" />
+                      <p className="text-sm text-slate-700 dark:text-slate-300 font-medium truncate">{user.email}</p>
+                    </div>
+                  )}
+                  {user?.phoneNumber && (
+                    <div className="flex items-center justify-center gap-2 px-3 py-2 bg-slate-50 dark:bg-slate-700/50 rounded-lg">
+                      <IconPhone size={16} className="text-slate-500 dark:text-slate-400 flex-shrink-0" />
+                      <p className="text-sm text-slate-700 dark:text-slate-300 font-medium">{user.phoneNumber}</p>
+                    </div>
+                  )}
+                  {!user?.email && !user?.phoneNumber && (
+                    <div className="flex items-center justify-center gap-2 px-3 py-2 bg-amber-50 dark:bg-amber-900/20 rounded-lg border border-amber-200 dark:border-amber-700/50">
+                      <IconAlertTriangle size={16} className="text-amber-600 dark:text-amber-400 flex-shrink-0" />
+                      <p className="text-sm text-amber-700 dark:text-amber-300 font-medium">No contact info available</p>
+                    </div>
+                  )}
+                </div>
+                <div className="inline-flex items-center gap-1 px-2 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 rounded-full text-xs font-medium">
+                  <IconUser size={14} />
+                  Driver
+                </div>
               </div>
             </div>
 
