@@ -219,6 +219,46 @@ export default function CarpoolDetails() {
     }
   };
 
+  const handleCancelRequest = async () => {
+    setMessage(null); // Clear any previous messages
+    
+    if (!currentUser || !carpool || !id) {
+      setMessage({ text: "Unable to leave carpool. Please make sure you're logged in.", type: 'error' });
+      return;
+    }
+
+    // Check if user is the creator of the carpool
+    if (carpool.userId === currentUser.uid) {
+      setMessage({ text: "You cannot leave your own carpool! You can delete it instead.", type: 'error' });
+      return;
+    }
+
+    // Check if user is actually in the carpool
+    if (!carpool.requests.includes(currentUser.uid)) {
+      setMessage({ text: "You're did not send a request to join this carpool.", type: 'info' });
+      return;
+    }
+
+    try {
+      setIsLeaving(true);
+      
+      // Update the carpool document to remove the current user
+      const carpoolRef = doc(db, collections.carpoolCollection, id);
+      await updateDoc(carpoolRef, {
+        requests: arrayRemove(currentUser.uid)
+      });
+
+      // Show success message
+      setMessage({ text: "Successfully cancelled request!", type: 'success' });
+      
+    } catch (error) {
+      console.error("Error leaving carpool:", error);
+      setMessage({ text: "Failed to cancel request. Please try again.", type: 'error' });
+    } finally {
+      setIsLeaving(false);
+    }
+  }
+
   // Function to handle approving a request
   const handleApproveRequest = async (userId: string) => {
     if (!currentUser || !carpool || !id) return;
@@ -401,6 +441,22 @@ export default function CarpoolDetails() {
             className="w-full rounded-xl bg-gradient-to-r from-slate-400 to-slate-500 cursor-not-allowed opacity-60 px-6 py-4 text-lg font-semibold text-white shadow-lg"
           >
             {'Your Carpool'}
+          </button>
+        )
+      }
+
+      if (currentUser && carpool.requests.includes(currentUser.uid)) {
+        return (
+          <button 
+            onClick={handleCancelRequest}
+            disabled={isLeaving || !currentUser}
+            className={`w-full rounded-xl px-6 py-4 text-lg font-semibold text-white shadow-lg transition-all duration-200 transform ${
+              isLeaving || !currentUser
+                ? 'bg-gradient-to-r from-slate-400 to-slate-500 cursor-not-allowed opacity-60'
+                : 'bg-gradient-to-r from-red-500 to-red-600 hover:shadow-xl hover:from-red-600 hover:to-red-700 hover:scale-[1.02] active:scale-[0.98]'
+            }`}
+          >
+            {isLeaving ? 'Leaving...' : 'Cancel Request'}
           </button>
         )
       }
