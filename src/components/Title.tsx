@@ -16,7 +16,6 @@ import wccLogo from '@/assets/WCC_Logo_White_-_No_Background.png'
 import { ShootingStars } from './ui/shooting-stars'
 import ParallaxContainer from './ui/ParallaxContainer'
 import BouncingText from './ui/BouncingText'
-import Noise from './ui/Noise'
 
 export default function Title() {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
@@ -39,7 +38,7 @@ export default function Title() {
                   factor={factor}
                   image={`${bg1}`}
             />
-            <ParallaxLayer speed={0.1}>
+            <ParallaxLayer speed={0}>
               <div className="flex flex-col items-start h-[150vh] w-full font-" style={{fontFamily: 'BodoniFLF Bold, serif'}}>
                 <span className="text-[40vh] leading-none font-bold text-white opacity-10">WESTERN</span>
                 <span className="text-[40vh] leading-none font-bold text-white opacity-10">CLIMBING</span>
@@ -63,9 +62,6 @@ export default function Title() {
             image={`${phonebg}`}
           />
         )}
-        <ParallaxLayer factor={2} speed={1}>
-          <Noise />
-        </ParallaxLayer>
         <ParallaxLayer speed={isMobile ? 1 : 0.1}>
           <img src={wccLogo} alt="WCC Logo" className="relative w-30 md:w-40 top-10 md:top-2/12 mx-auto opacity-40" />
         </ParallaxLayer>
