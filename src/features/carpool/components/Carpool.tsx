@@ -2,14 +2,16 @@ import CarpoolPost from "../interfaces/CarpoolPost";
 import collections from "@/firebase/collections";
 import { useCollection } from "@/hooks/useCollection";
 import { useState, useMemo } from "react";
-import { IconPlus } from "@tabler/icons-react";
+import { IconPlus, IconInbox } from "@tabler/icons-react";
 import CarpoolModal from "./CarpoolModal";
+import CarpoolInboxModal from "./CarpoolInboxModal";
 import CarpoolCard from "./CarpoolCard";
 import { useAuthContext } from "@/hooks/useAuthContext";
 
 export default function Carpool() {
   const { documents: carpools } = useCollection<CarpoolPost>(collections.carpoolCollection, null, ['targetDate', 'asc'], true);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [isInboxModalOpen, setIsInboxModalOpen] = useState(false);
   const { user: currentUser } = useAuthContext();
 
   // Categorize carpools based on user relationship
@@ -41,6 +43,18 @@ export default function Carpool() {
     });
 
     return { myCarpools, joinedCarpools, requestedCarpools, availableCarpools };
+  }, [carpools, currentUser]);
+
+  // Calculate total pending requests for user's carpools
+  const totalPendingRequests = useMemo(() => {
+    if (!carpools || !currentUser) return 0;
+    
+    return carpools.reduce((total, carpool) => {
+      if (carpool.userId === currentUser.uid && carpool.requests) {
+        return total + carpool.requests.length;
+      }
+      return total;
+    }, 0);
   }, [carpools, currentUser]);
 
   // Render a section of carpools
@@ -76,6 +90,20 @@ export default function Carpool() {
             Available Carpools
           </h1>
           <div className="flex items-center gap-4">
+            {/* Inbox Button - Only show if user has pending requests */}
+            {currentUser && totalPendingRequests > 0 && (
+              <button
+                onClick={() => setIsInboxModalOpen(true)}
+                className="relative inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-xl font-medium hover:from-blue-600 hover:to-indigo-700 transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg"
+              >
+                <IconInbox size={18} />
+                Inbox
+                {/* Notification Badge */}
+                <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+                  {totalPendingRequests}
+                </span>
+              </button>
+            )}
             <button
               onClick={() => setIsCreateModalOpen(true)}
               className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-emerald-500 to-teal-600 text-white rounded-xl font-medium hover:from-emerald-600 hover:to-teal-700 transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] shadow-lg"
@@ -193,6 +221,12 @@ export default function Carpool() {
         isOpen={isCreateModalOpen}
         onClose={() => setIsCreateModalOpen(false)}
         // onSuccess={handleCreateSuccess}
+      />
+
+      {/* Carpool Inbox Modal */}
+      <CarpoolInboxModal
+        isOpen={isInboxModalOpen}
+        onClose={() => setIsInboxModalOpen(false)}
       />
     </div>
   );
