@@ -6,8 +6,6 @@ import Login from "./pages/Login";
 import Navbar from "./components/Navbar";
 import Dashboard from "./pages/Dashboard";
 
-import { devTesting } from "./config";
-
 function App() {
   const { user, authIsReady } = useAuthContext();
 
@@ -32,12 +30,10 @@ function AppRoutes({ user }: { user: any }) {
       {!location.pathname.includes("/dashboard") && <Navbar />}
       <Routes>
         <Route path="/*" element={<Homepage />} />
-        {devTesting && (
-          <>
-            <Route path="/login" element={user ? <Navigate to="/dashboard/carpool" /> : <Login />} />
-            <Route path="/dashboard/*" element={user ? <Dashboard /> : <Navigate to="/login" />} />
-          </>
-        )}
+        <>
+          <Route path="/login" element={user ? <Navigate to="/dashboard/carpool" /> : <Login />} />
+          <Route path="/dashboard/*" element={user ? <Dashboard /> : <Navigate to="/login" />} />
+        </>
       </Routes>
     </>
   );
