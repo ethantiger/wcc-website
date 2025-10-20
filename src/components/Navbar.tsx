@@ -65,14 +65,14 @@ const Navbar: React.FC = () => {
               {user ? (
                 <Link
                   to="/dashboard/carpool"
-                  className="block px-6 py-3 rounded-full text-black bg-gradient-to-r from-amber-50 to-yellow-100 font-medium hover:from-amber-100 hover:to-yellow-200 hover:shadow-lg transition-all duration-200 text-center"
+                  className="block px-6 py-3 rounded-full text-black bg-white font-medium hover:bg-gray-300 hover:shadow-lg transition-all duration-200 text-center"
                 >
                   Dashboard
                 </Link>
               ) : (
                 <Link
                   to="/login"
-                  className="block px-6 py-3 rounded-full text-black bg-gradient-to-r from-amber-50 to-yellow-100 font-medium hover:from-amber-100 hover:to-yellow-200 hover:shadow-lg transition-all duration-200 text-center"
+                  className="block px-6 py-3 rounded-full text-black bg-white font-medium hover:bg-gray-300 hover:shadow-lg transition-all duration-200 text-center"
                 >
                   Login
                 </Link>
