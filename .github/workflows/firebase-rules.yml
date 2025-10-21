@@ -1,0 +1,29 @@
+name: Run Firebase Rules Tests
+
+# Trigger this workflow on push and pull request
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Node.js environment
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'  # Or any node version that your project uses
+
+      # Step 3: Install dependencies (you may need `npm ci` for better performance)
+      - name: Install dependencies and run tests
+        run: npm install && npm run test:rules
