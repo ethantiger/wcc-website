@@ -41,9 +41,12 @@ export default function About() {
     {
       name: "Finance",
       members: [
-        { name: "Isa Dahya", role: "", img: "/execs/finance/Isa.jpg", bio: "Hi! I'm Isa and I'm in 4th year HSP physharm. Surprisingly I also like climbing especially indoor bouldering. I got 2 pet cats and I also enjoy biking. If you ever need any med sci advice feel free to contact :)" },
-        { name: "Noah Medland", role: "", img: "/execs/finance/Noah.jpg", 
+        { name: "Isa Dahya", role: "VP", img: "/execs/finance/Isa.jpg", bio: "Hi! I'm Isa and I'm in 4th year HSP physharm. Surprisingly I also like climbing especially indoor bouldering. I got 2 pet cats and I also enjoy biking. If you ever need any med sci advice feel free to contact :)" },
+        { name: "Noah Medland", role: "VP", img: "/execs/finance/Noah.jpg", 
           bio: "Hey guys, I'm a third-year finance student with a passion for adventure. Outside the classroom, I thrive on mountain climbing, skydiving, and bungee jumping - activities that fuel my drive for challenge, focus, and resilience." },
+        { name: "Jason Too", role: "VP", img: "/execs/finance/Jason.jpg",
+          bio: "Hi, my name is Jason and I’m a 2nd year finance student. I have been climbing for a year and I now live for it. I also play volleyball and a bit of soccer. My home is the climbing gym and if you see me say hi!"
+        }
       ]
     },
     {

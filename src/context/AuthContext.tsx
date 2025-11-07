@@ -1,16 +1,17 @@
 import { createContext, useReducer, useEffect, ReactNode } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase/config";
+import { User } from "firebase/auth";
 
 interface AuthState {
-  user: any; // Replace `any` with the actual user type if known
+  user: User | null;
   authIsReady: boolean;
 }
 
 type AuthAction =
-  | { type: "LOGIN"; payload: any } // Replace `any` with the actual user type
+  | { type: "LOGIN"; payload: User }
   | { type: "LOGOUT" }
-  | { type: "AUTH_IS_READY"; payload: any }; // Replace `any` with the actual user type
+  | { type: "AUTH_IS_READY"; payload: User | null };
 
 interface AuthContextType extends AuthState {
   dispatch: React.Dispatch<AuthAction>;
