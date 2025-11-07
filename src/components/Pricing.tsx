@@ -101,8 +101,8 @@ function MemberToggle({
 }) {
   return (
     <div className="flex items-center mb-8">
-      <span className={`mr-3 font-semibold transition-colors duration-200 ${isMember ? "text-purple-300" : "text-gray-400"}`}>
-        Junction Member
+      <span className={`mr-3 font-semibold transition-colors duration-200 ${!isMember ? "text-purple-300" : "text-gray-400"}`}>
+        Non-Member
       </span>
       <button
         className={`relative w-16 h-9 rounded-full transition-all duration-300 focus:outline-none shadow-lg ${
@@ -117,8 +117,9 @@ function MemberToggle({
           }`}
         />
       </button>
-      <span className={`ml-3 font-semibold transition-colors duration-200 ${!isMember ? "text-purple-300" : "text-gray-400"}`}>
-        Non-Member
+      
+      <span className={`ml-3 font-semibold transition-colors duration-200 ${isMember ? "text-purple-300" : "text-gray-400"}`}>
+        Junction Member
       </span>
     </div>
   );
