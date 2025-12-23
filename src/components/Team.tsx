@@ -72,123 +72,130 @@ export default function About() {
   ];
 
   return (
-    <section id="team">
-      <div className="flex flex-col md:flex-row items-center justify-start bg-[#10091e] text-gray-200">
+    <section id="team" className="min-h-screen bg-[#10091e] py-12 md:py-0">
+      <div className="flex flex-col md:flex-row items-center justify-start text-gray-200">
         
+        {/* Rotated Title */}
         <div className="flex justify-center items-center md:h-screen h-[200px] md:w-[250px] w-full md:mr-8">
           <h1
-            className="transform md:-rotate-90 text-[4rem] md:text-[8rem] font-extrabold text-purple-300"
+            className="transform md:-rotate-90 text-[4rem] md:text-[8rem] font-extrabold bg-gradient-to-r from-purple-300 via-pink-300 to-purple-400 bg-clip-text text-transparent"
             style={{ whiteSpace: "nowrap", fontFamily: 'BodoniFLF Bold, serif' }}
           >
             Our Team
           </h1>
         </div>
 
-        <div className="flex-1">
-          <div className="w-full max-w-4xl mx-auto px-4 mb-8">
-            {/* Postcard Container */}
-            <div className="relative w-full max-w-3xl mx-auto" style={{ perspective: '1000px' }}>
+        <div className="flex-1 w-full px-4 md:px-8">
+          {/* Header Section */}
+          <div className="text-center mb-12 md:mb-16">
+            <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">
+              Meet the <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">Dream Team</span>
+            </h2>
+            <p className="text-gray-400 text-lg max-w-2xl mx-auto mb-8">
+              The passionate climbers behind Western's most exciting community
+            </p>
+          </div>
+
+          {/* Postcard Container */}
+          <div className="w-full max-w-4xl mx-auto mb-12">
+            <div className="relative w-full max-w-3xl mx-auto" style={{ perspective: '1500px' }}>
               <div 
-                className="postcard-container relative w-full h-135 md:h-100 transition-transform duration-700 hover:scale-105 transform rotate-3 hover:rotate-1"
+                className="postcard-container relative w-full h-[500px] md:h-[450px] cursor-pointer transition-all duration-700 group"
                 style={{ 
                   transformStyle: 'preserve-3d',
-                  transform: `${isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)'} rotate(3deg)`,
+                  transform: `${isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)'}`,
                 }}
                 onClick={() => setIsFlipped((prev) => !prev)}
               >
-                {/* Front of Postcard - Image with Polaroid styling */}
+                {/* Front of Postcard */}
                 <div 
-                  className="absolute inset-0 w-full h-full bg-white p-4 shadow-2xl transform hover:shadow-3xl"
+                  className="absolute inset-0 w-full h-full bg-gradient-to-br from-white to-gray-50 p-5 md:p-6 shadow-2xl group-hover:shadow-purple-500/30 transition-shadow duration-300"
                   style={{ 
                     backfaceVisibility: 'hidden',
-                    borderRadius: '8px',
-                    boxShadow: '0 20px 40px rgba(0,0,0,0.3), 0 8px 16px rgba(0,0,0,0.2)'
+                    borderRadius: '12px',
+                    boxShadow: '0 25px 50px rgba(0,0,0,0.4), 0 10px 20px rgba(0,0,0,0.3)'
                   }}
                 >
-                  <div className="relative w-full h-4/5 bg-gray-100">
+                  <div className="relative w-full h-full bg-gradient-to-br from-gray-900 to-gray-800 rounded-lg overflow-hidden">
                     <img
                       src="/execs/team.jpg"
                       alt="Our Team"
-                      className="w-full h-full object-cover"
-                      style={{ borderRadius: '4px' }}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
-                    {/* Postcard styling overlay */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" style={{ borderRadius: '4px' }}></div>
-                    {/* Vintage postcard corner */}
-                    <div className="absolute top-2 right-2 text-white opacity-75">
-                      <p className="text-xs font-mono">POST CARD</p>
-                    </div>
-                    {/* Flip indicator */}
-                    <div className="absolute top-4 left-4 text-white/90 text-center">
-                      <p className="text-xs font-medium bg-black/50 px-2 py-1 rounded backdrop-blur-sm">
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+                    
+                    {/* Flip Indicator */}
+                    <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-2 rounded-lg shadow-lg">
+                      <p className="text-xs font-semibold text-purple-600 flex items-center gap-2">
+                        <span className="text-lg">↻</span>
                         Click to flip
                       </p>
                     </div>
-                  </div>
-                  
-                  {/* Polaroid white bottom section */}
-                  <div className="h-1/5 flex items-center justify-center bg-white">
-                    <div className="text-center">
-                      <p className="text-lg font-bold text-gray-800 font-serif">Western Climbing Club</p>
-                      <p className="text-sm text-gray-600">2025-2026</p>
+                    
+                    {/* Bottom Info */}
+                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
+                      <div className="text-center">
+                        <p className="text-2xl md:text-3xl font-bold text-white mb-1">Western Climbing Club</p>
+                        <p className="text-purple-300 font-semibold">2025-2026 Executive Team</p>
+                      </div>
                     </div>
                   </div>
                 </div>
 
-                {/* Back of Postcard - Text with Polaroid styling */}
+                {/* Back of Postcard */}
                 <div 
-                  className="absolute inset-0 w-full h-full bg-white p-4 shadow-2xl"
+                  className="absolute inset-0 w-full h-full bg-gradient-to-br from-purple-50 to-pink-50 p-5 md:p-6 shadow-2xl"
                   style={{ 
                     backfaceVisibility: 'hidden', 
                     transform: 'rotateY(180deg)',
-                    borderRadius: '8px',
-                    boxShadow: '0 20px 40px rgba(0,0,0,0.3), 0 8px 16px rgba(0,0,0,0.2)'
+                    borderRadius: '12px',
+                    boxShadow: '0 25px 50px rgba(0,0,0,0.4), 0 10px 20px rgba(0,0,0,0.3)'
                   }}
                 >
-                  <div className="h-full bg-gradient-to-br from-gray-50 to-gray-100 p-4" style={{ borderRadius: '4px' }}>
-                    {/* Postcard lines */}
-                    <div className="absolute inset-8 opacity-20">
-                      {[...Array(20)].map((_, i) => (
-                        <div key={i} className="border-b border-blue-300 mb-4"></div>
+                  <div className="h-full bg-white/60 backdrop-blur-sm rounded-lg p-6 md:p-8 relative overflow-hidden">
+                    {/* Decorative lines */}
+                    <div className="absolute inset-8 opacity-10">
+                      {[...Array(15)].map((_, i) => (
+                        <div key={i} className="border-b-2 border-purple-300 mb-6"></div>
                       ))}
                     </div>
                     
-                    {/* Vintage postcard header */}
-                    <div className="text-center mb-4 relative z-10">
-                      <h3 className="text-xl font-bold text-purple-600 font-serif">
-                        Welcome back!
-                      </h3>
-                      <div className="w-16 h-0.5 bg-purple-400 mx-auto mt-1"></div>
+                    {/* Header */}
+                    <div className="text-center mb-6 relative z-10">
+                      <div className="inline-block bg-gradient-to-r from-purple-600 to-pink-600 p-3 rounded-lg shadow-lg mb-3">
+                        <h3 className="text-xl md:text-2xl font-bold text-white">
+                          Welcome to WCC!
+                        </h3>
+                      </div>
+                      <div className="w-24 h-1 bg-gradient-to-r from-purple-400 to-pink-400 mx-auto rounded-full"></div>
                     </div>
 
-                    {/* Text content */}
-                    <div className="space-y-3 text-gray-700 relative z-10 font-mono text-sm">
-                      <p className="leading-relaxed">
-                        Hey Climbers! We're so excited to welcome you to another incredible year with the Western Climbing Club! 
-                        Since our very first meet-up in 2017, this community has grown into something truly special.
+                    {/* Content */}
+                    <div className="space-y-4 text-gray-700 relative z-10 text-sm md:text-base">
+                      <p className="leading-relaxed font-medium">
+                        🧗 <strong>Hey Climbers!</strong> We're thrilled to welcome you to another amazing year with the Western Climbing Club!
                       </p>
                       <p className="leading-relaxed">
-                        Your passion, encouragement, and adventurous spirit make this club feel like home. 
-                        Our exec team has been busy making this year unforgettable!
+                        Since 2017, we've built an incredible community where passion meets adventure. Your energy and spirit make this club feel like home.
                       </p>
                       <p className="leading-relaxed">
-                        Whether you're a veteran or stepping onto the wall for the first time, 
-                        we want this to be where you challenge yourself and reach new heights.
+                        Whether you're a seasoned climber or just starting out, we're here to support you as you challenge yourself and reach new heights! 🎯
                       </p>
                       
                       {/* Signature */}
-                      <div className="pt-2 text-right">
-                        <p className="text-sm italic text-purple-600">
-                          – Western Climbing Club Team
+                      <div className="pt-4 text-right">
+                        <p className="text-lg font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+                          – The WCC Team
                         </p>
                       </div>
                     </div>
 
-                    {/* Vintage stamp */}
-                    <div className="absolute top-6 right-6 w-16 h-12 border-2 border-dashed border-purple-500 flex items-center justify-center transform rotate-12 bg-white">
-                      <span className="text-xs text-purple-600 font-bold">
-                        WCC
-                      </span>
+                    {/* Decorative stamp */}
+                    <div className="absolute top-6 right-6 w-20 h-16 border-4 border-dashed border-purple-400 flex items-center justify-center transform rotate-12 bg-white shadow-lg">
+                      <div className="text-center">
+                        <span className="text-2xl">🧗</span>
+                        <p className="text-xs font-bold text-purple-600">WCC</p>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -196,41 +203,42 @@ export default function About() {
             </div>
           </div>
 
-        {/*Nav*/}
-        <div className="mt-6 w-full">
-          <div className="flex flex-wrap justify-center gap-2 md:space-x-4">
-            {teams.map((team) => (
-              <button
-          key={team.name}
-          className={`px-4 py-2 rounded-md transition-colors duration-200 ${
-            selectedTeam === team.name ? "bg-purple-300 text-white" : "bg-gray-700 text-gray-200"
-          }`}
-          onClick={() => setSelectedTeam(team.name)}
-              >
-          {team.name}
-              </button>
-            ))}
+          {/* Team Navigation */}
+          <div className="mb-12">
+            <div className="flex flex-wrap justify-center gap-3">
+              {teams.map((team) => (
+                <button
+                  key={team.name}
+                  className={`px-5 md:px-6 py-3 rounded-xl font-semibold transition-all duration-300 ${
+                    selectedTeam === team.name 
+                      ? "bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg shadow-purple-500/50 scale-105" 
+                      : "bg-gray-800/50 text-gray-300 hover:bg-gray-700/50 hover:text-white hover:scale-105"
+                  }`}
+                  onClick={() => setSelectedTeam(team.name)}
+                >
+                  {team.name}
+                </button>
+              ))}
+            </div>
           </div>
-        </div>
 
-        {/* Team display */}
-        <div className="space-y-12 w-full max-w-6xl">
-          {teams
-            .filter((team) => team.name === selectedTeam) // show selected team
-            .map((team) => (
-              <div key={team.name} className="flex flex-col items-center">
-
-                <AnimatedTestimonials
-                  testimonials={team.members.map((member) => ({
-                    quote: member.bio,
-                    name: member.name,
-                    designation: member.role,
-                    src: member.img,
-                  }))}
-                />
-              </div>
-            ))}
-        </div>
+          {/* Team Display */}
+          <div className="w-full max-w-6xl mx-auto pb-12">
+            {teams
+              .filter((team) => team.name === selectedTeam)
+              .map((team) => (
+                <div key={team.name} className="flex flex-col items-center">
+                  <AnimatedTestimonials
+                    testimonials={team.members.map((member) => ({
+                      quote: member.bio,
+                      name: member.name,
+                      designation: member.role,
+                      src: member.img,
+                    }))}
+                  />
+                </div>
+              ))}
+          </div>
         </div>
       </div>
     </section>
