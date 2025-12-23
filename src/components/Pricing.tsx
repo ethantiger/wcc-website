@@ -171,6 +171,8 @@ export default function Pricing() {
         </svg>
       </div>
 
+      
+
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6 py-30">
         {/* Header Section */}
         <div className="text-center mb-16 space-y-6">
@@ -213,6 +215,12 @@ export default function Pricing() {
             <span className="text-purple-300 font-semibold"> Junction Members save 50%!</span>
           </p>
         </div>
+      </div>
+      {/* Bottom Wavy Divider */}
+      <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-[0] rotate-180">
+        <svg className="relative block w-full h-[60px] md:h-[100px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+          <path d="M0,0 L0,60 Q150,10 300,60 Q450,110 600,60 Q750,10 900,60 Q1050,110 1200,60 L1200,0 Z" className="fill-[#0a0513]" />
+        </svg>
       </div>
     </section>
   );
