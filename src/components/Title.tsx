@@ -38,13 +38,13 @@ export default function Title() {
                   factor={factor}
                   image={`${bg1}`}
             />
-            <ParallaxLayer speed={0}>
+            {/* <ParallaxLayer speed={0}>
               <div className="flex flex-col items-start h-[150vh] w-full font-" style={{fontFamily: 'BodoniFLF Bold, serif'}}>
-                <span className="text-[40vh] leading-none font-bold text-white opacity-10">WESTERN</span>
-                <span className="text-[40vh] leading-none font-bold text-white opacity-10">CLIMBING</span>
-                <span className="text-[40vh] leading-none font-bold text-white opacity-10">CLUB</span>
+                <span className="text-[40vh] leading-none font-bold text-white opacity-6">WESTERN</span>
+                <span className="text-[40vh] leading-none font-bold text-white opacity-6">CLIMBING</span>
+                <span className="text-[40vh] leading-none font-bold text-white opacity-6">CLUB</span>
               </div>
-            </ParallaxLayer>
+            </ParallaxLayer> */}
             <ShootingStars />
             {[bg2, bg3, bg4, bg5, bg6, bg7, bg8, bg9].map((bg, i) => (
               <Fragment key={i}>

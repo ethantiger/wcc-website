@@ -89,7 +89,7 @@ export default function About() {
             {/* Postcard Container */}
             <div className="relative w-full max-w-3xl mx-auto" style={{ perspective: '1000px' }}>
               <div 
-                className="postcard-container relative w-full h-96 transition-transform duration-700 hover:scale-105 transform rotate-3 hover:rotate-1"
+                className="postcard-container relative w-full h-135 md:h-100 transition-transform duration-700 hover:scale-105 transform rotate-3 hover:rotate-1"
                 style={{ 
                   transformStyle: 'preserve-3d',
                   transform: `${isFlipped ? 'rotateY(180deg)' : 'rotateY(0deg)'} rotate(3deg)`,
