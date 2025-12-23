@@ -161,24 +161,38 @@ export default function Pricing() {
   return (
     <section
       id="pricing"
-      className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-[#10091e] via-[#1a0d2e] to-[#0f0820] text-gray-800 dark:text-gray-200 p-6 relative overflow-hidden"
+      className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-[#10091e] via-[#1a0d2e] to-[#0f0820] text-gray-800 dark:text-gray-200 relative overflow-hidden"
     >
-      <h1 className="text-3xl md:text-5xl font-bold mb-6 text-purple-300">
-        <BouncingText text="Choose Your Plan" />
-      </h1>
-      {/* Animated background elements */}
-      <div className="absolute inset-0 opacity-20">
-        <div className="absolute top-20 left-10 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 right-10 w-96 h-96 bg-fuchsia-500/10 rounded-full blur-3xl animate-pulse" style={{animationDelay: '2s'}}></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-indigo-500/10 rounded-full blur-3xl animate-pulse" style={{animationDelay: '4s'}}></div>
+      {/* Large Wavy Squiggle Transition */}
+
+      <div className="absolute top-0 left-0 w-full overflow-hidden leading-[0]">
+        <svg className="relative block w-full h-[60px] md:h-[100px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+          <path d="M0,0 L0,60 Q150,110 300,60 Q450,10 600,60 Q750,110 900,60 Q1050,10 1200,60 L1200,0 Z" className="fill-[#10091e]" />
+        </svg>
       </div>
 
-      <div className="relative z-10">
-        <h1 className="text-3xl md:text-5xl font-bold mb-8 text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-fuchsia-300 to-purple-500 text-center">
-          <BouncingText text="Choose Your Plan" />
-        </h1>
-        <MemberToggle isMember={isMember} setIsMember={setIsMember} />
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-6xl">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-6 py-30">
+        {/* Header Section */}
+        <div className="text-center mb-16 space-y-6">
+          <div className="inline-block">
+            <span className="text-xs md:text-sm font-bold text-purple-300 uppercase tracking-widest bg-purple-500/10 px-5 py-2.5 rounded-full border border-purple-500/20 shadow-lg shadow-purple-500/10">
+              Membership Options
+            </span>
+          </div>
+          
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-purple-300">
+            <BouncingText text="Choose Your Plan" />
+          </h1>
+          
+        </div>
+
+        {/* Toggle Section */}
+        <div className="flex justify-center mb-12">
+          <MemberToggle isMember={isMember} setIsMember={setIsMember} />
+        </div>
+
+        {/* Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 w-full">
           {Object.values(plans).map((plan) => (
             <TiltCard
               key={plan.title}
@@ -190,6 +204,14 @@ export default function Pricing() {
               denom={plan.denom}
             />
           ))}
+        </div>
+
+        {/* Bottom Info */}
+        <div className="mt-16 text-center">
+          <p className="text-sm text-gray-400 max-w-3xl mx-auto">
+            All passes include access to our exclusive climb nights with free snacks and exciting giveaways. 
+            <span className="text-purple-300 font-semibold"> Junction Members save 50%!</span>
+          </p>
         </div>
       </div>
     </section>
