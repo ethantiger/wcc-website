@@ -5,6 +5,7 @@ import Homepage from "./pages/Homepage"
 import Login from "./pages/Login";
 import Navbar from "./components/Navbar";
 import Dashboard from "./pages/Dashboard";
+import PhotoGallery from "./pages/PhotoGallery";
 
 import { devTesting } from "./config";
 
@@ -32,6 +33,7 @@ function AppRoutes({ user }: { user: any }) {
       {!location.pathname.includes("/dashboard") && <Navbar />}
       <Routes>
         <Route path="/*" element={<Homepage />} />
+        <Route path="/gallery" element={<PhotoGallery />} />
         {devTesting && (
           <>
             <Route path="/login" element={user ? <Navigate to="/dashboard/carpool" /> : <Login />} />
