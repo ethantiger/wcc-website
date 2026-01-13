@@ -11,7 +11,6 @@ import { cn } from "@/lib/utils";
 import { AnimatePresence, motion } from "motion/react";
 
 import { useOutsideClick } from "@/hooks/useOutsideClick";
-import { EventCategoryEnum } from "@/features/events/enums/EventCategoryEnum";
 import Event from "@/features/events/interfaces/Event";
 
 interface CarouselProps {
@@ -95,9 +94,11 @@ export const Carousel = ({ items }: CarouselProps) => {
 export const Card = ({
   card,
   layout = false,
+  upcoming = true,
 }: {
   card: Event;
   layout?: boolean;
+  upcoming?: boolean;
 }) => {
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -121,8 +122,8 @@ export const Card = ({
 
   useOutsideClick(containerRef, () => handleClose());
 
-  const handleOpen = (category: string) => {
-    if (category !== EventCategoryEnum.Past) {
+  const handleOpen = () => {
+    if (upcoming) {
       setOpen(true);
     } 
   };
@@ -156,18 +157,18 @@ export const Card = ({
               >
                 <IconX className="h-6 w-6 text-neutral-100 dark:text-neutral-900" />
               </button>
-              <motion.p
-                layoutId={layout ? `category-${card.title}` : undefined}
-                className="text-base font-medium text-black dark:text-white"
-              >
-                {card.category}
-                </motion.p>
                 <motion.p
                 layoutId={layout ? `title-${card.title}` : undefined}
                 className="mt-4 text-2xl font-semibold text-neutral-700 md:text-5xl dark:text-white"
                 >
                 {card.title}
                 </motion.p>
+                {card.special && <motion.div
+                  layoutId={layout ? `category-${card.special}` : undefined}
+                  className="inline-block mt-2 px-3 py-1 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full text-sm font-semibold text-white shadow-lg md:text-base"
+                >
+                  {card.special}
+                </motion.div>}
                 {card.location && <motion.p
                 layoutId={layout ? `location-${card.location}` : undefined}
                 className="mt-2 text-base font-medium text-neutral-600 md:text-xl dark:text-neutral-300"
@@ -230,23 +231,23 @@ export const Card = ({
       </AnimatePresence>
       <motion.button
         layoutId={layout ? `card-${card.title}` : undefined}
-        onClick={() => handleOpen(card.category)}
+        onClick={() => handleOpen()}
         className="relative z-10 flex h-[60vh] w-[70vw] flex-col items-start justify-start overflow-hidden rounded-3xl bg-gray-100 md:h-[40rem] md:w-96 dark:bg-neutral-900 hover:cursor-pointer"
       >
         <div className="pointer-events-none absolute inset-x-0 top-0 z-30 h-full bg-gradient-to-b from-black/50 via-transparent to-transparent" />
         <div className="relative z-40 p-8">
-          <motion.p
-            layoutId={layout ? `category-${card.category}` : undefined}
-            className="text-left text-sm font-medium text-white md:text-base"
-          >
-            {card.category}
-          </motion.p>
           <motion.p
             layoutId={layout ? `title-${card.title}` : undefined}
             className="mt-4 max-w-xs text-left text-xl font-semibold [text-wrap:balance] text-white md:text-3xl"
           >
             {card.title}
           </motion.p>
+          {card.special && <motion.div
+            layoutId={layout ? `category-${card.special}` : undefined}
+            className="inline-block mt-2 px-3 py-1 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full text-sm font-semibold text-white shadow-lg md:text-base"
+          >
+            {card.special}
+          </motion.div>}
           <motion.p
             layoutId={layout ? `date-${card.date}` : undefined}
             className="mt-1 text-left text-sm font-medium text-white md:text-lg"
@@ -262,7 +263,7 @@ export const Card = ({
           src={card.src}
           alt={card.title}
           fill="true"
-          className={`absolute inset-0 z-10 object-cover ${card.category === "Past Event" ? "brightness-50" : ""}`}
+          className={`absolute inset-0 z-10 object-cover ${!upcoming? "brightness-50" : ""}`}
         />
       </motion.button>
     </>
