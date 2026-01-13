@@ -6,7 +6,7 @@ import { IconMenu2, IconX } from "@tabler/icons-react";
 import wccLogo from "@/assets/WCC-logo-symbol.png";
 
 const navLinks = [
-  { name: "About", href: "#about" },
+  { name: "Team", href: "#team" },
   { name: "Events", href: "#events" },
   { name: "Pricing", href: "#pricing" },
   // { name: "History", href: "#history" },

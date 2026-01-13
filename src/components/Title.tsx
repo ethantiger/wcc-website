@@ -33,14 +33,26 @@ export default function Title() {
       <ParallaxContainer pages={isMobile ? 1 : 1.5}>
         {!isMobile ? (
           <>
-            {[bg1, bg2, bg3, bg4, bg5, bg6, bg7, bg8, bg9].map((bg, i) => (
+            <ParallaxLayer
+                  speed={0.1}
+                  factor={factor}
+                  image={`${bg1}`}
+            />
+            {/* <ParallaxLayer speed={0}>
+              <div className="flex flex-col items-start h-[150vh] w-full font-" style={{fontFamily: 'BodoniFLF Bold, serif'}}>
+                <span className="text-[40vh] leading-none font-bold text-white opacity-6">WESTERN</span>
+                <span className="text-[40vh] leading-none font-bold text-white opacity-6">CLIMBING</span>
+                <span className="text-[40vh] leading-none font-bold text-white opacity-6">CLUB</span>
+              </div>
+            </ParallaxLayer> */}
+            <ShootingStars />
+            {[bg2, bg3, bg4, bg5, bg6, bg7, bg8, bg9].map((bg, i) => (
               <Fragment key={i}>
                 <ParallaxLayer
-                  speed={[0.1, 0.12, 0.25, 0.3, 0.35, 0.45, 0.7, 0.85, 1][i]}
+                  speed={[0.12, 0.25, 0.3, 0.35, 0.45, 0.7, 0.85, 1][i]}
                   factor={factor}
                   image={`${bg}`}
                 />
-                {i === 0 && <ShootingStars />}
               </Fragment>
             ))}
           </>
@@ -81,7 +93,7 @@ export default function Title() {
         </ParallaxLayer>
         <ParallaxLayer factor={2} speed={1} pageOffset={2} colour='#10091e' />
       </ParallaxContainer>
-      <div className={`${isMobile ? 'h-[100vh]' : 'h-[140vh]'}`}></div>
+      <div className={`${isMobile ? 'h-[100vh]' : 'h-[150vh]'}`}></div>
     </>
   )
 }
