@@ -29,8 +29,18 @@ export default function Carpool() {
     const joinedCarpools: CarpoolPost[] = [];
     const requestedCarpools: CarpoolPost[] = [];
     const availableCarpools: CarpoolPost[] = [];
+    const now = new Date();
 
     carpools.forEach((carpool) => {
+      // Hide carpools that aren't yours and have passed their targetDate
+      const isOwner = carpool.userId === currentUser.uid;
+      const targetDate = carpool.targetDate.toDate();
+      const hasPassed = targetDate <now;
+      
+      if (!isOwner && hasPassed) {
+        return; // Skip this carpool
+      }
+
       if (carpool.userId === currentUser.uid) {
         myCarpools.push(carpool);
       } else if (carpool.people.includes(currentUser.uid)) {
