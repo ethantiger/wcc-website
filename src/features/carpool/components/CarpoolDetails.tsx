@@ -1,7 +1,7 @@
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useCarpoolWithUser } from "@/hooks/useCarpoolWithUser";
 import { CarpoolStatusEnum } from "../enums/CarpoolStatusEnum";
-import { IconArrowLeft, IconCalendar, IconUser, IconUsers, IconMapPin, IconClock, IconFileText, IconEdit, IconTrash, IconChevronDown, IconPhone, IconMail, IconX, IconAlertTriangle } from "@tabler/icons-react";
+import { IconArrowLeft, IconCalendar, IconUser, IconUsers, IconMapPin, IconClock, IconFileText, IconEdit, IconTrash, IconChevronDown, IconPhone, IconMail, IconX, IconAlertTriangle, IconMailForward } from "@tabler/icons-react";
 import { convertTimestampToDate } from "@/utils/firebaseDateConvert";
 import { useAuthContext } from "@/hooks/useAuthContext";
 import { doc, updateDoc, arrayUnion, arrayRemove, deleteDoc } from "firebase/firestore";
@@ -380,6 +380,44 @@ export default function CarpoolDetails() {
     window.location.reload();
   };
 
+  // Function to handle emailing all carpool members
+  const handleEmailAll = () => {
+    if (!carpoolUsers || carpoolUsers.length === 0) {
+      setMessage({ text: "No participants to email.", type: 'info' });
+      return;
+    }
+
+    if (!carpool) return;
+    // Collect all emails from carpool users
+    const emails = carpoolUsers
+      .map(user => user.email)
+      .filter(email => email); // Filter out undefined/null emails
+
+    if (emails.length === 0) {
+      setMessage({ text: "No email addresses available for participants.", type: 'error' });
+      return;
+    }
+
+    // Create subject and body for the email
+    const subject = encodeURIComponent(`Carpool Update: ${carpool.location} → ${carpool.destination}`);
+    const body = encodeURIComponent(
+      `Hello everyone,\n\n` +
+      `This is an update about our carpool:\n\n` +
+      `From: ${carpool.location}\n` +
+      `To: ${carpool.destination}\n` +
+      `Date: ${convertTimestampToDate(carpool.targetDate).date}\n` +
+      `Time: ${convertTimestampToDate(carpool.targetDate).time}\n\n` +
+      `[Your message here]\n\n` +
+      `Best regards`
+    );
+
+    // Create mailto link with all emails in TO field
+    const mailtoLink = `mailto:${emails.join(',')}?subject=${subject}&body=${body}`;
+    
+    // Open the mailto link
+    window.location.href = mailtoLink;
+  };
+
   // Function to render the appropriate action button based on carpool status and user relationship
   const renderActionButton = () => {
     if (!carpool) return null;
@@ -600,6 +638,14 @@ export default function CarpoolDetails() {
             {/* Owner Actions */}
             {currentUser && carpool.userId === currentUser.uid && (
               <div className="flex items-center gap-2">
+                <button
+                  onClick={handleEmailAll}
+                  className="inline-flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-purple-500 to-pink-600 text-white rounded-lg font-medium hover:from-purple-600 hover:to-pink-700 transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] text-sm"
+                  title="Send email to all participants"
+                >
+                  <IconMailForward size={16} />
+                  Email All
+                </button>
                 <button
                   onClick={() => setIsEditModalOpen(true)}
                   className="inline-flex items-center gap-2 px-3 py-2 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-lg font-medium hover:from-blue-600 hover:to-indigo-700 transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] text-sm"
