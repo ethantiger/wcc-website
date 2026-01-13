@@ -16,4 +16,5 @@ export default interface Event {
   description?: string;
   link?: Link;
   additionalLinks?: Link[];
+  special?: string;
 }
