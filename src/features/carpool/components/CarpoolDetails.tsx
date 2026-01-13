@@ -587,7 +587,7 @@ export default function CarpoolDetails() {
               <IconArrowLeft className="text-slate-600 dark:text-slate-300" size={20} />
             </button>
             <div>
-              <h1 className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-700 text-2xl sm:text-3xl lg:text-4xl">
+              <h1 className="font-bold text-transparent bg-clip-text bg-indigo-600 text-2xl sm:text-3xl lg:text-4xl">
                 Carpool Details
               </h1>
               <p className="text-slate-500 dark:text-slate-400 mt-1">
