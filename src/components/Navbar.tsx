@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthContext } from "@/hooks/useAuthContext";
-import { devTesting } from "@/config";
 import { IconMenu2, IconX } from "@tabler/icons-react";
 
 import wccLogo from "@/assets/WCC-logo-symbol.png";
@@ -60,25 +59,23 @@ const Navbar: React.FC = () => {
               </a>
             </li>
           ))}
-          {devTesting && (
-            <li className="w-full md:w-auto">
-              {user ? (
-                <Link
-                  to="/dashboard/carpool"
-                  className="block px-6 py-3 rounded-full text-black bg-white font-medium hover:bg-gray-300 hover:shadow-lg transition-all duration-200 text-center"
-                >
-                  Dashboard
-                </Link>
-              ) : (
-                <Link
-                  to="/login"
-                  className="block px-6 py-3 rounded-full text-black bg-white font-medium hover:bg-gray-300 hover:shadow-lg transition-all duration-200 text-center"
-                >
-                  Login
-                </Link>
-              )}
-            </li>
-          )}
+          <li className="w-full md:w-auto">
+            {user ? (
+              <Link
+                to="/dashboard/carpool"
+                className="block px-6 py-3 rounded-full text-black bg-white font-medium hover:bg-gray-300 hover:shadow-lg transition-all duration-200 text-center"
+              >
+                Dashboard
+              </Link>
+            ) : (
+              <Link
+                to="/login"
+                className="block px-6 py-3 rounded-full text-black bg-white font-medium hover:bg-gray-300 hover:shadow-lg transition-all duration-200 text-center"
+              >
+                Login
+              </Link>
+            )}
+          </li>
         </ul>
         {/* Hamburger button for <md screens */}
         <button

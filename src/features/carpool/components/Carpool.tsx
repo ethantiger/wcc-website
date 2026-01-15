@@ -9,7 +9,9 @@ import CarpoolCard from "./CarpoolCard";
 import { useAuthContext } from "@/hooks/useAuthContext";
 
 export default function Carpool() {
-  const { documents: carpools } = useCollection<CarpoolPost>(collections.carpoolCollection, null, ['targetDate', 'asc'], true);
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  const { documents: carpools } = useCollection<CarpoolPost>(collections.carpoolCollection, ['targetDate', '>=', yesterday], ['targetDate', 'asc'], true);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isInboxModalOpen, setIsInboxModalOpen] = useState(false);
   const { user: currentUser } = useAuthContext();
@@ -29,8 +31,19 @@ export default function Carpool() {
     const joinedCarpools: CarpoolPost[] = [];
     const requestedCarpools: CarpoolPost[] = [];
     const availableCarpools: CarpoolPost[] = [];
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
 
     carpools.forEach((carpool) => {
+      // Hide carpools that aren't yours and have passed their targetDate
+      const isOwner = carpool.userId === currentUser.uid;
+      const targetDate = carpool.targetDate.toDate();
+      const hasPassed = targetDate <yesterday;
+      
+      if (!isOwner && hasPassed) {
+        return; // Skip this carpool
+      }
+
       if (carpool.userId === currentUser.uid) {
         myCarpools.push(carpool);
       } else if (carpool.people.includes(currentUser.uid)) {
@@ -86,7 +99,7 @@ export default function Carpool() {
     <div className="w-full">
       <div className="flex w-full flex-col gap-4 border border-slate-200/50 bg-white to-indigo-50/30 p-4 sm:p-6 md:p-8 lg:p-10 dark:border-slate-700/50 dark:bg-gray-900 shadow-xl min-h-screen">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
-          <h1 className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-purple-600 to-indigo-700 text-3xl sm:text-4xl lg:text-5xl mb-4 sm:mb-0">
+          <h1 className="font-bold text-transparent bg-clip-text bg-indigo-600 text-3xl sm:text-4xl lg:text-5xl mb-4 sm:mb-0">
             Available Carpools
           </h1>
           <div className="flex items-center gap-4">

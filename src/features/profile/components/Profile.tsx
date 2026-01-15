@@ -74,7 +74,7 @@ export default function Profile() {
   if (!currentUser) {
     return (
       <div className="w-full">
-        <div className="flex w-full flex-col gap-4 rounded-tl-2xl border border-neutral-200 bg-white p-4 md:p-10 dark:border-neutral-700 dark:bg-neutral-900 min-h-screen">
+        <div className="flex w-full flex-col gap-4 rounded-tl-2xl border border-neutral-200 bg-white p-4 md:p-10 dark:border-slate-700/50 dark:bg-gray-900 min-h-screen">
           <div className="flex flex-col items-center justify-center py-16">
             <div className="w-24 h-24 bg-gradient-to-br from-blue-200 to-blue-300 dark:from-blue-700 dark:to-blue-600 rounded-full flex items-center justify-center mb-6">
               <IconUser className="w-12 h-12 text-blue-600 dark:text-blue-300" />
@@ -91,7 +91,7 @@ export default function Profile() {
 
   return (
     <div className="w-full">
-      <div className="flex w-full flex-col gap-6 rounded-tl-2xl border border-neutral-200 bg-white p-4 md:p-10 dark:border-neutral-700 dark:bg-neutral-900 min-h-screen">
+      <div className="flex w-full flex-col gap-6 rounded-tl-2xl border border-neutral-200 bg-white p-4 md:p-10 dark:border-slate-700/50 dark:bg-gray-900 min-h-screen">
         
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
