@@ -9,7 +9,9 @@ import CarpoolCard from "./CarpoolCard";
 import { useAuthContext } from "@/hooks/useAuthContext";
 
 export default function Carpool() {
-  const { documents: carpools } = useCollection<CarpoolPost>(collections.carpoolCollection, null, ['targetDate', 'asc'], true);
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  const { documents: carpools } = useCollection<CarpoolPost>(collections.carpoolCollection, ['targetDate', '>=', yesterday], ['targetDate', 'asc'], true);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [isInboxModalOpen, setIsInboxModalOpen] = useState(false);
   const { user: currentUser } = useAuthContext();
@@ -29,13 +31,14 @@ export default function Carpool() {
     const joinedCarpools: CarpoolPost[] = [];
     const requestedCarpools: CarpoolPost[] = [];
     const availableCarpools: CarpoolPost[] = [];
-    const now = new Date();
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
 
     carpools.forEach((carpool) => {
       // Hide carpools that aren't yours and have passed their targetDate
       const isOwner = carpool.userId === currentUser.uid;
       const targetDate = carpool.targetDate.toDate();
-      const hasPassed = targetDate <now;
+      const hasPassed = targetDate <yesterday;
       
       if (!isOwner && hasPassed) {
         return; // Skip this carpool

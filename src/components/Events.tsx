@@ -11,10 +11,12 @@ export default function Events() {
   
   const filteredEvents = useMemo(() => {
     if (!events) return [];
-    const now = new Date();
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+
     return events.filter(event => {
       const eventDate = event.date.toDate();
-      return showUpcoming ? eventDate >= now : eventDate < now;
+      return showUpcoming ? eventDate >= yesterday : eventDate < yesterday;
     });
   }, [events, showUpcoming]);
 
