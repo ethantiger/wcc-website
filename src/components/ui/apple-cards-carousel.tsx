@@ -235,19 +235,19 @@ export const Card = ({
         className="relative z-10 flex h-[60vh] w-[70vw] flex-col items-start justify-start overflow-hidden rounded-3xl bg-gray-100 md:h-[40rem] md:w-96 dark:bg-neutral-900 hover:cursor-pointer"
       >
         <div className="pointer-events-none absolute inset-x-0 top-0 z-30 h-full bg-gradient-to-b from-black/50 via-transparent to-transparent" />
-        <div className="relative z-40 p-8">
+        <div className="relative z-40 p-8 flex flex-col items-start">
           <motion.p
             layoutId={layout ? `title-${card.title}` : undefined}
             className="mt-4 max-w-xs text-left text-xl font-semibold [text-wrap:balance] text-white md:text-3xl"
           >
             {card.title}
           </motion.p>
-          {card.special && <motion.div
+          {card.special && <motion.p
             layoutId={layout ? `category-${card.special}` : undefined}
             className="inline-block mt-2 px-3 py-1 bg-gradient-to-r from-purple-500 to-indigo-500 rounded-full text-sm font-semibold text-white shadow-lg md:text-base"
           >
             {card.special}
-          </motion.div>}
+          </motion.p>}
           <motion.p
             layoutId={layout ? `date-${card.date}` : undefined}
             className="mt-1 text-left text-sm font-medium text-white md:text-lg"

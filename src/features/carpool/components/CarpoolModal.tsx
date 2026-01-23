@@ -6,15 +6,17 @@ import { db } from "@/firebase/config";
 import collections from "@/firebase/collections";
 import { CarpoolStatusEnum } from "../enums/CarpoolStatusEnum";
 import CarpoolPost from "../interfaces/CarpoolPost";
+import { CarpoolTypeEnum } from "../enums/CarpoolTypeEnum";
 
 interface CarpoolModalProps {
   isOpen: boolean;
+  type?: CarpoolTypeEnum;
   onClose: () => void;
   carpool?: CarpoolPost | null; // If provided, it's edit mode
   onSuccess?: () => void;
 }
 
-export default function CarpoolModal({ isOpen, onClose, carpool }: CarpoolModalProps) {
+export default function CarpoolModal({ isOpen, type, onClose, carpool }: CarpoolModalProps) {
   const { user } = useAuthContext();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [message, setMessage] = useState<{ text: string; type: 'success' | 'error' } | null>(null);
@@ -95,6 +97,7 @@ export default function CarpoolModal({ isOpen, onClose, carpool }: CarpoolModalP
 
       const carpoolData = {
         location: formData.location,
+        type: type || CarpoolTypeEnum.Carpool,
         destination: formData.destination,
         targetDate: timestamp,
         maxPeople: formData.maxPeople,
@@ -136,9 +139,15 @@ export default function CarpoolModal({ isOpen, onClose, carpool }: CarpoolModalP
       <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
         <div className="sticky top-0 bg-white dark:bg-slate-800 border-b border-slate-200 dark:border-slate-700 p-6 rounded-t-2xl">
           <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-100">
-              {isEditMode ? 'Edit Carpool' : 'Create New Carpool'}
-            </h2>
+            {type === CarpoolTypeEnum.UberSplit ? (
+              <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-100">
+                {isEditMode ? 'Edit Uber Split' : 'Split an Uber'}
+              </h2>
+            ) : (
+              <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-100">
+                {isEditMode ? 'Edit Carpool' : 'Create New Carpool'}
+              </h2>
+            )}
             <button
               onClick={onClose}
               className="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors"
@@ -301,7 +310,7 @@ export default function CarpoolModal({ isOpen, onClose, carpool }: CarpoolModalP
             >
               {isSubmitting 
                 ? (isEditMode ? 'Updating...' : 'Creating...') 
-                : (isEditMode ? 'Update Carpool' : 'Create Carpool')}
+                : (type === CarpoolTypeEnum.UberSplit ? (isEditMode ? 'Update Uber Split' : 'Create Uber Split') : (isEditMode ? 'Update Carpool' : 'Create Carpool'))}
             </button>
           </div>
         </form>
