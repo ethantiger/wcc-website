@@ -1,5 +1,6 @@
 import { CarpoolStatusEnum } from "../enums/CarpoolStatusEnum";
 import { Timestamp } from "firebase/firestore";
+import { CarpoolTypeEnum } from "../enums/CarpoolTypeEnum";
 
 
 export default interface CarpoolPost {
@@ -10,6 +11,7 @@ export default interface CarpoolPost {
   description: string;
   maxPeople: number;
   carType: string;
+  type: CarpoolTypeEnum;
   status: CarpoolStatusEnum;
   people: string[];
   requests: string[]; // Array of user IDs who have requested to join

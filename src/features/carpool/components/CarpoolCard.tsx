@@ -6,6 +6,7 @@ import collections from "@/firebase/collections";
 import { useCachedDocument } from "@/hooks/useCachedDocument";
 import { IconCrown, IconUser, IconClock } from "@tabler/icons-react";
 import { CarpoolStatusEnum } from "../enums/CarpoolStatusEnum";
+import { CarpoolTypeEnum } from "../enums/CarpoolTypeEnum";
 
 interface CarpoolCardProps {
   carpool: CarpoolPost;
@@ -62,6 +63,7 @@ export default function CarpoolCard({ carpool, ownershipType }: CarpoolCardProps
             }`}>
               {carpool.status === CarpoolStatusEnum.Closed ? 'Closed' : `${carpool.maxPeople - carpool.people.length} seats`}
             </span>
+            
           </div>
         </div>
 
@@ -69,9 +71,15 @@ export default function CarpoolCard({ carpool, ownershipType }: CarpoolCardProps
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 bg-indigo-500 rounded-full"></div>
             <span className="text-sm text-slate-600 dark:text-slate-300">
-              <span className="font-medium">Driver:</span> {user ? (user.displayName || user.email || 'Unknown') : carpool.userId}
+              <span className="font-medium">Creator:</span> {user ? (user.displayName || user.email || 'Unknown') : carpool.userId}
             </span>
           </div>
+            <div className="flex items-center gap-2">
+            <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
+            <span className="text-sm text-slate-600 dark:text-slate-300">
+              <span className="font-medium">Type:</span> {carpool.type === CarpoolTypeEnum.Carpool ? 'Carpool' : 'Uber Split'}
+            </span>
+            </div>
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
             <span className="text-sm text-slate-600 dark:text-slate-300">
