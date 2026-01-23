@@ -9,6 +9,7 @@ import { db } from "@/firebase/config";
 import collections from "@/firebase/collections";
 import { useState } from "react";
 import CarpoolModal from "./CarpoolModal";
+import { CarpoolTypeEnum } from "../enums/CarpoolTypeEnum";
 
 export default function CarpoolDetails() {
   const { id } = useParams<{ id: string }>();
@@ -626,7 +627,7 @@ export default function CarpoolDetails() {
             </button>
             <div>
               <h1 className="font-bold text-transparent bg-clip-text bg-indigo-600 text-2xl sm:text-3xl lg:text-4xl">
-                Carpool Details
+                {carpool.type === CarpoolTypeEnum.Carpool ? 'Carpool Details' : 'Uber Split Details'}
               </h1>
               <p className="text-slate-500 dark:text-slate-400 mt-1">
                 Review and join this carpool
@@ -779,7 +780,7 @@ export default function CarpoolDetails() {
                 <div className="p-2 rounded-lg bg-emerald-500/20">
                   <IconUser className="text-emerald-600 dark:text-emerald-400" size={24} />
                 </div>
-                <h2 className="text-lg font-semibold text-slate-800 dark:text-slate-100">Driver</h2>
+                <h2 className="text-lg font-semibold text-slate-800 dark:text-slate-100">Creator</h2>
               </div>
               
               <div className="text-center">
@@ -811,10 +812,10 @@ export default function CarpoolDetails() {
                     </div>
                   )}
                 </div>
-                <div className="inline-flex items-center gap-1 px-2 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 rounded-full text-xs font-medium">
+                {carpool.type === CarpoolTypeEnum.Carpool && (<div className="inline-flex items-center gap-1 px-2 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 rounded-full text-xs font-medium">
                   <IconUser size={14} />
                   Driver
-                </div>
+                </div>)}
               </div>
             </div>
 
@@ -963,7 +964,7 @@ export default function CarpoolDetails() {
                         : 'bg-slate-100 text-slate-600 dark:bg-slate-700/50 dark:text-slate-400'
                   }`}>
                     {carpool.userId === currentUser.uid
-                      ? '🚗 You are the driver of this carpool'
+                      ? 'You are the creator of this carpool'
                       : carpool.people.includes(currentUser.uid) 
                         ? '✅ You are part of this carpool' 
                         : '👤 You are not part of this carpool'}
@@ -1087,6 +1088,7 @@ export default function CarpoolDetails() {
       {/* Edit Carpool Modal */}
       <CarpoolModal
         isOpen={isEditModalOpen}
+        type={carpool.type}
         onClose={() => setIsEditModalOpen(false)}
         carpool={carpool}
         onSuccess={handleEditSuccess}
